@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="src" path="assets"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="lib" path="D:/JiKeHousekeeper-master/libs/locSDK_4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/JiKeHousekeeper-master/libs/universal-image-loader-1.8.6-with-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/JiKeHousekeeper-master/libs/baidumapapi_v3_1_0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/JikePart_Library/Jike_Mpos_New1/Jike_Mpos_New/libs/java_lib.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/alipay_msp.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/zxing_lib.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/ZXingCore_1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/mobilepos.jar"/>
+	<classpathentry exported="true" kind="src" path="/CalendarLibrary"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
