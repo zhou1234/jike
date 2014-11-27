@@ -45,7 +45,6 @@ import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 
-
 public class ActivityInternationalRequisitionForm extends Activity {
 
 	protected static final String ALLPASSENGERSLIST = "ALL_PASSENGERS_LIST";
@@ -265,12 +264,12 @@ public class ActivityInternationalRequisitionForm extends Activity {
 										contact_person_phone_et.getText()
 												.toString()).commit();
 					}
-					try{
+					try {
 						if (getStr().equals(""))
 							break;
 					} catch (Exception e) {
-							e.printStackTrace();
-						}
+						e.printStackTrace();
+					}
 					commitOrder();
 					break;
 				default:
@@ -343,8 +342,8 @@ public class ActivityInternationalRequisitionForm extends Activity {
 					// + "intdemand" + str)+"&str=" + str;
 					// commitReturnJson =
 					// HttpUtils.getJsonContent(ma.getServeUrl(),param);
-					String orgin=ma.getHm().get(PackageKeys.ORGIN.getString())
-							.toString();
+					String orgin = ma.getHm()
+							.get(PackageKeys.ORGIN.getString()).toString();
 					String param = "?action=createDemandOrder&sitekey="
 							+ MyApp.sitekey
 							+ "&userkey="
@@ -354,7 +353,8 @@ public class ActivityInternationalRequisitionForm extends Activity {
 							+ CommonFunc.MD5(ma.getHm()
 									.get(PackageKeys.USERKEY.getString())
 									.toString()
-									+ "createDemandOrder" + str)+"&orgin="+orgin;
+									+ "createDemandOrder" + str) + "&orgin="
+							+ orgin;
 					// try {
 					// str=URLEncoder.encode(str, "utf-8");
 					// } catch (UnsupportedEncodingException e) {
@@ -362,10 +362,13 @@ public class ActivityInternationalRequisitionForm extends Activity {
 					// }
 					commitReturnJson = HttpUtils.myPost(ma.getServeUrl()
 							+ param, "&str=" + str);
-//					String str="{\"userid\":\"3450\",\"amount\":\"760\",\"origin\":\"2\",\"orderremark\":\"Android\\u5ba2\\u6237\\u7aef\",\"siteid\":\"65\",\"flights\":[{\"scode\":\"SHA\",\"scname\":\"\\u4e0a\\u6d77\\u8679\\u6865\",\"ecode\":\"CTU\",\"ecname\":\"\\u6210\\u90fd\",\"et\":\"T2\",\"st\":\"T2\",\"sdate\":\"2014-11-28\",\"stime\":\"06:50:00\",\"edate\":\"2014-11-28\",\"etime\":\"10:45:00\",\"cabin\":\"Q\",\"cabinname\":\"\\u7ecf\\u6d4e\\u8231\",\"crrier\":\"HO\",\"carrname\":\"\\u5409\\u7965\\u822a\\u7a7a\",\"flightno\":\"HO1269\",\"runtime\":\"3\\u5c0f\\u65f655\\u5206\\u949f\",\"discount\":\"40\",\"plane\":\"320\",\"oil\":\"70\",\"tax\":\"50\",\"type\":\"1\",\"rate\":\"6.50\",\"rebate\":\"6.50\",\"isspe\":\"true\",\"fare\":\"640\",\"stafare\":\"1610\",\"policyid\":\"ffffffff-fffe-5366-1180-201408271248\",\"remark\":\"\",\"supplier\":\"Piaomeng\",\"wt\":\"08:00-22:00\",\"rt\":\"08:00-22:00\",\"rateinfo\":\"6.50,0.0,0,0,0\",\"userrebate\":\"6.50\",\"policytype\":\"1\"}],\"passenger\":[{\"pname\":\"\\u6d4b\\u8bd5\",\"ptype\":\"1\",\"idtype\":\"0\",\"idno\":\"340825198601291014\",\"mobile\":\"1380000000\",\"isunum\":\"0\",\"addto\":\"0\"}],\"content\":{\"name\":\"ceshi\",\"mobile\":\"1380000000\",\"email\":\"ceshi@none.com\",\"tel\":\"\"}}";
-//					commitReturnJson = HttpUtils.myPost("http://gatewayceshi.51jp.cn/gateway?action=forder&userkey=c15fe8484c5e324b4c2febb97e38671c&sign=61055e6061b44647beb8ad77674f59c8", "&str=" + str);
+					// String
+					// str="{\"userid\":\"3450\",\"amount\":\"760\",\"origin\":\"2\",\"orderremark\":\"Android\\u5ba2\\u6237\\u7aef\",\"siteid\":\"65\",\"flights\":[{\"scode\":\"SHA\",\"scname\":\"\\u4e0a\\u6d77\\u8679\\u6865\",\"ecode\":\"CTU\",\"ecname\":\"\\u6210\\u90fd\",\"et\":\"T2\",\"st\":\"T2\",\"sdate\":\"2014-11-28\",\"stime\":\"06:50:00\",\"edate\":\"2014-11-28\",\"etime\":\"10:45:00\",\"cabin\":\"Q\",\"cabinname\":\"\\u7ecf\\u6d4e\\u8231\",\"crrier\":\"HO\",\"carrname\":\"\\u5409\\u7965\\u822a\\u7a7a\",\"flightno\":\"HO1269\",\"runtime\":\"3\\u5c0f\\u65f655\\u5206\\u949f\",\"discount\":\"40\",\"plane\":\"320\",\"oil\":\"70\",\"tax\":\"50\",\"type\":\"1\",\"rate\":\"6.50\",\"rebate\":\"6.50\",\"isspe\":\"true\",\"fare\":\"640\",\"stafare\":\"1610\",\"policyid\":\"ffffffff-fffe-5366-1180-201408271248\",\"remark\":\"\",\"supplier\":\"Piaomeng\",\"wt\":\"08:00-22:00\",\"rt\":\"08:00-22:00\",\"rateinfo\":\"6.50,0.0,0,0,0\",\"userrebate\":\"6.50\",\"policytype\":\"1\"}],\"passenger\":[{\"pname\":\"\\u6d4b\\u8bd5\",\"ptype\":\"1\",\"idtype\":\"0\",\"idno\":\"340825198601291014\",\"mobile\":\"1380000000\",\"isunum\":\"0\",\"addto\":\"0\"}],\"content\":{\"name\":\"ceshi\",\"mobile\":\"1380000000\",\"email\":\"ceshi@none.com\",\"tel\":\"\"}}";
+					// commitReturnJson =
+					// HttpUtils.myPost("http://gatewayceshi.51jp.cn/gateway?action=forder&userkey=c15fe8484c5e324b4c2febb97e38671c&sign=61055e6061b44647beb8ad77674f59c8",
+					// "&str=" + str);
 					Message msg = new Message();
-//					Log.v("param", param);
+					// Log.v("param", param);
 					msg.what = COMMIT_DEMAND_MSG_CODE;
 					handler.sendMessage(msg);
 				} catch (Exception e) {
@@ -450,8 +453,9 @@ public class ActivityInternationalRequisitionForm extends Activity {
 				interDemandPassenger.setGivenname(name[1]);
 			}
 			interDemandPassenger.setCardNo(passenger.getIdentificationNum());
-			interDemandPassenger.setSex(passenger.getGender().equals("ÄÐ") ? "1"
-					: "2");
+			interDemandPassenger
+					.setSex((passenger.getGender() != null && passenger
+							.getGender().equals("ÄÐ")) ? "1" : "2");
 			interDemandPassenger.setCardType(String
 					.valueOf(IdType.IdTypeReverse.get(passenger
 							.getIdentificationType())));

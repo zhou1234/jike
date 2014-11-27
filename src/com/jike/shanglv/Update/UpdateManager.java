@@ -164,7 +164,7 @@ public class UpdateManager {
 
 	private void showNoUpdateDialog() {
 		final CustomerAlertDialog cad = new CustomerAlertDialog(mContext, true);
-		cad.setTitle("当前已是�?��版本");
+		cad.setTitle("当前已是最新版本");
 		cad.setPositiveButton("确定", new android.view.View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

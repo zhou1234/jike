@@ -11,8 +11,8 @@ import com.jike.shanglv.Enums.Platform;
 public class MyApp {
 	private Context context;
 	
-	HashMap<String,Object> self_hm=new HashMap<String,Object>();//际珂B2C
-	HashMap<String,Object> self_b_hm=new HashMap<String,Object>();//际珂B2B
+	HashMap<String,Object> self_hm=new HashMap<String,Object>();//际珂B2C 商旅管家
+	HashMap<String,Object> self_b_hm=new HashMap<String,Object>();//际珂B2B 商旅助手
 	HashMap<String,Object> nanbei_hm=new HashMap<String,Object>();//
 	HashMap<String,Object> nanbei_b_hm=new HashMap<String,Object>();
 	HashMap<String,Object> menghang_hm=new HashMap<String,Object>();

@@ -19,4 +19,4 @@
 #   public *;
 #}
 
-proguard.config=proguard.cfg
+#proguard.config=proguard.cfg
