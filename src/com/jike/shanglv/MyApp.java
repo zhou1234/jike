@@ -114,7 +114,7 @@ public class MyApp {
 		//√Œ∫Ω…Ã¬√
 //		menghang_hm.put(PackageKeys.WELCOME_DRAWABLE.getString(), R.drawable.welcome_menghang);
 		menghang_hm.put(PackageKeys.APP_NAME.getString(), R.string.app_name_menghang);
-		menghang_hm.put(PackageKeys.MENU_LOGO_DRAWABLE.getString(), R.drawable.menu_logo_menghang);
+		//menghang_hm.put(PackageKeys.MENU_LOGO_DRAWABLE.getString(), R.drawable.menu_logo_menghang);
 		menghang_hm.put(PackageKeys.UPDATE_NOTE.getString(), "menghangshanglv");
 		menghang_hm.put(PackageKeys.PLATFORM.getString(), Platform.B2C);
 		menghang_hm.put(PackageKeys.USERKEY.getString(),RELEASE?"fc5865a78e9cb8b3d63c5428d4d32a4c":"5b13658a9fc945e34893f806027d467a");
