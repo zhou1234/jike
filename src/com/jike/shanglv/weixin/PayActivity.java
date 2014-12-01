@@ -45,27 +45,14 @@ public class PayActivity extends Activity {
 				boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
 				if (isPaySupported) {
 					new GetAccessTokenTask().execute();
+				} else if (api.isWXAppInstalled()) {
+
 				} else {
-
-					Toast.makeText(PayActivity.this,
-							String.valueOf(isPaySupported), Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(PayActivity.this, "当前微信版本不支持",
+							Toast.LENGTH_SHORT).show();
 				}
-
 			}
 		});
-
-//		Button checkPayBtn = (Button) findViewById(R.id.check_pay_btn);
-//		checkPayBtn.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-//				Toast.makeText(PayActivity.this,
-//						String.valueOf(isPaySupported), Toast.LENGTH_SHORT)
-//						.show();
-//			}
-//		});
 	}
 
 	/**
@@ -385,7 +372,8 @@ public class PayActivity extends Activity {
 					"http://weixin.qq.com"));
 			packageParams.add(new BasicNameValuePair("out_trade_no",
 					genOutTradNo()));
-			packageParams.add(new BasicNameValuePair("partner", "1900000109"));
+			packageParams.add(new BasicNameValuePair("partner",
+					Constants.PARTNER_ID));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip",
 					"196.168.1.1"));
 			packageParams.add(new BasicNameValuePair("total_fee", "1"));
