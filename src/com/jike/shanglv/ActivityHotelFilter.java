@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.jike.shanglv.Common.ClearEditText;
 import com.jike.shanglv.Common.StarLevel;
 import com.jike.shanglv.Enums.SPkeys;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityHotelFilter extends Activity {
@@ -88,7 +89,7 @@ public class ActivityHotelFilter extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.xingji_ll:
 					imm.hideSoftInputFromWindow(((Activity) context)
@@ -365,4 +366,19 @@ public class ActivityHotelFilter extends Activity {
 			this.currentID = currentID;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelFilter");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotelFilter"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

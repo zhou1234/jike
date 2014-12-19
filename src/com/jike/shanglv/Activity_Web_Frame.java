@@ -1,7 +1,7 @@
 //使用WebView加载内容：只需要提供标题和加载的url即可
 package com.jike.shanglv;
 
-
+import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -53,7 +53,7 @@ public class Activity_Web_Frame extends Activity {
 						@Override
 						public void onClick(View v) {
 							startActivity(new Intent(Activity_Web_Frame.this,
-									MainActivity.class));
+									MainActivityN.class));
 						}
 					});
 
@@ -88,6 +88,8 @@ public class Activity_Web_Frame extends Activity {
 				}
 			});
 			webView.loadUrl(url);
+			// webView.loadDataWithBaseURL(null, url, "text/html", "utf-8",
+			// null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -114,9 +116,19 @@ public class Activity_Web_Frame extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
 	@Override
 	protected void onResume() {
-		webView.loadUrl(url);
 		super.onResume();
+		webView.loadUrl(url);
+		MobclickAgent.onPageStart("Activity_Web_Frame"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("Activity_Web_Frame");
+		MobclickAgent.onPause(this);
 	}
 }

@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jike.shanglv.Enums.SPkeys;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityTrainBaoxian extends Activity {
@@ -231,4 +232,18 @@ public class ActivityTrainBaoxian extends Activity {
 			this.currentID = currentID;
 		}
 	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityTrainBaoxian");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityTrainBaoxian"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

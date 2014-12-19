@@ -7,53 +7,154 @@ import java.util.Random;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.jike.shanglv.MyApp;
+import com.jike.shanglv.MyApplication;
 import com.jike.shanglv.R;
-import com.tencent.mm.sdk.constants.Build;
+import com.jike.shanglv.Common.CommonFunc;
+import com.jike.shanglv.Enums.PackageKeys;
+import com.jike.shanglv.Enums.SPkeys;
+import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class PayActivity extends Activity {
 
-	private static final String TAG = "MicroMsg.SDKSample.PayActivity";
-
+	private static final String TAG = "PayActivity";
+	private SharedPreferences sp;
 	private IWXAPI api;
+	private String body;
+	private String amount;
+	private String amountWX;
+	private int paysystype;
+	private String result;
+	private Context context;
+	private ProgressDialog progressDialog;
+	private float amo;
+	private String orderID;
+	private MyApplication maApp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay);
-
+		context = this;
+		Intent intent = getIntent();
+		if (intent != null) {
+			body = intent.getStringExtra("body");
+			orderID = intent.getStringExtra("orderID");
+			amount = intent.getStringExtra("amount");
+			amo = Float.parseFloat(amount);
+			amountWX = Integer.toString(Math.round(amo * 100));
+			paysystype = intent.getIntExtra("paysystype", -1);
+		}
+		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
+		startRequest();
 		api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
 		api.registerApp(Constants.APP_ID);
-		Button payBtn = (Button) findViewById(R.id.pay_btn);
-		payBtn.setOnClickListener(new View.OnClickListener() {
+		maApp = (MyApplication) getApplication();
+		maApp.setCode(paysystype);
+	}
+
+	private void startRequest() {
+		progressDialog = ProgressDialog.show(PayActivity.this, "", "加载中。 。 。");
+		new Thread(new Runnable() {
 
 			@Override
-			public void onClick(View v) {
-				boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-				if (isPaySupported) {
-					new GetAccessTokenTask().execute();
-				} else if (api.isWXAppInstalled()) {
-
-				} else {
-					Toast.makeText(PayActivity.this, "当前微信版本不支持",
-							Toast.LENGTH_SHORT).show();
+			public void run() {
+				String userid = sp.getString(SPkeys.userid.getString(), "");
+				String siteid = sp.getString(SPkeys.siteid.getString(), "");
+				MyApp ma = new MyApp(context);
+				if (paysystype == 15) {
+					String action = "action=paylog";
+					String str = "{\"orderID\":\"" + "" + "\",\"amount\":\""
+							+ amount + "\",\"userid\":\"" + userid
+							+ "\",\"paysystype\":\"" + paysystype
+							+ "\",\"siteid\":\"" + siteid + "\"}";
+					String url = action
+							+ "&str="
+							+ str
+							+ "&userkey="
+							+ ma.getHm().get(PackageKeys.USERKEY.getString())
+									.toString()
+							+ "&sitekey="
+							+ MyApp.sitekey
+							+ "&sign="
+							+ CommonFunc.MD5(ma.getHm()
+									.get(PackageKeys.USERKEY.getString())
+									.toString()
+									+ "paylog" + str);
+					result = HttpUtils.getJsonContent(ma.getServeUrl(), url);
 				}
+				if (paysystype == 1) {
+					float amount1 = (float) (amo + amo * 0.006);
+					String data = Float.toString(amount1);
+					amountWX = Integer.toString(Math.round(amount1 * 100));
+					String action = "action=paylog";
+					String str = "{\"orderID\":\"" + orderID
+							+ "\",\"amount\":\"" + data + "\",\"userid\":\""
+							+ userid + "\",\"paysystype\":\"" + paysystype
+							+ "\",\"siteid\":\"" + siteid + "\"}";
+					String url = action
+							+ "&str="
+							+ str
+							+ "&userkey="
+							+ ma.getHm().get(PackageKeys.USERKEY.getString())
+									.toString()
+							+ "&sitekey="
+							+ MyApp.sitekey
+							+ "&sign="
+							+ CommonFunc.MD5(ma.getHm()
+									.get(PackageKeys.USERKEY.getString())
+									.toString()
+									+ "paylog" + str);
+					result = HttpUtils.getJsonContent(ma.getServeUrl(), url);
+					maApp.setOrderID(orderID);
+				}
+				handler.sendEmptyMessage(0);
 			}
-		});
+		}).start();
+
 	}
+
+	private Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			progressDialog.dismiss();
+			try {
+				JSONObject jsonObject = new JSONObject(result);
+				String str = jsonObject.getString("c");
+				if (str.equals("0000")) {
+					new GetAccessTokenTask().execute();
+				} else {
+					String data = jsonObject.getString("d");
+					Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	};
 
 	/**
 	 * 微信公众平台商户模块和商户约定的密钥
@@ -112,9 +213,10 @@ public class PayActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			dialog = ProgressDialog.show(PayActivity.this,
-					getString(R.string.app_tip),
-					getString(R.string.getting_access_token));
+			// dialog = ProgressDialog.show(PayActivity.this,
+			// getString(R.string.app_tip),
+			// getString(R.string.getting_access_token));
+			dialog = ProgressDialog.show(PayActivity.this, "", "加载中。 。 。");
 		}
 
 		@Override
@@ -124,20 +226,18 @@ public class PayActivity extends Activity {
 			}
 
 			if (result.localRetCode == LocalRetCode.ERR_OK) {
-				Toast.makeText(PayActivity.this,
-						R.string.get_access_token_succ, Toast.LENGTH_LONG)
-						.show();
+				// Toast.makeText(PayActivity.this,
+				// R.string.get_access_token_succ, Toast.LENGTH_LONG)
+				// .show();
 				Log.d(TAG, "onPostExecute, accessToken = " + result.accessToken);
 
 				GetPrepayIdTask getPrepayId = new GetPrepayIdTask(
 						result.accessToken);
 				getPrepayId.execute();
 			} else {
-				Toast.makeText(
-						PayActivity.this,
-						getString(R.string.get_access_token_fail,
-								result.localRetCode.name()), Toast.LENGTH_LONG)
+				Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_LONG)
 						.show();
+				finish();
 			}
 		}
 
@@ -174,9 +274,10 @@ public class PayActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			dialog = ProgressDialog.show(PayActivity.this,
-					getString(R.string.app_tip),
-					getString(R.string.getting_prepayid));
+			// dialog = ProgressDialog.show(PayActivity.this,
+			// getString(R.string.app_tip),
+			// getString(R.string.getting_prepayid));
+			dialog = ProgressDialog.show(PayActivity.this, "", "加载中。 。 。");
 		}
 
 		@Override
@@ -186,15 +287,13 @@ public class PayActivity extends Activity {
 			}
 
 			if (result.localRetCode == LocalRetCode.ERR_OK) {
-				Toast.makeText(PayActivity.this, R.string.get_prepayid_succ,
-						Toast.LENGTH_LONG).show();
+				// Toast.makeText(PayActivity.this, R.string.get_prepayid_succ,
+				// Toast.LENGTH_LONG).show();
 				sendPayReq(result);
 			} else {
-				Toast.makeText(
-						PayActivity.this,
-						getString(R.string.get_prepayid_fail,
-								result.localRetCode.name()), Toast.LENGTH_LONG)
+				Toast.makeText(PayActivity.this, "支付失败", Toast.LENGTH_LONG)
 						.show();
+				finish();
 			}
 		}
 
@@ -235,7 +334,7 @@ public class PayActivity extends Activity {
 
 	private static class GetAccessTokenResult {
 
-		private static final String TAG = "MicroMsg.SDKSample.PayActivity.GetAccessTokenResult";
+		private static final String TAG = "GetAccessTokenResult";
 
 		public LocalRetCode localRetCode = LocalRetCode.ERR_OTHER;
 		public String accessToken;
@@ -271,7 +370,7 @@ public class PayActivity extends Activity {
 
 	private static class GetPrepayIdResult {
 
-		private static final String TAG = "MicroMsg.SDKSample.PayActivity.GetPrepayIdResult";
+		private static final String TAG = "GetPrepayIdResult";
 
 		public LocalRetCode localRetCode = LocalRetCode.ERR_OTHER;
 		public String prepayId;
@@ -361,22 +460,22 @@ public class PayActivity extends Activity {
 											// 由开发者自定义，可用于订单的查询与跟踪，建议根据支付用户信息生成此id
 			json.put("traceid", traceId);
 			nonceStr = genNonceStr();
-			json.put("noncestr", nonceStr);
+			json.put("noncestr", nonceStr);   
 
 			List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
 			packageParams.add(new BasicNameValuePair("bank_type", "WX"));
-			packageParams.add(new BasicNameValuePair("body", "千足金箍棒"));
+			packageParams.add(new BasicNameValuePair("body", body));
 			packageParams.add(new BasicNameValuePair("fee_type", "1"));
 			packageParams.add(new BasicNameValuePair("input_charset", "UTF-8"));
 			packageParams.add(new BasicNameValuePair("notify_url",
-					"http://weixin.qq.com"));
+					"http://servers.51jp.cn/PayNotify-Weixin"));
 			packageParams.add(new BasicNameValuePair("out_trade_no",
 					genOutTradNo()));
 			packageParams.add(new BasicNameValuePair("partner",
 					Constants.PARTNER_ID));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip",
 					"196.168.1.1"));
-			packageParams.add(new BasicNameValuePair("total_fee", "1"));
+			packageParams.add(new BasicNameValuePair("total_fee", amountWX));
 			packageValue = genPackage(packageParams);
 
 			json.put("package", packageValue);
@@ -424,6 +523,19 @@ public class PayActivity extends Activity {
 
 		// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 		api.sendReq(req);
+		finish();
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("PayActivity"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("PayActivity");
+		MobclickAgent.onPause(this);
+	}
 }

@@ -5,9 +5,10 @@
 package com.jike.shanglv.pos.alipay.android.mpos.demo.helper;
 
 import java.io.UnsupportedEncodingException;
+
+
 import com.alipay.wireless.util.StringUtil;
 import com.jike.shanglv.pos.alipay.android.mpos.demo.pos.ParamsItem;
-
 /**
  * MD5的算法在RFC1321 中定义 在RFC 1321中，给出了Test suite用来检验你的实现是否正确： MD5 ("") =
  * d41d8cd98f00b204e9800998ecf8427e MD5 ("a") = 0cc175b9c0f1b6a831c399e269772661
@@ -67,9 +68,9 @@ public class MD5Util {
 	}
 
 	public static ParamsItem[] getResult(String result) {
-		if (StringUtil.isEmpty(result)) {
-			return null;
-		}
+		 if (StringUtil.isEmpty(result)) {
+		 return null;
+		 }
 		String[] params = result.split("&");
 		ParamsItem[] results = new ParamsItem[params.length];
 		for (int i = 0; i < params.length; i++) {

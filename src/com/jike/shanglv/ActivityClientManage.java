@@ -43,7 +43,7 @@ import com.jike.shanglv.Models.CustomerUser;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 import com.jike.shanglv.SeclectCity.ClearEditText;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityClientManage extends Activity implements
 		RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener {
@@ -256,6 +256,8 @@ public class ActivityClientManage extends Activity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MobclickAgent.onPageStart("ActivityClientManage"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 		startQueryCustomer();
 	}
 
@@ -554,5 +556,12 @@ public class ActivityClientManage extends Activity implements
 				listview.onLoadMoreComplete(false);
 			}
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityClientManage");
+		MobclickAgent.onPause(this);
 	}
 }

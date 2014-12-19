@@ -10,7 +10,8 @@ import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 import com.jike.shanglv.NetAndJson.UserInfo;
-
+import com.jike.shanglv.supercollection.ActivityQianbao;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -92,11 +93,18 @@ public class MineActivity extends Activity {
 				switch (v.getId()) {
 				case R.id.back_imgbtn:
 					startActivity(new Intent(MineActivity.this,
-							MainActivity.class));
+							MainActivityN.class));
 					break;
 				case R.id.all_order_rl:
+					// startActivity(new Intent(MineActivity.this,
+					// OrderActivity.class));
+					if (!loginState) {
+						Toast.makeText(getApplicationContext(), "请先登录！", 0)
+								.show();
+						break;
+					}
 					startActivity(new Intent(MineActivity.this,
-							OrderActivity.class));
+							ActivityTransactionDetails.class));
 					break;
 				case R.id.user_login_imgbtn:
 					startActivity(new Intent(MineActivity.this,
@@ -134,8 +142,12 @@ public class MineActivity extends Activity {
 		} else {
 			hasLogin_rl.setVisibility(View.VISIBLE);
 			noLogin_rl.setVisibility(View.GONE);
+
+			username_tv.setText(sp.getString(SPkeys.username.getString(), ""));
+			zhanghuyue_tv.setText(sp.getString(SPkeys.amount.getString(), ""));
 		}
 		queryUserInfo();
+		MobclickAgent.onPageStart("MineActivity"); // 统计页面
 	}
 
 	private void queryUserInfo() {
@@ -144,18 +156,18 @@ public class MineActivity extends Activity {
 			public void run() {
 				try {
 					MyApp ma = new MyApp(context);
-//					int utype = 0;
-//					Platform pf = (Platform) ma.getHm().get(
-//							PackageKeys.PLATFORM.getString());
-//					if (pf == Platform.B2B)
-//						utype = 1;
-//					else if (pf == Platform.B2C)
-//						utype = 2;
+					// int utype = 0;
+					// Platform pf = (Platform) ma.getHm().get(
+					// PackageKeys.PLATFORM.getString());
+					// if (pf == Platform.B2B)
+					// utype = 1;
+					// else if (pf == Platform.B2C)
+					// utype = 2;
 					String str = "{\"uname\":\""
 							+ sp.getString(SPkeys.lastUsername.getString(), "")
 							+ "\",\"upwd\":\""
 							+ sp.getString(SPkeys.lastPassword.getString(), "")
-//							+ "\",\"utype\":\"" + utype 
+							// + "\",\"utype\":\"" + utype
 							+ "\"}";
 					String param = "action=userlogin&sitekey=&userkey="
 							+ ma.getHm().get(PackageKeys.USERKEY.getString())
@@ -239,4 +251,11 @@ public class MineActivity extends Activity {
 			}
 		}
 	};
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("MineActivity");
+
+	}
 }

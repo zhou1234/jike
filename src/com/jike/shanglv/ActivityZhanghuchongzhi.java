@@ -16,6 +16,7 @@ import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityZhanghuchongzhi extends Activity {
 
@@ -67,7 +68,7 @@ public class ActivityZhanghuchongzhi extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.chongzhijilu_tv:
 
@@ -103,14 +104,20 @@ public class ActivityZhanghuchongzhi extends Activity {
 						});
 						break;
 					}
-					
-					if (Integer.valueOf((new MyApp(context)).getHm().get(
-							PackageKeys.ORGIN.getString()).toString())==0||Integer.valueOf((new MyApp(context)).getHm().get(
-									PackageKeys.ORGIN.getString()).toString())==1) {
+
+					if (Integer.valueOf((new MyApp(context)).getHm()
+							.get(PackageKeys.ORGIN.getString()).toString()) == 0
+							|| Integer.valueOf((new MyApp(context)).getHm()
+									.get(PackageKeys.ORGIN.getString())
+									.toString()) == 1) {
 						Intent intent = new Intent(context,
 								Activity_Payway.class);
-						intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT, chongzhijine_et.getText().toString().trim());
+						intent.putExtra("paysystype", 15);
+						intent.putExtra("body", "账户充值");
+						intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT,
+								chongzhijine_et.getText().toString().trim());
 						startActivity(intent);
+						finish();
 					} else {
 						String userid = sp.getString(SPkeys.userid.getString(),
 								"");
@@ -139,5 +146,18 @@ public class ActivityZhanghuchongzhi extends Activity {
 			}
 		}
 	};
-}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityZhanghuchongzhi");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityZhanghuchongzhi"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+}

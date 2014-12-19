@@ -1,5 +1,6 @@
 package com.jike.shanglv;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -44,6 +45,7 @@ import com.jike.shanglv.Models.InterDemandStr;
 import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityInternationalRequisitionForm extends Activity {
 
@@ -120,12 +122,18 @@ public class ActivityInternationalRequisitionForm extends Activity {
 		commit_button = (Button) findViewById(R.id.commit_button);
 		commit_button.setOnClickListener(btnClickListner);
 
-		if (sp.getString(SPkeys.gjjpContactPhone.getString(), "").equals(""))
-			contact_person_phone_et.setText(CommonFunc.getPhoneNumber(context));
-		else
+		if (sp.getString(SPkeys.gjjpContactPhone.getString(), "").equals("")) {
+			if (CommonFunc.getPhoneNumber(context).equals("")) {
+				contact_person_phone_et.setText(sp.getString(
+						SPkeys.userphone.getString(), ""));
+			} else {
+				contact_person_phone_et.setText(CommonFunc
+						.getPhoneNumber(context));
+			}
+		} else {
 			contact_person_phone_et.setText(sp.getString(
 					SPkeys.gjjpContactPhone.getString(), ""));
-
+		}
 		getIntentData();
 	}
 
@@ -172,7 +180,7 @@ public class ActivityInternationalRequisitionForm extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.lianxiren_icon_imgbtn:
 					startActivityForResult(
@@ -260,7 +268,7 @@ public class ActivityInternationalRequisitionForm extends Activity {
 					} else {
 						sp.edit()
 								.putString(
-										SPkeys.gnjpContactPhone.getString(),
+										SPkeys.gjjpContactPhone.getString(),
 										contact_person_phone_et.getText()
 												.toString()).commit();
 					}
@@ -441,6 +449,7 @@ public class ActivityInternationalRequisitionForm extends Activity {
 		return str;
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	private String getPsgInfo() {// URLEncoder.encode( , "utf-8");
 		String str = "";
 		ArrayList<InterDemandPassenger> cpList = new ArrayList<InterDemandPassenger>();
@@ -459,6 +468,7 @@ public class ActivityInternationalRequisitionForm extends Activity {
 			interDemandPassenger.setCardType(String
 					.valueOf(IdType.IdTypeReverse.get(passenger
 							.getIdentificationType())));
+			// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			interDemandPassenger.setCusBirth(passenger.getBirthDay());
 			interDemandPassenger.setNumberValiddate(passenger.getIDdeadline());
 			if (passenger.getIDdeadline() == null
@@ -468,6 +478,21 @@ public class ActivityInternationalRequisitionForm extends Activity {
 				cad.setTitle("用户信息非法，请编辑用户" + passenger.getPassengerName()
 						+ "的证件有效期，再尝试提交需求单");
 				cad.setPositiveButton("确定", new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						cad.dismiss();
+					}
+				});
+				return "";
+			}
+			if (!CommonFunc.isEnglishName(passenger.getPassengerName())) {
+				// new AlertDialog.Builder(context).setTitle("姓名格式不正确")
+				// .setMessage("请输入英文名，姓氏和名字之间以斜杠分割，格式为\"zhang/san\"")
+				// .setPositiveButton("确定", null).show();
+				final CustomerAlertDialog cad = new CustomerAlertDialog(
+						context, true);
+				cad.setTitle("请输入英文名，姓氏和名字之间以斜杠分割，例如:\"zhang/san\"");
+				cad.setPositiveButton("知道了", new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
 						cad.dismiss();
@@ -707,4 +732,19 @@ public class ActivityInternationalRequisitionForm extends Activity {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInternationalRequisitionForm");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityInternationalRequisitionForm"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

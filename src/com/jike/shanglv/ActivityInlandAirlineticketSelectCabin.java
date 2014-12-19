@@ -23,13 +23,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jike.shanglv.Common.CustomProgressDialog;
 import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Common.DateUtil;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Enums.SingleOrDouble;
 import com.jike.shanglv.Models.CabList;
 import com.jike.shanglv.Models.InlandAirlineInfo;
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityInlandAirlineticketSelectCabin extends Activity {
 
@@ -44,7 +44,6 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 			start_port_tv, arrive_port_tv, runtime_tv, oil_tax_tv;
 	private ListView listview;
 	private SharedPreferences sp;
-	private CustomProgressDialog progressdialog;
 	private JSONObject jsonObject;
 	private int index;
 
@@ -97,6 +96,7 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 		getIntentData();
 
 		InlandAirlineInfo ia = new InlandAirlineInfo(jsonObject);
+		
 		title_tv.setText(ia.getCarrinerName() + ia.getFlightNo());
 		try {
 			startoff_date_tv.setText(DateUtil.getDate(ia.getOffTime()));
@@ -195,7 +195,7 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 				finish();
 				break;
 			case R.id.home_imgbtn:
-				startActivity(new Intent(context, MainActivity.class));
+				startActivity(new Intent(context, MainActivityN.class));
 				break;
 			default:
 				break;
@@ -433,4 +433,20 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 			return tiecketCount;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInlandAirlineticketSelectCabin");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityInlandAirlineticketSelectCabin"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

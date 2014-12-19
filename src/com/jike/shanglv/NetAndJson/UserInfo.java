@@ -1,26 +1,18 @@
 package com.jike.shanglv.NetAndJson;
 
 /**
- * siteid:系统id
-*userid:用户ID
-username:用户名
-mobile:手机号码
-email:电子邮件
-sdate:系统运营时间开始
-edate:系统运营时间结束
-companyname:公司名称
-smssign:短信签名
-smsamount:短信余额(utype为3\4无效)
-openvam:是否开通虚拟账号(0未开通 1开通)
-amount:虚拟账号金额(utype为3\4无效) 
-amnousemount:虚拟账号不可用余额(utype为3\4无效)
-amname:虚拟账号名称(utype为3\4无效)
+ * siteid:系统id userid:用户ID username:用户名 mobile:手机号码 email:电子邮件 sdate:系统运营时间开始
+ * edate:系统运营时间结束 companyname:公司名称 smssign:短信签名 smsamount:短信余额(utype为3\4无效)
+ * openvam:是否开通虚拟账号(0未开通 1开通) amount:虚拟账号金额(utype为3\4无效)
+ * amnousemount:虚拟账号不可用余额(utype为3\4无效) amname:虚拟账号名称(utype为3\4无效)
+ * 
  * @author Administrator
- *
+ * 
  */
 public class UserInfo {
-	String userid,     username,     mobile,     email,     sdate,     edate,     companyname,     companyname_jc,     smssign,     smsamount,     openvam,     ammount,     amnousemount,     amname,     siteid
-			,showDealer,showCustomer,usertype,opensupperpay;
+	String userid, username, mobile, email, sdate, edate, companyname,
+			companyname_jc, smssign, smsamount, openvam, ammount, amnousemount,
+			amname, siteid, showDealer, showCustomer, usertype, opensupperpay;
 
 	public String getOpensupperpay() {
 		return opensupperpay;
@@ -173,4 +165,5 @@ public class UserInfo {
 	public void setSiteid(String siteid) {
 		this.siteid = siteid;
 	}
+
 }

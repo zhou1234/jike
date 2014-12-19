@@ -3,7 +3,6 @@ package com.jike.shanglv;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,7 +54,7 @@ import com.jike.shanglv.Models.OrderList_Hotel;
 import com.jike.shanglv.Models.OrderList_Phone;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityOrderList extends Activity implements
 		RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener {
@@ -168,10 +167,8 @@ public class ActivityOrderList extends Activity implements
 				dateIntent.setClass(context,
 						com.jike.shanglv.ShipCalendar.MainActivity.class);
 				Intent cityIntent = new Intent();
-				cityIntent
-						.setClass(
-								context,
-								com.jike.shanglv.SeclectCity.AirportCityActivity.class);
+				cityIntent.setClass(context,
+						com.jike.shanglv.SeclectCity.AirportCityActivity.class);
 				int one = (int) ((screenWidth / 2) + 50);
 
 				switch (v.getId()) {
@@ -250,7 +247,7 @@ public class ActivityOrderList extends Activity implements
 					finish();
 					break;
 				case R.id.home_imgbtn:// 主页
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				default:
 					break;
@@ -365,6 +362,7 @@ public class ActivityOrderList extends Activity implements
 								@Override
 								public void onClick(View arg0) {
 									cad.dismiss();
+									finish();
 								}
 							});
 							// 不能这么干，因为动态加载更多时，也会清除数据
@@ -995,4 +993,20 @@ public class ActivityOrderList extends Activity implements
 		s2.addAll(order_List_phone);
 		order_List_phone = new ArrayList<OrderList_Phone>(s2);
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityOrderList");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityOrderList"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

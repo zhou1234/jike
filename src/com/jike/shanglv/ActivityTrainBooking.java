@@ -52,7 +52,7 @@ import com.jike.shanglv.Models.TrainListItem;
 import com.jike.shanglv.Models.TrainOrderPassenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityTrainBooking extends Activity {
 
@@ -93,6 +93,7 @@ public class ActivityTrainBooking extends Activity {
 	MyListAdapter adapter_xibie;
 
 	private LinearLayout lay_stop;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {// TODO Auto-generated method stub
@@ -112,8 +113,8 @@ public class ActivityTrainBooking extends Activity {
 		passengerList = new ArrayList<Passenger>();
 		allPassengerList = new ArrayList<Passenger>();
 
-		lay_stop=(LinearLayout) findViewById(R.id.lay_stop);
-		
+		lay_stop = (LinearLayout) findViewById(R.id.lay_stop);
+
 		xibie_listview = (ListView) findViewById(R.id.xibie_listview);
 		add_passager_rl = (RelativeLayout) findViewById(R.id.add_passager_rl);
 		baoxian_rl = (RelativeLayout) findViewById(R.id.baoxian_rl);
@@ -219,21 +220,28 @@ public class ActivityTrainBooking extends Activity {
 		}
 		getValidCodePic();// 获取验证码信息
 		// 对于常用联系人，直接返回上次订票时的联系人手机号，若不存在则返回本机手机号码
-		if (sp.getString(SPkeys.trainContactPhone.getString(), "").equals(""))
-			contact_person_phone_et.setText(CommonFunc.getPhoneNumber(context));
-		else
+		if (sp.getString(SPkeys.trainContactPhone.getString(), "").equals("")) {
+			if (CommonFunc.getPhoneNumber(context).equals("")) {
+				contact_person_phone_et.setText(sp.getString(
+						SPkeys.username.getString(), ""));
+			} else {
+				contact_person_phone_et.setText(CommonFunc
+						.getPhoneNumber(context));
+			}
+		} else {
 			contact_person_phone_et.setText(sp.getString(
 					SPkeys.trainContactPhone.getString(), ""));
+		}
 		caculateMoney();
-		
-		/*lay_stop.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(context, ActivityTrainStop.class));
-				
-			}
-		});*/
+
+		/*
+		 * lay_stop.setOnClickListener(new View.OnClickListener() {
+		 * 
+		 * @Override public void onClick(View arg0) { startActivity(new
+		 * Intent(context, ActivityTrainStop.class));
+		 * 
+		 * } });
+		 */
 	}
 
 	private void caculateMoney() {
@@ -358,8 +366,8 @@ public class ActivityTrainBooking extends Activity {
 							+ "\",\"TicketCount\":\"" + passengerList.size()
 							+ "\",\"PsgInfo\":" + getPassengers() + "}";
 					str = str.replace("null", "");
-					String orgin=ma.getHm().get(PackageKeys.ORGIN.getString())
-							.toString();
+					String orgin = ma.getHm()
+							.get(PackageKeys.ORGIN.getString()).toString();
 					String param = "?action=trainorderv2&userkey="
 							+ ma.getHm().get(PackageKeys.USERKEY.getString())
 									.toString()
@@ -369,7 +377,7 @@ public class ActivityTrainBooking extends Activity {
 							+ CommonFunc.MD5(ma.getHm()
 									.get(PackageKeys.USERKEY.getString())
 									.toString()
-									+ "trainorderv2" + str)+"&orgin="+orgin;
+									+ "trainorderv2" + str) + "&orgin=" + orgin;
 					// try {
 					// str = URLEncoder.encode(str, "utf-8");
 					// } catch (UnsupportedEncodingException e) {
@@ -385,6 +393,7 @@ public class ActivityTrainBooking extends Activity {
 					e.printStackTrace();
 				}
 			}
+
 		}).start();
 		progressdialog = CustomProgressDialog.createDialog(context);
 		progressdialog.setMessage("正在提交订单，请稍候...");
@@ -514,7 +523,7 @@ public class ActivityTrainBooking extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.lianxiren_icon_imgbtn:
 					startActivityForResult(
@@ -937,4 +946,17 @@ public class ActivityTrainBooking extends Activity {
 
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityTrainBooking");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityTrainBooking"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
 }

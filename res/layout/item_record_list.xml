@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_item_color_bg"
+    android:orientation="horizontal"
+    android:padding="10dp" >
+    
+    <RelativeLayout 
+       android:layout_width="match_parent"
+   	   android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="100"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单编号: "
+                android:textColor="@color/login_text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/orderid_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2343242343"
+                android:textColor="@color/list_text_blue"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/bank_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="建设银行... "
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/bankcard_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5645"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/time1_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收款时间:"
+                android:textColor="@color/login_text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/receiveTime_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2014-08-09 09:12:23"
+                android:textColor="@color/login_text_color"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/time2_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="到账时间:"
+                android:textColor="@color/login_text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/daozhangTime_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2014-08-09 09:12:23"
+                android:textColor="@color/login_text_color"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true" >
+
+        <TextView
+            android:id="@+id/state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="处理中"
+            android:textColor="@color/login_text_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/state_tv"
+            android:layout_marginTop="5dp"
+            android:text="￥540"
+            android:textColor="@color/price_yellow"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@id/state_tv"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rightsmallarrow" />
+    </RelativeLayout>
+</RelativeLayout>
+</LinearLayout>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.jike.shanglv.Models.HotelDetail;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityHotelIntroduce extends Activity {
@@ -50,7 +51,7 @@ public class ActivityHotelIntroduce extends Activity {
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(ActivityHotelIntroduce.this,
-						MainActivity.class));
+						MainActivityN.class));
 			}
 		});
 	}
@@ -71,4 +72,19 @@ public class ActivityHotelIntroduce extends Activity {
 		hotel_traffic_tv.setText(hotelDetail.getTraffic());
 		hotel_address_tv.setText(hotelDetail.getAddress());
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelIntroduce");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotelIntroduce"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

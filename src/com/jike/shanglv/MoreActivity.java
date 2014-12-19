@@ -3,6 +3,7 @@ package com.jike.shanglv;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Update.UpdateManager;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -59,7 +60,7 @@ public class MoreActivity extends Activity {
 				switch (v.getId()) {
 				case R.id.back_imgbtn:
 					startActivity(new Intent(MoreActivity.this,
-							MainActivity.class));
+							MainActivityN.class));
 					break;
 				case R.id.yjfh_rl:
 					intent.putExtra(Activity_Web_Frame.TITLE, "意见反馈");
@@ -114,4 +115,16 @@ public class MoreActivity extends Activity {
 			}
 		}
 	};
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("MoreActivity"); // 统计页面
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("MoreActivity");
+
+	}
 }

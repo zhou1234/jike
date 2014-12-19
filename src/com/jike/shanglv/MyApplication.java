@@ -3,11 +3,25 @@ package com.jike.shanglv;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.jike.shanglv.NetAndJson.MyCrashHandler;
+
 import android.app.Activity;
 import android.app.Application;
 
 public class MyApplication extends Application {
-	private Boolean hasCheckedUpdate=false;
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+//		MyCrashHandler handler = MyCrashHandler.getInstance();
+//		handler.init(getApplicationContext());
+//		Thread.setDefaultUncaughtExceptionHandler(handler);
+
+	}
+
+	private String orderID;
+	private int code;
+	private Boolean hasCheckedUpdate = false;
 
 	public Boolean getHasCheckedUpdate() {
 		return hasCheckedUpdate;
@@ -16,21 +30,23 @@ public class MyApplication extends Application {
 	public void setHasCheckedUpdate(Boolean hasCheckedUpdate) {
 		this.hasCheckedUpdate = hasCheckedUpdate;
 	}
-	
-	
+
 	// 记录Activity列表，方便退出
 	private List<Activity> activityList = new LinkedList<Activity>();
+
 	public void addActivity(Activity activity) {
 		activityList.add(activity);
 	}
+
 	public void exit() {
 		for (Activity activity : activityList) {
 			activity.finish();
 		}
 		activityList.clear();
 	}
-	//国内机票查询，出发到达城市三字码
-	private String startcity_code="",arrivecity_code="";
+
+	// 国内机票查询，出发到达城市三字码
+	private String startcity_code = "", arrivecity_code = "";
 
 	public String getStartcity_code() {
 		return startcity_code;
@@ -47,4 +63,21 @@ public class MyApplication extends Application {
 	public void setArrivecity_code(String arrivecity_code) {
 		this.arrivecity_code = arrivecity_code;
 	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	public String getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(String orderID) {
+		this.orderID = orderID;
+	}
+
 }

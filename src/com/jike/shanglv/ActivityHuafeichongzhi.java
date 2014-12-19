@@ -32,7 +32,7 @@ import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHuafeichongzhi extends Activity {
 
@@ -175,7 +175,7 @@ public class ActivityHuafeichongzhi extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.contact_person_phone_iv:
 					startActivityForResult(
@@ -407,8 +407,8 @@ public class ActivityHuafeichongzhi extends Activity {
 							+ "\",\"uid\":\""
 							+ sp.getString(SPkeys.userid.getString(), "")
 							+ "\",\"sid\":\"" + siteid + "\"}";
-					String orgin=ma.getHm().get(PackageKeys.ORGIN.getString())
-							.toString();
+					String orgin = ma.getHm()
+							.get(PackageKeys.ORGIN.getString()).toString();
 					String param = "action=phoneorder&str="
 							+ str
 							+ "&userkey="
@@ -420,7 +420,7 @@ public class ActivityHuafeichongzhi extends Activity {
 							+ CommonFunc.MD5(ma.getHm()
 									.get(PackageKeys.USERKEY.getString())
 									.toString()
-									+ "phoneorder" + str)+"&orgin="+orgin;
+									+ "phoneorder" + str) + "&orgin=" + orgin;
 					commitReturnJson = HttpUtils.getJsonContent(
 							ma.getServeUrl(), param);
 					Message msg = new Message();
@@ -545,4 +545,20 @@ public class ActivityHuafeichongzhi extends Activity {
 			}
 		}
 	};
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHuafeichongzhi");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHuafeichongzhi"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

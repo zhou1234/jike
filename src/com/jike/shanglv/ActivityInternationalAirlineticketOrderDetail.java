@@ -37,7 +37,7 @@ import com.jike.shanglv.Models.InternationalFlightInfo;
 import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 
@@ -129,7 +129,7 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.pay_now_btn:
 					String userid = sp.getString(SPkeys.userid.getString(), "");
@@ -426,6 +426,20 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 			}
 			return convertView;
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInternationalAirlineticketOrderDetail");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityInternationalAirlineticketOrderDetail"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
 }

@@ -25,6 +25,7 @@ import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityResetZfPsw extends Activity {
@@ -239,4 +240,19 @@ public class ActivityResetZfPsw extends Activity {
 			}
 		}
 	};
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityResetZfPsw");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityResetZfPsw"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

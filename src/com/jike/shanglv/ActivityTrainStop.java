@@ -3,6 +3,7 @@ package com.jike.shanglv;
 import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -162,5 +163,19 @@ public class ActivityTrainStop extends Activity {
 			return tv_stopTime;
 		}
 
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityTrainStop");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityTrainStop"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 }

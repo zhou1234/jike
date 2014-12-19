@@ -2,6 +2,8 @@ package com.jike.shanglv;
 
 
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,20 @@ public class Activity_Scenery extends Activity {
 				finish();
 			}
 		});
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("Activity_Scenery");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("Activity_Scenery"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
 }

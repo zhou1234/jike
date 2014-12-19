@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.jike.shanglv.Common.*;
 import com.jike.shanglv.Enums.*;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityInlandAirlineticket extends Activity {
@@ -408,4 +409,20 @@ public class ActivityInlandAirlineticket extends Activity {
 			doubleline_tv.performClick();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInlandAirlineticket");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityInlandAirlineticket"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

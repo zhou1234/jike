@@ -34,7 +34,7 @@ import com.jike.shanglv.Models.PolicyList;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 import com.jike.shanglv.slideexpandlistview.ActionSlideExpandableListView;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class SelectZhengceActivity extends Activity {
 	public static final String PLICYLISTSTR = "policylist_str";
@@ -174,8 +174,9 @@ public class SelectZhengceActivity extends Activity {
 									.get(PackageKeys.USERKEY.getString())
 									.toString()
 									+ "policylist" + str);
-					policyReturnJson = HttpUtils.getJsonContent(
-							ma.getServeUrl(), param);
+					// policyReturnJson = HttpUtils.getJsonContent(  
+					// ma.getServeUrl(), param);
+					policyReturnJson = HttpUtils.myPost(ma.getServeUrl(), param);
 					Message msg = new Message();
 					msg.what = 1;
 					handler.sendMessage(msg);
@@ -326,5 +327,20 @@ public class SelectZhengceActivity extends Activity {
 			}
 			return convertView;
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("SelectZhengceActivity"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("SelectZhengceActivity");
+		MobclickAgent.onPause(this);
+
 	}
 }

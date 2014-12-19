@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#FFFFFFFF" >
 
     <RelativeLayout
@@ -40,34 +40,32 @@
             android:src="@drawable/home" >
         </ImageButton>
     </RelativeLayout>
-    
-     <WebView
+
+    <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/text_bg" />
-     
-     <LinearLayout
+
+    <LinearLayout
         android:id="@+id/loading_ll"
-        android:layout_below="@+id/text_bg" 
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@+id/text_bg"
         android:background="@color/white"
-        android:padding="10dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <ImageView
             android:id="@+id/frame_ani_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="150dp"
-             />
+            android:layout_marginTop="150dp" />
     </LinearLayout>
 
-  <!-- 
+    <!--
    <TextView
         android:id="@+id/yue"
         android:layout_width="wrap_content"
@@ -103,5 +101,6 @@
         android:text="@string/chongzhi"
         android:textColor="#FFF0F0F0"
         android:textSize="20sp" />
- 	-->
+    -->
+
 </RelativeLayout>

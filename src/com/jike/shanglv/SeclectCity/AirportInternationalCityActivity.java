@@ -32,13 +32,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jike.shanglv.MainActivity;
+import com.jike.shanglv.MainActivityN;
 import com.jike.shanglv.MyApplication;
 import com.jike.shanglv.Common.DateUtil;
 import com.jike.shanglv.SeclectCity.SideBar.OnTouchingLetterChangedListener;
 import com.jike.shanglv.R;
+import com.umeng.analytics.MobclickAgent;
 
 public class AirportInternationalCityActivity extends Activity {
-	
+
 	private ImageButton back_imgbtn, home_imgbtn;
 	private ListView sortListView;
 	private SideBar sideBar;
@@ -46,22 +48,22 @@ public class AirportInternationalCityActivity extends Activity {
 	private SortAdapter adapter;
 	private ClearEditText mClearEditText;
 	private Context context;
-	private Boolean isInlandCity=true;
-	
+	private Boolean isInlandCity = true;
+
 	private ImageView scrollbar_iv;
 	private TextView inland_city_tv, international_city_tv;
 	private float screenWidth;// 手机屏幕宽度
 	private int bmpW;// 动画图片宽度
 	private int offset = 0;// 动画图片偏移量
 	private Animation animation;
-	private int one ;
-	
+	private int one;
+
 	/**
 	 * 汉字转换成拼音的类
 	 */
 	private CharacterParser characterParser;
 	private List<AirportCityModel> SourceDateList;
-	
+
 	/**
 	 * 根据拼音来排列ListView里面的数据类
 	 */
@@ -69,9 +71,9 @@ public class AirportInternationalCityActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.city_select_international_activity);
-		context=this;
+		context = this;
 		initViews();
-		((MyApplication)getApplication()).addActivity(this);
+		((MyApplication) getApplication()).addActivity(this);
 	}
 
 	private void initViews() {
@@ -94,19 +96,19 @@ public class AirportInternationalCityActivity extends Activity {
 			public void onClick(View v) {
 				inland_city_tv.setTextColor(context.getResources().getColor(
 						R.color.blue_title_color));
-				international_city_tv.setTextColor(context.getResources().getColor(
-						R.color.black_txt_color));
-				isInlandCity=true;
-//				wayType = SingleOrDouble.singleWay;
-//				date_choose_single_rl.setVisibility(View.VISIBLE);
-//				date_choose_double_rl.setVisibility(View.INVISIBLE);
+				international_city_tv.setTextColor(context.getResources()
+						.getColor(R.color.black_txt_color));
+				isInlandCity = true;
+				// wayType = SingleOrDouble.singleWay;
+				// date_choose_single_rl.setVisibility(View.VISIBLE);
+				// date_choose_double_rl.setVisibility(View.INVISIBLE);
 
 				animation = new TranslateAnimation(one, 0, 0, 0);
 				animation.setFillAfter(true);// True:图片停在动画结束位置
 				animation.setDuration(300);
 				scrollbar_iv.startAnimation(animation);
-				
-				SourceDateList = getAirportCityModel() ;
+
+				SourceDateList = getAirportCityModel();
 				sortCities();
 				adapter = new SortAdapter(context, SourceDateList);
 				sortListView.setAdapter(adapter);
@@ -117,23 +119,22 @@ public class AirportInternationalCityActivity extends Activity {
 			public void onClick(View v) {
 				inland_city_tv.setTextColor(context.getResources().getColor(
 						R.color.black_txt_color));
-				international_city_tv.setTextColor(context.getResources().getColor(
-						R.color.blue_title_color));
-				isInlandCity=false;
+				international_city_tv.setTextColor(context.getResources()
+						.getColor(R.color.blue_title_color));
+				isInlandCity = false;
 
 				animation = new TranslateAnimation(offset, one, 0, 0);
 				animation.setFillAfter(true);// True:图片停在动画结束位置
 				animation.setDuration(300);
 				scrollbar_iv.startAnimation(animation);
-				
-				SourceDateList = getAirportCityModel() ;
+
+				SourceDateList = getAirportCityModel();
 				sortCities();
 				adapter = new SortAdapter(context, SourceDateList);
 				sortListView.setAdapter(adapter);
 			}
 		});
-		
-		
+
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
 		home_imgbtn = (ImageButton) findViewById(R.id.home_imgbtn);
 		back_imgbtn.setOnClickListener(new View.OnClickListener() {
@@ -145,78 +146,86 @@ public class AirportInternationalCityActivity extends Activity {
 		home_imgbtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(context, MainActivity.class));
+				startActivity(new Intent(context, MainActivityN.class));
 			}
 		});
-		
-		//实例化汉字转拼音类
+
+		// 实例化汉字转拼音类
 		characterParser = CharacterParser.getInstance();
 		sideBar = (SideBar) findViewById(R.id.sidrbar);
 		dialog = (TextView) findViewById(R.id.dialog);
 		sideBar.setTextView(dialog);
-		
-		//设置右侧触摸监听
+
+		// 设置右侧触摸监听
 		sideBar.setOnTouchingLetterChangedListener(new OnTouchingLetterChangedListener() {
-			
+
 			@Override
 			public void onTouchingLetterChanged(String s) {
-				//该字母首次出现的位置
+				// 该字母首次出现的位置
 				int position = adapter.getPositionForSection(s.charAt(0));
-				if(position != -1){
+				if (position != -1) {
 					sortListView.setSelection(position);
 				}
 			}
 		});
-		
+
 		sortListView = (ListView) findViewById(R.id.country_lvcountry);
 		sortListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				//这里要利用adapter.getItem(position)来获取当前position所对应的对象
-				//Toast.makeText(getApplication(), ((ContactModel)adapter.getItem(position)).getCityName(), Toast.LENGTH_SHORT).show();
-				//返回城市名称及三字码
+				// 这里要利用adapter.getItem(position)来获取当前position所对应的对象
+				// Toast.makeText(getApplication(),
+				// ((ContactModel)adapter.getItem(position)).getCityName(),
+				// Toast.LENGTH_SHORT).show();
+				// 返回城市名称及三字码
 				setResult(
 						0,
-						getIntent().putExtra("pickedCity",
-								((AirportCityModel)adapter.getItem(position)).getCityName()+
-								"#"+
-								((AirportCityModel)adapter.getItem(position)).getAirportcode()));
+						getIntent().putExtra(
+								"pickedCity",
+								((AirportCityModel) adapter.getItem(position))
+										.getCityName()
+										+ "#"
+										+ ((AirportCityModel) adapter
+												.getItem(position))
+												.getAirportcode()));
 				finish();
 			}
 		});
-		
-		SourceDateList = getAirportCityModel() ;
-				//filledData(getResources().getStringArray(R.array.date));
-		
+
+		SourceDateList = getAirportCityModel();
+		// filledData(getResources().getStringArray(R.array.date));
+
 		// 根据a-z进行排序源数据
-		//Collections.sort(SourceDateList, pinyinComparator);
+		// Collections.sort(SourceDateList, pinyinComparator);
 		sortCities();
 		adapter = new SortAdapter(context, SourceDateList);
 		sortListView.setAdapter(adapter);
-		
+
 		mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
-		
-		//根据输入框输入值的改变来过滤搜索
+
+		// 根据输入框输入值的改变来过滤搜索
 		mClearEditText.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				//当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// 当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
 				filterData(s.toString());
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 			}
+
 			@Override
 			public void afterTextChanged(Editable s) {
 			}
 		});
 	}
-	
+
 	/*
 	 * 对城市列表进行排序
 	 */
@@ -224,9 +233,9 @@ public class AirportInternationalCityActivity extends Activity {
 		Comparator<AirportCityModel> comparator = new Comparator<AirportCityModel>() {
 			@Override
 			public int compare(AirportCityModel s1, AirportCityModel s2) {
-				if (s1.ishot.compareTo(s2.ishot)!=0) {
+				if (s1.ishot.compareTo(s2.ishot) != 0) {
 					return s2.ishot.compareTo(s1.ishot);
-				}else if (s1.shortchar.compareTo(s2.shortchar) != 0) {
+				} else if (s1.shortchar.compareTo(s2.shortchar) != 0) {
 					return s1.shortchar.compareTo(s2.shortchar);
 				} else {
 					return s1.englishname.compareTo(s2.englishname);
@@ -235,13 +244,15 @@ public class AirportInternationalCityActivity extends Activity {
 		};
 		Collections.sort(SourceDateList, comparator);
 	}
-	
+
 	private ArrayList<AirportCityModel> getAirportCityModel() {
 		ArrayList<AirportCityModel> names = new ArrayList<AirportCityModel>();
 		try {
 			String jsonStr;
-			if(isInlandCity)jsonStr = getJson("city");
-			else jsonStr = getJson("inter");
+			if (isInlandCity)
+				jsonStr = getJson("city");
+			else
+				jsonStr = getJson("inter");
 			JSONTokener jsonParser = new JSONTokener(jsonStr);
 			JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
 			String cities = jsonObject.getString("d");
@@ -261,7 +272,7 @@ public class AirportInternationalCityActivity extends Activity {
 				acm.pinyin = object.getString("pinyin");
 				acm.ishot = object.getString("ishot");
 				if (acm.ishot.equals("1")) {
-					acm.shortchar="热门";
+					acm.shortchar = "热门";
 				}
 				names.add(acm);
 			}
@@ -296,64 +307,91 @@ public class AirportInternationalCityActivity extends Activity {
 
 	/**
 	 * 为ListView填充数据
+	 * 
 	 * @param date
 	 * @return
 	 */
-	private List<AirportCityModel> filledData(String [] date){
+	private List<AirportCityModel> filledData(String[] date) {
 		List<AirportCityModel> mSortList = new ArrayList<AirportCityModel>();
-		
-		for(int i=0; i<date.length; i++){
+
+		for (int i = 0; i < date.length; i++) {
 			AirportCityModel AirportCityModel = new AirportCityModel();
 			AirportCityModel.setCityName(date[i]);
-			//汉字转换成拼音
+			// 汉字转换成拼音
 			String pinyin = characterParser.getSelling(date[i]);
 			String sortString = pinyin.substring(0, 1).toUpperCase();
-			
+
 			// 正则表达式，判断首字母是否是英文字母
-			if(sortString.matches("[A-Z]")){
+			if (sortString.matches("[A-Z]")) {
 				AirportCityModel.setNameSort(sortString.toUpperCase());
-			}else{
+			} else {
 				AirportCityModel.setNameSort("#");
 			}
 			mSortList.add(AirportCityModel);
 		}
 		return mSortList;
 	}
-	
+
 	/**
 	 * 根据输入框中的值来过滤数据并更新ListView
+	 * 
 	 * @param filterStr
 	 */
-	private void filterData(String filterStr){
+	private void filterData(String filterStr) {
 		List<AirportCityModel> filterDateList = new ArrayList<AirportCityModel>();
-		
-		if(TextUtils.isEmpty(filterStr)){
+
+		if (TextUtils.isEmpty(filterStr)) {
 			filterDateList = SourceDateList;
-		}else{
+		} else {
 			filterDateList.clear();
-			for(AirportCityModel AirportCityModel : SourceDateList){
+			for (AirportCityModel AirportCityModel : SourceDateList) {
 				String name = AirportCityModel.getCityName();
-				if(name.indexOf(filterStr.toString()) != -1 || characterParser.getSelling(name).startsWith(filterStr.toString())){
+				if (name.indexOf(filterStr.toString()) != -1
+						|| characterParser.getSelling(name).startsWith(
+								filterStr.toString())) {
 					filterDateList.add(AirportCityModel);
 				}
-				
-				if(name.indexOf(filterStr.toString()) != -1 || AirportCityModel.getAirportcode().startsWith(filterStr.toString())){
+
+				if (name.indexOf(filterStr.toString()) != -1
+						|| AirportCityModel.getAirportcode().startsWith(
+								filterStr.toString())) {
 					filterDateList.add(AirportCityModel);
 				}
-				if(name.indexOf(filterStr.toString()) != -1 || AirportCityModel.getEnglishname().startsWith(filterStr.toString())){
+				if (name.indexOf(filterStr.toString()) != -1
+						|| AirportCityModel.getEnglishname().startsWith(
+								filterStr.toString())) {
 					filterDateList.add(AirportCityModel);
 				}
-				if(name.indexOf(filterStr.toString()) != -1 || AirportCityModel.getPinyin().startsWith(filterStr.toString())){
+				if (name.indexOf(filterStr.toString()) != -1
+						|| AirportCityModel.getPinyin().startsWith(
+								filterStr.toString())) {
 					filterDateList.add(AirportCityModel);
 				}
-				if(name.indexOf(filterStr.toString()) != -1 || AirportCityModel.getNameSort().startsWith(filterStr.toString())){
+				if (name.indexOf(filterStr.toString()) != -1
+						|| AirportCityModel.getNameSort().startsWith(
+								filterStr.toString())) {
 					filterDateList.add(AirportCityModel);
 				}
 			}
 		}
-		filterDateList=DateUtil.removeDuplicateWithOrder(filterDateList);
+		filterDateList = DateUtil.removeDuplicateWithOrder(filterDateList);
 		// 根据a-z进行排序
 		sortCities();
 		adapter.updateListView(filterDateList);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("AirportInternationalCityActivity"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("AirportInternationalCityActivity");
+		MobclickAgent.onPause(this);
+
 	}
 }

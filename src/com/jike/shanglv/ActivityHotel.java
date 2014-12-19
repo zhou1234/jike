@@ -42,6 +42,7 @@ import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Common.DateUtil;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityHotel extends Activity {
@@ -166,7 +167,7 @@ public class ActivityHotel extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.my_position_ll:
 					myNear();
@@ -540,4 +541,19 @@ public class ActivityHotel extends Activity {
 			this.currentID = currentID;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotel");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotel"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

@@ -24,7 +24,7 @@ import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
-
+import com.umeng.analytics.MobclickAgent;
 
 //import android.content.DialogInterface.OnClickListener;
 
@@ -231,4 +231,19 @@ public class ActivityChangePsw extends Activity {
 			}
 		}
 	};
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityChangePsw");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityChangePsw"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

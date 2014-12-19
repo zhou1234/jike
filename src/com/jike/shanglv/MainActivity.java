@@ -1,9 +1,7 @@
 package com.jike.shanglv;
 
-
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
 
 import android.app.ActivityGroup;
 import android.content.Context;
@@ -17,6 +15,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -32,28 +33,34 @@ import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 import com.jike.shanglv.NetAndJson.UserInfo;
 import com.jike.shanglv.Update.UpdateManager;
+import com.jike.shanglv.supercollection.ActivityQianbao;
 import com.jike.shanglv.weixin.PayActivity;
+import com.umeng.analytics.MobclickAgent;
 
 @SuppressWarnings({ "deprecation", "unused" })
 public class MainActivity extends ActivityGroup implements
 		OnCheckedChangeListener {
 
 	public static MainActivity instance = null;
-	private RadioGroup radio_group;
+	private RadioGroup radio_group;            
 	private Intent mIntent;
 	private ViewFlipper container;
 	private RadioButton radio_order, radio_home, radio_mine, radio_more;
-	private Context context;
+	private Context context;                   
 	private SharedPreferences sp;
-	private String loginReturnJson = "";
+	private String loginReturnJson = "";  
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
 			super.onCreate(savedInstanceState);
+//			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//			int FULLSCREEN = WindowManager.LayoutParams.FLAG_FULLSCREEN;   
+//			this.getWindow().setFlags(FULLSCREEN, FULLSCREEN);
 			setContentView(R.layout.activity_main);
 			((MyApplication) getApplication()).addActivity(this);
 			// goB2BHome();
+			// MobclickAgent.updateOnlineConfig(context);
 			initView();
 			initHomePage();
 			radio_group.setOnCheckedChangeListener(this);
@@ -238,8 +245,8 @@ public class MainActivity extends ActivityGroup implements
 			switchPage(2);
 			break;
 		case R.id.radio_more:
-			startActivity(new Intent(context, PayActivity.class));
-			// switchPage(3);
+			// startActivity(new Intent(context, ActivityQianbao.class));
+			switchPage(3);
 			break;
 		default:
 			break;
@@ -294,6 +301,7 @@ public class MainActivity extends ActivityGroup implements
 				mExitTime = System.currentTimeMillis();
 
 			} else {
+				MobclickAgent.onKillProcess(context);
 				// finish();
 				// SysApplication.getInstance().exit();
 				((MyApplication) getApplication()).exit();
@@ -301,9 +309,24 @@ public class MainActivity extends ActivityGroup implements
 				finish();
 				System.exit(0);
 				// http://864331652.blog.163.com/blog/static/1168625632013415112635566/
+
+				// overridePendingTransition();
 			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+
 	}
 }

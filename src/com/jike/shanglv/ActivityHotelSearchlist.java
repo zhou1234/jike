@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
@@ -59,6 +60,7 @@ import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHotelSearchlist extends Activity implements
 		RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener {
@@ -82,7 +84,7 @@ public class ActivityHotelSearchlist extends Activity implements
 	private ArrayList<Hotel> reqdata_List;
 	private JSONArray listArray;
 
-	int pgsize = 20, pgindex = 1, reqdata_List_size = 0;// 页大小、待请求的页,数据列表长度
+	int pgsize = 10, pgindex = 1, reqdata_List_size = 0;// 页大小、待请求的页,数据列表长度
 	String minprice = "", maxprice = "", star = "",// 价格区间，星级54321
 			totalput = "", totalpg = "";
 
@@ -91,21 +93,19 @@ public class ActivityHotelSearchlist extends Activity implements
 	private String myaddress;
 	private Boolean isNearby = false;
 
-	MapView mMapView = null;
-	BaiduMap mBaidumap = null;
-	Hotel maphotel;// 酒店地图中，标注的酒店信息，使用全局变量以便事件处理
+	private MapView mMapView = null;
+	private BaiduMap mBaidumap = null;
+	private Hotel maphotel;// 酒店地图中，标注的酒店信息，使用全局变量以便事件处理
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		try {
-			super.onCreate(savedInstanceState);
-			SDKInitializer.initialize(getApplicationContext());
-			setContentView(R.layout.activity_hotel_searchlist);
-			initView();
-			startQuery();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+
+		super.onCreate(savedInstanceState);
+		SDKInitializer.initialize(getApplicationContext());
+		setContentView(R.layout.activity_hotel_searchlist);
+		initView();
+		startQuery();
+
 		((MyApplication) getApplication()).addActivity(this);
 	}
 
@@ -382,6 +382,7 @@ public class ActivityHotelSearchlist extends Activity implements
 
 	/**
 	 * 构建list对象
+	 * 
 	 * @param reqdata
 	 */
 	private void createList(JSONArray reqdata) {
@@ -828,6 +829,7 @@ public class ActivityHotelSearchlist extends Activity implements
 		return convertView;
 	}
 
+	@SuppressLint("InflateParams")
 	private class ListAdapter extends BaseAdapter {
 		private LayoutInflater inflater;
 		private List<Hotel> str;
@@ -841,7 +843,7 @@ public class ActivityHotelSearchlist extends Activity implements
 
 		@Override
 		public int getCount() {
-			return str.size();
+			return str.size();   
 		}
 
 		public void updateListView(List<Hotel> list) {
@@ -932,7 +934,6 @@ public class ActivityHotelSearchlist extends Activity implements
 			LoadMoreDataAsynTask mLoadMoreAsynTask = new LoadMoreDataAsynTask();
 			mLoadMoreAsynTask.execute();
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -942,7 +943,6 @@ public class ActivityHotelSearchlist extends Activity implements
 			RefreshDataAsynTask mRefreshAsynTask = new RefreshDataAsynTask();
 			mRefreshAsynTask.execute();
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -965,7 +965,6 @@ public class ActivityHotelSearchlist extends Activity implements
 				adapter.refreshData(reqdata_List);
 				listview.onRefreshComplete();
 			} catch (Exception e) {
-				// TODO: handle exception
 			}
 		}
 	}
@@ -998,7 +997,8 @@ public class ActivityHotelSearchlist extends Activity implements
 	protected void onDestroy() {
 		super.onDestroy();
 		// 在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-		mMapView.onDestroy();
+		// mMapView.onDestroy();
+
 	}
 
 	@Override
@@ -1006,6 +1006,8 @@ public class ActivityHotelSearchlist extends Activity implements
 		super.onResume();
 		// 在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
 		mMapView.onResume();
+		MobclickAgent.onPageStart("ActivityHotelSearchlist"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
 	@Override
@@ -1013,5 +1015,8 @@ public class ActivityHotelSearchlist extends Activity implements
 		super.onPause();
 		// 在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
 		mMapView.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelSearchlist");
+		MobclickAgent.onPause(this);
+
 	}
 }

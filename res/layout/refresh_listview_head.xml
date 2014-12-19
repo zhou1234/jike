@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="下拉可以刷新"
-                android:textColor="@color/black6"
+                android:textColor="@color/login_text_color"
                 android:textSize="16sp" />
 
             <!-- 最近更新 -->
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="上次更新"
-                android:textColor="@color/gold"
+                android:textColor="@color/abc_search_url_text_pressed"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -75,7 +75,7 @@
             android:layout_width="fill_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:background="@color/deep_gray" >
+            android:background="@color/login_text_color" >
         </View>
     </RelativeLayout>
 

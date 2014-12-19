@@ -42,6 +42,7 @@ import com.jike.shanglv.LazyList.ImageLoader;
 import com.jike.shanglv.Models.Hangbandongtai;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 
 @SuppressLint("ResourceAsColor")
@@ -102,7 +103,7 @@ public class ActivityHangbandongtaiSearchlist extends Activity implements
 		home_imgbtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(context, MainActivity.class));
+				startActivity(new Intent(context, MainActivityN.class));
 			}
 		});
 		getIntentData();
@@ -490,4 +491,19 @@ public class ActivityHangbandongtaiSearchlist extends Activity implements
 			}
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHangbandongtaiSearchlist");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHangbandongtaiSearchlist"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

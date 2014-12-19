@@ -35,7 +35,7 @@
     <color name="select">#98aacc</color>
     <color name="ef_gray_bg">#efefef</color>
     <color name="skyblue">#4f849e</color>
-    <color name="GridDividGrayLine">#e3e3e3</color>
+    <color name="GridDividGrayLine">#eeeeee</color>
     <color name="color_462C00">#462C00</color>
     <color name="navpage">#FFE1E8EB</color>
     <color name="lightgrey">#ff888888</color>
@@ -44,5 +44,13 @@
     <color name="toasterro">#9fd524</color>
     <color name="semitransparent">#80000000</color>
     <color name="lightransparent">#a0000000</color>
+    <color name="login_text_color">#666666</color>
+    <color name="bg_color">#f2f2f2</color>
+    <color name="title_bg_color">#1192CB</color>
+    <color name="white_text_color">#FFF0F0F0</color>
+    <color name="line_color">#dddddd</color>
+    <color name="white_color">#ffffff</color>
+    <color name="gray_hint_text_color">#CCCCCC</color>
+    <color name="list_text_blue">#63B8F0</color>
 
 </resources>

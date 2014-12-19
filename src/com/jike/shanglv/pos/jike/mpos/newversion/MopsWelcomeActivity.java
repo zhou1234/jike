@@ -38,6 +38,7 @@ import com.jike.shanglv.pos.alipay.android.mpos.demo.helper.PartnerConfig;
 import com.jike.shanglv.pos.alipay.android.mpos.demo.pos.MPosConntion;
 import com.jike.shanglv.pos.alipay.android.mpos.demo.pos.ParamsItem;
 import com.jike.shanglv.pos.alipay.android.mpos.demo.pos.ResultCallback;
+import com.umeng.analytics.MobclickAgent;
 
 public class MopsWelcomeActivity extends BaseActivity {
 
@@ -568,5 +569,18 @@ public class MopsWelcomeActivity extends BaseActivity {
 		}
 		return type;
 	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("MopsWelcomeActivity"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("MopsWelcomeActivity");
+		MobclickAgent.onPause(this);
+
+	}
 }

@@ -1,8 +1,5 @@
 package com.jike.shanglv;
 
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import android.app.Activity;
 //import android.content.DialogInterface;
 //import android.content.DialogInterface.OnClickListener;
@@ -10,9 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,15 +14,9 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Common.CustomerAlertDialog;
-import com.jike.shanglv.Enums.PackageKeys;
-import com.jike.shanglv.Enums.Platform;
 import com.jike.shanglv.Enums.SPkeys;
-import com.jike.shanglv.NetAndJson.HttpUtils;
-import com.jike.shanglv.NetAndJson.JSONHelper;
-import com.jike.shanglv.NetAndJson.UserInfo;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityMyAccout extends Activity {
 	private ImageButton back_iv;
@@ -115,8 +103,10 @@ public class ActivityMyAccout extends Activity {
 							sp.edit()
 									.putBoolean(SPkeys.loginState.getString(),
 											false).commit();
-							sp.edit().remove(SPkeys.showCustomer.toString()).commit();
-							sp.edit().remove(SPkeys.showDealer.toString()).commit();
+							sp.edit().remove(SPkeys.showCustomer.toString())
+									.commit();
+							sp.edit().remove(SPkeys.showDealer.toString())
+									.commit();
 							sp.edit().remove(SPkeys.utype.toString()).commit();
 							finish();
 							cad.dismiss();
@@ -150,4 +140,20 @@ public class ActivityMyAccout extends Activity {
 			}
 		}
 	};
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityMyAccout");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityMyAccout"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

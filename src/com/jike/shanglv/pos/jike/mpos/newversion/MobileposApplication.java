@@ -11,9 +11,9 @@ import java.net.URL;
 
 import org.apache.http.protocol.HTTP;
 
-import android.app.Application;
-
 import com.alipay.wireless.sys.ApplicationGlobal;
+
+import android.app.Application;
 
 /**
  * 

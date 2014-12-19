@@ -47,6 +47,7 @@ import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.DealerLevel;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityClientManageSetGrad extends Activity {
@@ -757,4 +758,19 @@ public class ActivityClientManageSetGrad extends Activity {
 			this.currentID = currentID;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityClientManageSetGrad");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityClientManageSetGrad"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

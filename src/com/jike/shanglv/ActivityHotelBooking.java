@@ -58,6 +58,7 @@ import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.HotelRoom;
 import com.jike.shanglv.Models.HotelRoomComfirm;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHotelBooking extends Activity {
 
@@ -102,8 +103,8 @@ public class ActivityHotelBooking extends Activity {
 	private ArrayList<Map<String, Object>> arriveTimeList = new ArrayList<Map<String, Object>>();
 	int totalPrice = 0;// 一间房N天的房价 显示时需乘以房间数
 
-	private int month,hour,day;
-	
+	private int month, hour, day;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
@@ -112,7 +113,6 @@ public class ActivityHotelBooking extends Activity {
 			initView();
 			getDate();
 			getIntentString();
-			Toast.makeText(this, ruzhu_date+"", 1000).show();
 			startQueryRoomsRI();
 			((MyApplication) getApplication()).addActivity(this);
 		} catch (Exception e) {
@@ -238,6 +238,21 @@ public class ActivityHotelBooking extends Activity {
 		identificationType_rl.setOnClickListener(clickListener);
 
 		arriveTimeList = initArriveTimeData();
+
+		// 对于常用联系人，直接返回上次订票时的联系人手机号，若不存在则返回本机手机号码
+		if (sp.getString(SPkeys.hoteContactPhone.getString(), "").equals("")) {
+			if (CommonFunc.getPhoneNumber(context).equals("")) {
+				contact_person_phone_cet.setText(sp.getString(
+						SPkeys.userphone.getString(), ""));
+			} else {
+				contact_person_phone_cet.setText(CommonFunc
+						.getPhoneNumber(context));
+			}
+		} else {
+			contact_person_phone_cet.setText(sp.getString(
+					SPkeys.hoteContactPhone.getString(), ""));
+		}
+
 	}
 
 	View.OnClickListener clickListener = new View.OnClickListener() {
@@ -249,7 +264,7 @@ public class ActivityHotelBooking extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.contact_person_phone_iv:
 					startActivityForResult(
@@ -894,6 +909,11 @@ public class ActivityHotelBooking extends Activity {
 				}
 			});
 			return false;
+		} else {
+			sp.edit()
+					.putString(SPkeys.hoteContactPhone.getString(),
+							contact_person_phone_cet.getText().toString())
+					.commit();
 		}
 		if (need_guarantee) {
 			if (creditCard_num_cet.getText().toString().trim().length() == 0) {
@@ -1231,18 +1251,18 @@ public class ActivityHotelBooking extends Activity {
 		});
 	}
 
-	private void getDate(){
-		Calendar calendar=Calendar.getInstance();
-		month=calendar.get(Calendar.MONTH)+1;
-		day=calendar.get(Calendar.DAY_OF_MONTH);
-		hour=calendar.get(Calendar.HOUR_OF_DAY);
+	private void getDate() {
+		Calendar calendar = Calendar.getInstance();
+		month = calendar.get(Calendar.MONTH) + 1;
+		day = calendar.get(Calendar.DAY_OF_MONTH);
+		hour = calendar.get(Calendar.HOUR_OF_DAY);
 	}
-	
+
 	private ArrayList<Map<String, Object>> initArriveTimeData() {
 		ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("title", "18:00之前");
-		if (hour<18) {
+		if (hour < 18) {
 			list.add(map);
 		}
 		map = new HashMap<String, Object>();
@@ -1350,4 +1370,20 @@ public class ActivityHotelBooking extends Activity {
 			this.currentID = currentID;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelBooking");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotelBooking"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

@@ -51,6 +51,7 @@ import com.jike.shanglv.Models.HotelDetail;
 import com.jike.shanglv.Models.HotelRoom;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHotelDetail extends Activity {
 
@@ -189,7 +190,7 @@ public class ActivityHotelDetail extends Activity {
 					@Override
 					public void onClick(View v) {
 						startActivity(new Intent(ActivityHotelDetail.this,
-								MainActivity.class));
+								MainActivityN.class));
 					}
 				});
 
@@ -777,4 +778,19 @@ public class ActivityHotelDetail extends Activity {
 			return convertView;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelDetail");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotelDetail"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

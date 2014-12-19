@@ -28,12 +28,17 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jike.shanglv.Common.MyGridView;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
+import com.jike.shanglv.LazyList.Utils;
 import com.jike.shanglv.Models.AdShow;
 import com.jike.shanglv.Models.HomeGridCell;
+import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.jike.shanglv.supercollection.ActivityQianbao;
+import com.umeng.analytics.MobclickAgent;
 
 public class HomeActivityNew extends Activity {
 
@@ -109,8 +114,11 @@ public class HomeActivityNew extends Activity {
 				intent.putExtra(Activity_Web_Frame.TITLE, "微平台");
 				intent.putExtra(Activity_Web_Frame.URL, getResources()
 						.getString(R.string.weipingtai_url));
+				Intent intent4 = new Intent(context, ActivityQianbao.class);
+				cells.add(new HomeGridCell(-1, R.drawable.qianbao, "钱包", intent4));
 				cells.add(new HomeGridCell(-1, R.drawable.sxy, "商学院", intent3));
 				cells.add(new HomeGridCell(-1, R.drawable.wpt, "微平台", intent));
+				
 			}
 			if (sp.getString(SPkeys.showCustomer.getString(), "0").equals("1")) {
 				Intent intent2 = new Intent(context, ActivityClientManage.class);
@@ -255,10 +263,10 @@ public class HomeActivityNew extends Activity {
 	private void initAd() {
 		try {
 			adsList = new ArrayList<AdShow>();
-			adsList.add(new AdShow(
-					"http://b2b.51jp.cn/App_Themes/default/Images/Login_v2/banner_dzx.gif",
-					"http://b2b.51jp.cn/ComInfoDetail.aspx?id=198",
-					"舌尖上的美食，大闸蟹", "大闸蟹"));
+			// adsList.add(new AdShow(
+			// "http://b2b.51jp.cn/App_Themes/default/Images/Login_v2/banner_dzx.gif",
+			// "http://b2b.51jp.cn/ComInfoDetail.aspx?id=198",
+			// "舌尖上的美食，大闸蟹", "大闸蟹"));
 			adsList.add(new AdShow(
 					"http://b2b.51jp.cn/App_Themes/default/Images/Login_v2/banner0.png",
 					"http://b2b.51jp.cn/Wallet/cash", "商旅钱包，可以省钱的钱包", "商旅钱包"));
@@ -267,12 +275,11 @@ public class HomeActivityNew extends Activity {
 					"http://www.51jp.cn/Cooperation.asp", "商旅管家，一站式服务平台",
 					"商旅管家"));
 
-			imageResId = new int[] { R.drawable.ad_two, R.drawable.ad_one,
-					R.drawable.ad_three };
+			imageResId = new int[] { R.drawable.ad_one, R.drawable.ad_three };// R.drawable.ad_two,
 			titles = new String[imageResId.length];
-			titles[0] = "舌尖上的美食，大闸蟹";
-			titles[1] = "商旅钱包，可以省钱的钱包";
-			titles[2] = "商旅管家，一站式服务平台";
+			// titles[0] = "舌尖上的美食，大闸蟹";
+			titles[0] = "商旅钱包，可以省钱的钱包";
+			titles[1] = "商旅管家，一站式服务平台";
 
 			imageViews = new ArrayList<ImageView>();
 
@@ -436,5 +443,18 @@ public class HomeActivityNew extends Activity {
 		public void finishUpdate(View arg0) {
 
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("HomeActivityNew"); // 统计页面
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("HomeActivityNew");
+
 	}
 }

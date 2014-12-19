@@ -37,7 +37,7 @@ import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityTrainOrderDetail extends Activity {
 
@@ -135,7 +135,7 @@ public class ActivityTrainOrderDetail extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.pay_now_btn:
 					final CustomerAlertDialog cad = new CustomerAlertDialog(
@@ -435,5 +435,19 @@ public class ActivityTrainOrderDetail extends Activity {
 			}
 			return convertView;
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityTrainOrderDetail");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityTrainOrderDetail"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 }

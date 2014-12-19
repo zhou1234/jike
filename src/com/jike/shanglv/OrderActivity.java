@@ -1,7 +1,7 @@
 package com.jike.shanglv;
 
 import com.jike.shanglv.Enums.SPkeys;
-
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -35,7 +35,7 @@ public class OrderActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					startActivity(new Intent(OrderActivity.this,
-							MainActivity.class));
+							MainActivityN.class));
 				}
 			});
 			((RelativeLayout) findViewById(R.id.gnjp_rl))
@@ -50,6 +50,7 @@ public class OrderActivity extends Activity {
 					.setOnClickListener(btnClickListner);
 			((RelativeLayout) findViewById(R.id.gjjp_xqd_rl))
 					.setOnClickListener(btnClickListner);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -98,8 +99,7 @@ public class OrderActivity extends Activity {
 							ActivityOrderList.PHONE_ORDERLIST);
 					intent.putExtra(ActivityOrderList.TITLE_TOKENNAME, "话费充值订单");
 					break;
-				default:
-					break;
+
 				}
 				startActivity(intent);
 			} catch (Exception e) {
@@ -107,4 +107,17 @@ public class OrderActivity extends Activity {
 			}
 		}
 	};
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("OrderActivity"); // 统计页面
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("OrderActivity");
+
+	}
 }

@@ -11,6 +11,7 @@ import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 
 import android.app.Activity;
@@ -416,4 +417,19 @@ public class Activity_RetrievePassword extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("Activity_RetrievePassword");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("Activity_RetrievePassword"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	
 }

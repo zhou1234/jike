@@ -1,6 +1,7 @@
 //用户登录
 package com.jike.shanglv;
 
+
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import android.app.Activity;
@@ -35,6 +36,7 @@ import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 import com.jike.shanglv.NetAndJson.UserInfo;
 import com.jike.shanglv.Update.UpdateManager;
+import com.umeng.analytics.MobclickAgent;
 
 public class Activity_Login extends Activity {
 
@@ -122,10 +124,9 @@ public class Activity_Login extends Activity {
 			autologin_rl.setOnClickListener(myListener);
 			registernew_tv.setOnClickListener(myListener);
 			forgetpassword_tv.setOnClickListener(myListener);
-//			if ((new MyApp(context)).getHm().get(
-//					PackageKeys.PLATFORM.getString()) == Platform.B2B)
-			if(sp.getString(SPkeys.utype.getString(), "0").equals(
-					"1")){
+			// if ((new MyApp(context)).getHm().get(
+			// PackageKeys.PLATFORM.getString()) == Platform.B2B)
+			if (sp.getString(SPkeys.utype.getString(), "0").equals("1")) {
 				registernew_tv.setVisibility(View.INVISIBLE);
 			}
 		} catch (Exception e) {
@@ -142,7 +143,7 @@ public class Activity_Login extends Activity {
 				JSONTokener jsonParser;
 				jsonParser = new JSONTokener(loginReturnJson);
 				try {
-					if (loginReturnJson.length()==0) {
+					if (loginReturnJson.length() == 0) {
 						final CustomerAlertDialog cad = new CustomerAlertDialog(
 								context, true);
 						cad.setTitle("登录失败");
@@ -153,7 +154,7 @@ public class Activity_Login extends Activity {
 							}
 						});
 					}
-					
+
 					JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
 					String state = jsonObject.getString("c");
 
@@ -195,14 +196,19 @@ public class Activity_Login extends Activity {
 						sp.edit()
 								.putString(SPkeys.useremail.getString(),
 										user.getEmail()).commit();
-						sp.edit().putString(SPkeys.utype.getString(),
-								user.getUsertype()).commit();
-						sp.edit().putString(SPkeys.showCustomer.getString(),
-								user.getShowCustomer()).commit();
-						sp.edit().putString(SPkeys.showDealer.getString(),
-								user.getShowDealer()).commit();
-						sp.edit().putString(SPkeys.opensupperpay.getString(),
-								user.getOpensupperpay()).commit();
+						sp.edit()
+								.putString(SPkeys.utype.getString(),
+										user.getUsertype()).commit();
+						sp.edit()
+								.putString(SPkeys.showCustomer.getString(),
+										user.getShowCustomer()).commit();
+						sp.edit()
+								.putString(SPkeys.showDealer.getString(),
+										user.getShowDealer()).commit();
+						sp.edit()
+								.putString(SPkeys.opensupperpay.getString(),
+										user.getOpensupperpay()).commit();
+
 						// 其他信息以后用时再增加
 						// 登录后将登录状态置为true
 						sp.edit()
@@ -329,20 +335,20 @@ public class Activity_Login extends Activity {
 								} catch (NameNotFoundException e) {
 									e.printStackTrace();
 								}
-//								int utype = 0;
-//								Platform pf = (Platform) ma.getHm().get(
-//										PackageKeys.PLATFORM.getString());
-//								if (pf == Platform.B2B)
-//									utype = 1;
-//								else if (pf == Platform.B2C)
-//									utype = 2;
+								// int utype = 0;
+								// Platform pf = (Platform) ma.getHm().get(
+								// PackageKeys.PLATFORM.getString());
+								// if (pf == Platform.B2B)
+								// utype = 1;
+								// else if (pf == Platform.B2C)
+								// utype = 2;
 								String str = "{\"uname\":\""
 										+ uername_input_et.getText().toString()
 												.trim()
 										+ "\",\"upwd\":\""
 										+ password_input_et.getText()
 												.toString().trim()
-//										+ "\",\"utype\":\"" + utype
+										// + "\",\"utype\":\"" + utype
 										+ "\",\"version\":\"" + version + "\"}";
 								String param = "action=userlogin&sitekey=&userkey="
 										+ ma.getHm()
@@ -360,6 +366,13 @@ public class Activity_Login extends Activity {
 												+ "userlogin" + str);
 								loginReturnJson = HttpUtils.getJsonContent(
 										ma.getServeUrl(), param);
+
+								// URL url = new URL(ma.getServeUrl() + "?"
+								// + param);
+								//
+								// MobclickAgent.reportError(context,
+								//		url.toString());
+
 								Log.v("loginReturnJson", loginReturnJson);
 								Message msg = new Message();
 								msg.what = 1;
@@ -372,8 +385,6 @@ public class Activity_Login extends Activity {
 					progressdialog.setMessage("正在登录，请稍候...");
 					progressdialog.setCancelable(true);
 					progressdialog.show();
-					break;
-				default:
 					break;
 				}
 			} catch (Exception e) {
@@ -389,4 +400,20 @@ public class Activity_Login extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		MobclickAgent.onPageStart("Activity_Login"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("Activity_Login");
+		MobclickAgent.onPause(this);
+	}
+
 }

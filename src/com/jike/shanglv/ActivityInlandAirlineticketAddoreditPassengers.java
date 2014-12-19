@@ -1,5 +1,6 @@
 package com.jike.shanglv;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ import com.jike.shanglv.Common.IDCard;
 import com.jike.shanglv.Common.IdType;
 import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.NetAndJson.JSONHelper;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 
@@ -276,11 +277,14 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 					// passenger.setGender(gender);
 					// passenger.setBirthDay(birthDay);
 					// passenger.setIDdeadline(IDdeadline);
-					if (systype.equals("1")){
+					if (systype.equals("1")) {
 						passenger.setNation(nation_et.getText().toString());
 						passenger.setGender(gender_et.getText().toString());
-						passenger.setBirthDay(birthDay_et.getText().toString());
-						passenger.setIDdeadline(IDdeadline_et.getText().toString());
+
+						passenger.setBirthDay(birthDay_et.getText().toString()
+								.trim());
+						passenger.setIDdeadline(IDdeadline_et.getText()
+								.toString().trim());
 						issueAt = issueAt_et.getText().toString().trim();
 						passenger.setIssueAt(issueAt);
 					}
@@ -337,11 +341,11 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 										int year, int monthOfYear,
 										int dayOfMonth) {
 									// TODO Auto-generated method stub
-									IDdeadline_et.setText(year + "/"
-											+ (monthOfYear + 1) + "/"
+									IDdeadline_et.setText(year + "-"
+											+ (monthOfYear + 1) + "-"
 											+ dayOfMonth);
-									IDdeadline = year + "/" + (monthOfYear + 1)
-											+ "/" + dayOfMonth;
+									IDdeadline = year + "-" + (monthOfYear + 1)
+											+ "-" + dayOfMonth;
 								}
 							}, c.get(Calendar.YEAR), c.get(Calendar.MONTH),
 							c.get(Calendar.DAY_OF_MONTH)).show();
@@ -355,11 +359,11 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 										int year, int monthOfYear,
 										int dayOfMonth) {
 									// TODO Auto-generated method stub
-									birthDay_et.setText(year + "/"
-											+ (monthOfYear + 1) + "/"
+									birthDay_et.setText(year + "-"
+											+ (monthOfYear + 1) + "-"
 											+ dayOfMonth);
-									birthDay = year + "/" + (monthOfYear + 1)
-											+ "/" + dayOfMonth;
+									birthDay = year + "-" + (monthOfYear + 1)
+											+ "-" + dayOfMonth;
 								}
 							}, c1.get(Calendar.YEAR), c1.get(Calendar.MONTH),
 							c1.get(Calendar.DAY_OF_MONTH)).show();
@@ -834,4 +838,22 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 			this.currentID = currentID;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent
+				.onPageEnd("ActivityInlandAirlineticketAddoreditPassengers");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent
+				.onPageStart("ActivityInlandAirlineticketAddoreditPassengers"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

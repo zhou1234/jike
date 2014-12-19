@@ -36,7 +36,7 @@ import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityInlandAirlineticketOrderDetail extends Activity {
 
@@ -141,7 +141,7 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.pay_now_btn:
 					String userid = sp.getString(SPkeys.userid.getString(), "");
@@ -156,6 +156,14 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 					intent.putExtra(Activity_Web_Pay.URL, url);
 					intent.putExtra(Activity_Web_Pay.TITLE, "机票订单支付");
 					startActivity(intent);
+					// Intent intent = new Intent(context,
+					// Activity_Payway.class);
+					// intent.putExtra("orderID", orderID);
+					// intent.putExtra("paysystype", 1);
+					// intent.putExtra("body", "机票订单支付");
+					// intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT, amount);
+					// startActivity(intent);
+					// finish();
 					break;
 				default:
 					break;
@@ -173,8 +181,11 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 				orderID = intent.getStringExtra(ORDERRECEIPT);
 				// pnr=or.getPnr();//为了保持该页面的一致性（有可能来自列表也可能是订单提交页面），不能从上页中获取pnr
 				return true;
+			} else {
+				orderID = ((MyApplication) getApplication()).getOrderID();
+				return true;
 			}
-			return false;
+
 		}
 		return false;
 	}
@@ -453,4 +464,20 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 			return convertView;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInlandAirlineticketOrderDetail");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityInlandAirlineticketOrderDetail"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+
+	}
+
 }

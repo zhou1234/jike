@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_weight="6"
-            android:text="我  的"
+            android:text="钱  包"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -117,8 +117,8 @@
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_below="@id/line_middle"
-            android:gravity="center_vertical"
             android:background="@color/white"
+            android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" >
 
@@ -213,7 +213,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/advise_iv"
             android:gravity="center_vertical"
-            android:text="全部订单"
+            android:text="交易明细"
             android:textColor="@color/item_gray"
             android:textSize="18sp" />
 

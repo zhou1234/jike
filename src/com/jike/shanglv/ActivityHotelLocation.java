@@ -33,7 +33,7 @@ import com.baidu.mapapi.navi.BaiduMapNavigation;
 import com.baidu.mapapi.navi.NaviPara;
 import com.jike.shanglv.Models.HotelDetail;
 import com.jike.shanglv.NetAndJson.JSONHelper;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHotelLocation extends Activity {
 
@@ -199,4 +199,19 @@ public class ActivityHotelLocation extends Activity {
 			builder.create().show();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelLocation");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotelLocation"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

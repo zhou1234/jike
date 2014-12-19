@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.jike.shanglv.Enums.SPkeys;
+import com.umeng.analytics.MobclickAgent;
 
 public class GuideActivity extends Activity implements OnPageChangeListener {
 
@@ -36,10 +37,10 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activityguide);
-		mContext=this;
+		mContext = this;
 		// 初始化页面
 		initViews();
-		((MyApplication)getApplication()).addActivity(this);
+		((MyApplication) getApplication()).addActivity(this);
 		// 初始化底部小点
 		initDots();
 	}
@@ -56,7 +57,7 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 
 		// 初始化Adapter
 		vpAdapter = new ViewPagerAdapter(views, this);
-		
+
 		vp = (ViewPager) findViewById(R.id.viewpager);
 		vp.setAdapter(vpAdapter);
 		// 绑定回调
@@ -106,7 +107,7 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 		// 设置底部小点选中状态
 		setCurrentDot(arg0);
 	}
-	
+
 	public class ViewPagerAdapter extends PagerAdapter {
 		// 界面列表
 		private List<View> views;
@@ -145,35 +146,36 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 			if (arg1 == views.size() - 1) {
 				ImageView mStartWeiboImageButton = (ImageView) arg0
 						.findViewById(R.id.iv_start);
-				mStartWeiboImageButton.setOnClickListener(new OnClickListener() {
+				mStartWeiboImageButton
+						.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						// 设置已经引导
-						setGuided();
-						goHome();
-					}
-				});
+							@Override
+							public void onClick(View v) {
+								// 设置已经引导
+								setGuided();
+								goHome();
+							}
+						});
 			}
 			return views.get(arg1);
 		}
 
-//		private void goHome() {
-//			// 跳转
-//			Intent intent = new Intent(activity, MainActivity.class);
-//			activity.startActivity(intent);
-//			activity.finish();
-//		}
+		// private void goHome() {
+		// // 跳转
+		// Intent intent = new Intent(activity, MainActivity.class);
+		// activity.startActivity(intent);
+		// activity.finish();
+		// }
 		private void goHome() {
-			Intent intent =null;
-//			if(sp.getString(SPkeys.utype.getString(), "0").equals(
-//					"2")){
-//				intent = new Intent(GuideActivity.this, MainActivity.class);
-//			}else if(sp.getString(SPkeys.utype.getString(), "0").equals(
-//					"1")){
-//				intent = new Intent(GuideActivity.this, ActivityBMenu.class);
-//			}
-			intent = new Intent(GuideActivity.this, MainActivity.class);
+			Intent intent = null;
+			// if(sp.getString(SPkeys.utype.getString(), "0").equals(
+			// "2")){
+			// intent = new Intent(GuideActivity.this, MainActivity.class);
+			// }else if(sp.getString(SPkeys.utype.getString(), "0").equals(
+			// "1")){
+			// intent = new Intent(GuideActivity.this, ActivityBMenu.class);
+			// }
+			intent = new Intent(GuideActivity.this, MainActivityN.class);
 			GuideActivity.this.startActivity(intent);
 			GuideActivity.this.finish();
 		}
@@ -186,8 +188,16 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 			SharedPreferences preferences = getSharedPreferences(
 					SPkeys.SPNAME.getString(), MODE_PRIVATE);
 			try {
-				preferences.edit().putBoolean(SPkeys.isFirstIn.getString()+mContext.getPackageManager().getPackageInfo(
-						mContext.getPackageName(), 0).versionCode, true).commit();
+				preferences
+						.edit()
+						.putBoolean(
+								SPkeys.isFirstIn.getString()
+										+ mContext
+												.getPackageManager()
+												.getPackageInfo(
+														mContext.getPackageName(),
+														0).versionCode, true)
+						.commit();
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -212,6 +222,20 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 		@Override
 		public void startUpdate(View arg0) {
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("GuideActivity"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("GuideActivity");
+		MobclickAgent.onPause(this);
 
 	}
 }

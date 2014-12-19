@@ -393,7 +393,6 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch(v.getId())
 		{
 			case R.id.load_more_view:

@@ -41,6 +41,7 @@ import com.jike.shanglv.Models.Seat;
 import com.jike.shanglv.Models.TrainListItem;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityTrainSearchlist extends Activity {
 
@@ -161,8 +162,10 @@ public class ActivityTrainSearchlist extends Activity {
 								intents.putExtra("SeatListString",
 										seatListString);
 								intents.putExtra("startcity", startcity);
-								intents.putExtra("startcity_code", startcity_code);
-								intents.putExtra("arrivecity_code", arrivecity_code);
+								intents.putExtra("startcity_code",
+										startcity_code);
+								intents.putExtra("arrivecity_code",
+										arrivecity_code);
 								intents.putExtra("arrivecity", arrivecity);
 								intents.putExtra("startdate", startoff_date);
 								startActivity(intents);
@@ -355,7 +358,7 @@ public class ActivityTrainSearchlist extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				default:
 					break;
@@ -509,5 +512,19 @@ public class ActivityTrainSearchlist extends Activity {
 			}
 			return convertView;
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityTrainSearchlist");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityTrainSearchlist"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 }

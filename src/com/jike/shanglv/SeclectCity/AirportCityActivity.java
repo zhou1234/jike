@@ -26,10 +26,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jike.shanglv.MainActivity;
+import com.jike.shanglv.MainActivityN;
 import com.jike.shanglv.MyApplication;
 import com.jike.shanglv.Common.DateUtil;
 import com.jike.shanglv.SeclectCity.SideBar.OnTouchingLetterChangedListener;
 import com.jike.shanglv.R;
+import com.umeng.analytics.MobclickAgent;
 
 public class AirportCityActivity extends Activity {
 	
@@ -71,7 +73,7 @@ public class AirportCityActivity extends Activity {
 		home_imgbtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(context, MainActivity.class));
+				startActivity(new Intent(context, MainActivityN.class));
 			}
 		});
 		
@@ -281,5 +283,19 @@ public class AirportCityActivity extends Activity {
 		// 根据a-z进行排序
 		sortCities();
 		adapter.updateListView(filterDateList);
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("AirportCityActivity"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("AirportCityActivity");
+		MobclickAgent.onPause(this);
+
 	}
 }

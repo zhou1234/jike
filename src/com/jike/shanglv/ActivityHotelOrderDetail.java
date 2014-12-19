@@ -24,7 +24,7 @@ import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHotelOrderDetail extends Activity {
 
@@ -117,7 +117,7 @@ public class ActivityHotelOrderDetail extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.pay_now_btn:
 					String userid = sp.getString(SPkeys.userid.getString(), "");
@@ -258,4 +258,20 @@ public class ActivityHotelOrderDetail extends Activity {
 			}
 		}).start();
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelOrderDetail");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotelOrderDetail"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

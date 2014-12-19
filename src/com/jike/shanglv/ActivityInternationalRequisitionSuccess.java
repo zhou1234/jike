@@ -2,6 +2,8 @@ package com.jike.shanglv;
 
 
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,7 +40,7 @@ public class ActivityInternationalRequisitionSuccess extends Activity {
 				public void onClick(View v) {
 					startActivity(new Intent(
 							ActivityInternationalRequisitionSuccess.this,
-							MainActivity.class));
+							MainActivityN.class));
 				}
 			});
 			Bundle bundle = this.getIntent().getExtras();
@@ -50,6 +52,20 @@ public class ActivityInternationalRequisitionSuccess extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInternationalRequisitionSuccess");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityInternationalRequisitionSuccess"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
 }

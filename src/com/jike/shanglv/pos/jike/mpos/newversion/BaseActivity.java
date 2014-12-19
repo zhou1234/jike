@@ -11,14 +11,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import com.alipay.wireless.exception.AppErrorException;
@@ -32,6 +29,7 @@ import com.alipay.wireless.task.TaskQueueMain;
 import com.alipay.wireless.util.ApkInstallUtil;
 import com.alipay.wireless.util.StringUtil;
 import com.jike.shanglv.R;
+import com.umeng.analytics.MobclickAgent;
 
 public class BaseActivity extends Activity {
 
@@ -70,7 +68,6 @@ public class BaseActivity extends Activity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-
 
 	public void showAlter(String msg) {
 		dialog = createCustomAlterDialog();
@@ -179,10 +176,9 @@ public class BaseActivity extends Activity {
 		}
 	}
 
-
 	protected void installApplication(String url) {
 		path = getFilesDir().getAbsolutePath() + File.separator + "tmp.apk";
-		
+
 		FileDownloader downloader = new FileDownloader();
 		downloader.setFileUrl(url);
 		downloader.setSavePath(path);
@@ -197,25 +193,25 @@ public class BaseActivity extends Activity {
 		progressDlg.show();
 	}
 
-//	protected final void alterExit() {
-//		dialog = createCustomAlterDialog();
-//		dialog.setMessage(getString(R.string.exit_client));
-//		dialog.setButton(getString(R.string.ok),
-//				new DialogInterface.OnClickListener() {
-//
-//					public void onClick(DialogInterface dialog, int which) {
-//						finish();
-//					}
-//				});
-//		dialog.setButton2(getString(R.string.cancel),
-//				new DialogInterface.OnClickListener() {
-//
-//					public void onClick(DialogInterface dialog, int which) {
-//
-//					}
-//				});
-//		dialog.show();
-//	}
+	// protected final void alterExit() {
+	// dialog = createCustomAlterDialog();
+	// dialog.setMessage(getString(R.string.exit_client));
+	// dialog.setButton(getString(R.string.ok),
+	// new DialogInterface.OnClickListener() {
+	//
+	// public void onClick(DialogInterface dialog, int which) {
+	// finish();
+	// }
+	// });
+	// dialog.setButton2(getString(R.string.cancel),
+	// new DialogInterface.OnClickListener() {
+	//
+	// public void onClick(DialogInterface dialog, int which) {
+	//
+	// }
+	// });
+	// dialog.show();
+	// }
 
 	protected void showToast(int res) {
 		Toast toast = Toast.makeText(this, res, Toast.LENGTH_LONG);
@@ -281,7 +277,7 @@ public class BaseActivity extends Activity {
 	private class ShowProgress implements FileDownloader.IDownloadProgress {
 
 		public void downloadProgress(float progress) {
-			if(progressDlg != null){
+			if (progressDlg != null) {
 				progressDlg.setProgress((int) progress);
 			}
 		}
@@ -297,6 +293,20 @@ public class BaseActivity extends Activity {
 			closeProgress();
 			showAlter(getString(R.string.download_fail));
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("BaseActivity"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("BaseActivity");
+		MobclickAgent.onPause(this);
 
 	}
 }

@@ -2,15 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffffff"
-    android:orientation="vertical" >
-	 
+    android:background="#ffffffff" >
+
     <ViewFlipper
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/radio_group" />   
-          
+        android:layout_above="@+id/radio_group" />
+
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="fill_parent"
@@ -24,30 +23,34 @@
             android:id="@+id/radio_order"
             style="@style/main_tab_bottom"
             android:drawableTop="@drawable/tabs_bottom_dd"
+            android:text="@string/dingdan"
             android:textColor="@color/tabs_text_color"
-            android:text="@string/dingdan" />
+            android:textSize="12dp" />
 
         <RadioButton
             android:id="@+id/radio_home"
             style="@style/main_tab_bottom"
             android:checked="true"
             android:drawableTop="@drawable/tabs_bottom_sy"
+            android:text="@string/shouye"
             android:textColor="@color/tabs_text_color"
-            android:text="@string/shouye" />
-        
+            android:textSize="12dp" />
+
         <RadioButton
             android:id="@+id/radio_mine"
             style="@style/main_tab_bottom"
             android:drawableTop="@drawable/tabs_bottom_wd"
+            android:text="@string/qianbao"
             android:textColor="@color/tabs_text_color"
-            android:text="@string/wode" />
+            android:textSize="12dp" />
 
         <RadioButton
             android:id="@+id/radio_more"
             style="@style/main_tab_bottom"
             android:drawableTop="@drawable/tabs_bottom_gd"
+            android:text="@string/gengduo"
             android:textColor="@color/tabs_text_color"
-            android:text="@string/gengduo" />
-        
+            android:textSize="12dp" />
     </RadioGroup>
- </RelativeLayout>
+
+</RelativeLayout>

@@ -49,7 +49,7 @@ import android.util.Log;
 
 public class Util {
 	
-	private static final String TAG = "SDK_Sample.Util";
+	private static final String TAG = "Util";
 	
 	public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();

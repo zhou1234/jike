@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.jike.shanglv.Models.HotelComment;
 import com.jike.shanglv.NetAndJson.JSONHelper;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHotelComments extends Activity {
 
@@ -64,7 +64,7 @@ public class ActivityHotelComments extends Activity {
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(ActivityHotelComments.this,
-						MainActivity.class));
+						MainActivityN.class));
 			}
 		});
 		orderNow_rl.setOnClickListener(new OnClickListener() {
@@ -149,6 +149,21 @@ public class ActivityHotelComments extends Activity {
 			content_tv.setText(str.get(position).getContent());
 			return convertView;
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHotelComments");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHotelComments"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
 }

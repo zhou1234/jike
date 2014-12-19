@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.jike.shanglv.Common.*;
 import com.jike.shanglv.Enums.*;
 import com.jike.shanglv.NetAndJson.HttpUtils;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityHangbandongtai extends Activity {
 
@@ -117,10 +117,8 @@ public class ActivityHangbandongtai extends Activity {
 				dateIntent.setClass(context,
 						com.jike.shanglv.ShipCalendar.MainActivity.class);
 				Intent cityIntent = new Intent();
-				cityIntent
-						.setClass(
-								context,
-								com.jike.shanglv.SeclectCity.AirportCityActivity.class);
+				cityIntent.setClass(context,
+						com.jike.shanglv.SeclectCity.AirportCityActivity.class);
 
 				int one = (int) ((screenWidth / 2) + 50);
 
@@ -342,4 +340,20 @@ public class ActivityHangbandongtai extends Activity {
 			doubleline_tv.performClick();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHangbandongtai");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHangbandongtai"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import com.jike.shanglv.Common.CustomerAlertDialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,10 +36,10 @@ public class HttpUtils {
 	//URLEncoder.encode(mySpinner.getSelectedItem().toString(), "utf-8")
 	public static String getJsonContent(String path, String param) {
 		try {
-			// 根据路径创建URL地址
-			URL url = new URL(path + "?" + param);
+			// 根据路径创建URL地址  
+			URL url = new URL(path + "?" + param);    
 			// 通过url地址打开连接  
-			Log.v("URL：",url.toString());
+ 			Log.v("URL：",url.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			// 设置超时时间
 			conn.setConnectTimeout(10000);
@@ -47,7 +48,7 @@ public class HttpUtils {
 			// 设置属性
 //			 设置该连接是否可输入
 			conn.setDoInput(true);
-			int code = conn.getResponseCode();
+			int code = conn.getResponseCode(); 
 			System.out.println(code + "****");
 			if (code == 200) {
 				return changeInputString(conn.getInputStream());
@@ -91,7 +92,7 @@ public class HttpUtils {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace();  
 		}
 
 		conn.setDoInput(true);
@@ -187,6 +188,7 @@ public class HttpUtils {
 	}
 	
 	public static Boolean showNetCannotUse(Context context){
+		final Context cont=context;
 		if (!HttpUtils.checkNet(context)) {
 //			new AlertDialog.Builder(context).setTitle("网络连接失败")
 //					.setMessage("无法连接网路，请检查网络设置！")
@@ -197,6 +199,7 @@ public class HttpUtils {
 				@Override
 				public void onClick(View arg0) {
 					cad.dismiss();
+					((Activity) cont).finish();
 				}});
 			return true;
 		}

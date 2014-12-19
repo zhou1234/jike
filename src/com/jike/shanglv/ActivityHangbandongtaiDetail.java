@@ -3,6 +3,7 @@ package com.jike.shanglv;
 
 import com.jike.shanglv.Models.Hangbandongtai;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 
 import android.app.Activity;
@@ -48,7 +49,7 @@ public class ActivityHangbandongtaiDetail extends Activity {
 						public void onClick(View v) {
 							startActivity(new Intent(
 									ActivityHangbandongtaiDetail.this,
-									MainActivity.class));
+									MainActivityN.class));
 						}
 					});
 
@@ -88,4 +89,20 @@ public class ActivityHangbandongtaiDetail extends Activity {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityHangbandongtaiDetail");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityHangbandongtaiDetail"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+		
+	}
+	
 }

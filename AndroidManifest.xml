@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jike.shanglv"
     android:installLocation="auto"
-    android:versionCode="9"
-    android:versionName="2.2.2" >
+    android:versionCode="22"
+    android:versionName="7.4.3" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -55,6 +55,15 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="EtUImVWGAm6DrsRAGQXKsf10" />
+        <!-- 友盟 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="547e75adfd98c5c1e5000832" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="AndroidMarket" />
+
         <!-- 自动更新Library中用到的 -->
         <service
             android:name="com.loveplusplus.update.DownloadService"
@@ -97,12 +106,18 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
+        <!--
         <activity
             android:name="com.jike.shanglv.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
-
+        -->
+        <activity
+            android:name="com.jike.shanglv.MainActivityN"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 日历选择 -->
         <activity
             android:name=".ShipCalendar.MainActivity_bak"
@@ -141,6 +156,11 @@
         <!-- “首頁”菜单页面 -->
         <activity
             android:name=".HomeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.jike.shanglv.HomeActivityNewN"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
@@ -482,7 +502,7 @@
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <!-- 微信 -->
-       <activity
+        <activity
             android:name=".weixin.PayActivity"
             android:exported="true"
             android:label="@string/app_name"
@@ -492,13 +512,41 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="wxd930ea5d5a258f4f" />
+                <data android:scheme="wxad7f649ce667d01a" />
             </intent-filter>
         </activity>
-         <activity
+        <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
+
+        <!-- 商旅钱包 -->
+        <activity
+            android:name="com.jike.shanglv.supercollection.ActivityQianbao"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.jike.shanglv.supercollection.ActivityRecordState"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.jike.shanglv.supercollection.ActivityMyAccout"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.jike.shanglv.supercollection.ActivityOrderDetail"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <!-- 交易明细 -->
+        <activity android:name="com.jike.shanglv.ActivityTransactionDetails" >
+        </activity>
+        <!-- 客服中心 -->
+        <activity android:name="com.jike.shanglv.ActivityServiceCenter" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,8 @@
 //web支付页面
 package com.jike.shanglv;
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
@@ -118,6 +120,20 @@ public class Activity_Web_Pay extends Activity {
 			finish();
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("Activity_Web_Pay");
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("Activity_Web_Pay"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
 }

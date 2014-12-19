@@ -32,6 +32,7 @@ import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class ActivityInlandAirlineticketSelectPassengers extends Activity {
@@ -457,6 +458,8 @@ public class ActivityInlandAirlineticketSelectPassengers extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		MobclickAgent.onPageStart("ActivityInlandAirlineticketSelectPassengers"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
 	}
 
 	// 来自新增或编辑乘机人页面
@@ -503,4 +506,13 @@ public class ActivityInlandAirlineticketSelectPassengers extends Activity {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInlandAirlineticketSelectPassengers");
+		MobclickAgent.onPause(this);
+
+	}
+	
 }

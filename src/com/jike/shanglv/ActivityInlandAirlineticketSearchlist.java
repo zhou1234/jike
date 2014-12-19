@@ -41,7 +41,7 @@ import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Enums.SingleOrDouble;
 import com.jike.shanglv.Models.InlandAirlineInfo;
 import com.jike.shanglv.NetAndJson.HttpUtils;
-
+import com.umeng.analytics.MobclickAgent;
 
 public class ActivityInlandAirlineticketSearchlist extends Activity {
 
@@ -181,7 +181,9 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-				progressdialog.dismiss();
+				if (progressdialog != null) {
+					progressdialog.dismiss();
+				}
 				JSONTokener jsonParser;
 				jsonParser = new JSONTokener(flistReturnJson);
 				if (flistReturnJson.length() == 0) {
@@ -382,11 +384,6 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 		progressdialog = CustomProgressDialog.createDialog(context);
 		progressdialog.setMessage("正在查询，请稍候...");
 		progressdialog.setCancelable(true);
-		progressdialog.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-			}
-		});
 		progressdialog.show();
 	}
 
@@ -475,7 +472,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 					finish();
 					break;
 				case R.id.home_imgbtn:
-					startActivity(new Intent(context, MainActivity.class));
+					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				default:
 					break;
@@ -626,4 +623,20 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 			return tiecketCount;
 		}
 	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityInlandAirlineticketSearchlist");
+		MobclickAgent.onPause(this);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityInlandAirlineticketSearchlist"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+
 }

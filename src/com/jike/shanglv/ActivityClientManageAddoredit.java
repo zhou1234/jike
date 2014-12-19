@@ -61,7 +61,6 @@ import com.jike.shanglv.Models.DealerLevel;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 
-
 public class ActivityClientManageAddoredit extends Activity {
 
 	public static final String EDIT_OR_ADD = "EDIT_OR_ADD";// 0ÐÂÔö£¬1±à¼­
@@ -175,11 +174,17 @@ public class ActivityClientManageAddoredit extends Activity {
 				username_et.setText(editCustomerUser.getUserName());
 				username_et.setEnabled(false);
 				// contactPerson_et.setText(!editCustomerUser.getRealName().equals("null")?editCustomerUser.getRealName():"");
-				contactPerson_et.setText(editCustomerUser.getRealName());
-				contactPerson_et.setEnabled(false);
+				String realName = editCustomerUser.getRealName();
+				if (!realName.equals("null")) {
+					contactPerson_et.setEnabled(false);  
+					contactPerson_et.setText(realName);
+				}
 				// contactPhone_et.setText(!editCustomerUser.getPhone().equals("null")?editCustomerUser.getPhone():"");
-				contactPhone_et.setText(editCustomerUser.getPhone());
-				contactPhone_et.setEnabled(false);
+				String phone = editCustomerUser.getPhone();
+				if (!phone.equals("null")) {
+					contactPhone_et.setText(phone);
+					//contactPhone_et.setEnabled(false);
+				}
 				province_city_tv.setText(editCustomerUser.getCityName() + "-"
 						+ editCustomerUser.getProvinceName());
 				startValidDay_tv.setText(editCustomerUser.getStartDate());
@@ -454,6 +459,8 @@ public class ActivityClientManageAddoredit extends Activity {
 								+ sp.getString(SPkeys.userid.getString(), "")
 								+ "\",\"userName\":\""
 								+ username_et.getText().toString().trim()
+								+ "\",\"realName\":\""
+								+ contactPerson_et.getText().toString().trim()
 								+ "\",\"dealerLevel\":\"" + levelId
 								+ "\",\"provinceName\":\"" + province
 								+ "\",\"cityName\":\"" + city + "\"}";
