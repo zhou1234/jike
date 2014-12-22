@@ -113,7 +113,6 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 		home_imgbtn.setOnClickListener(btnClickListner);
 
 		getIntentData();
-
 		title_tv.setText(startcity + "-" + arrivecity);
 		if (!DateUtil.IsMoreThanToday(currentdate)) {
 			left_arrow_iv.setBackground(getResources().getDrawable(
@@ -196,6 +195,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 							cad.dismiss();
 						}
 					});
+					break;
 				}
 				try {
 					JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
@@ -616,7 +616,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 			if (Integer.parseInt(str) > 9) {
 				tiecketCount = ">9";
 			} else if (Integer.parseInt(str) == 1) {
-				tiecketCount = "½öÊ£1";
+				tiecketCount = "Ê£1";
 			} else {
 				tiecketCount = str;
 			}

@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -115,6 +116,7 @@ public class HomeActivityNewN extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	private ArrayList<HomeGridCell> getDefaultCellsData() {
@@ -187,14 +189,12 @@ public class HomeActivityNewN extends Activity {
 				intent.putExtra(Activity_Web_Frame.URL, getResources()
 						.getString(R.string.weipingtai_url));
 
-				Intent intent4 = new Intent(context,
-						ActivityServiceCenter.class);
-
 				cell.add(new HomeGridCell(-1, R.drawable.sxy, "商学院", intent3));
 				cell.add(new HomeGridCell(-1, R.drawable.wpt, "微平台", intent));
-				cell.add(new HomeGridCell(-1, R.drawable.kfzx, "客服中心", intent4));
-			}
 
+			}
+			Intent intent4 = new Intent(context, ActivityServiceCenter.class);
+			cell.add(new HomeGridCell(-1, R.drawable.kfzx, "客服中心", intent4));
 			adapter = new MyAdapter(context, cells);
 			adapterN = new MyAdapter(context, cell);
 			grids.setAdapter(adapterN);
@@ -210,7 +210,7 @@ public class HomeActivityNewN extends Activity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		gridCells();
+		// gridCells();
 	}
 
 	@Override
@@ -394,7 +394,7 @@ public class HomeActivityNewN extends Activity {
 	@SuppressLint("NewApi")
 	protected View createView(Boolean isSelected) {
 		View iv = new View(this);
-		iv.setBackground(getResources().getDrawable(R.drawable.dot_pic));
+		iv.setBackground(context.getResources().getDrawable(R.drawable.dot_pic));
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(7, 7);
 		lp.setMargins(5, 5, 5, 5);
 		iv.setLayoutParams(lp);
@@ -534,7 +534,7 @@ public class HomeActivityNewN extends Activity {
 	 */
 	public List<String> getList() {
 		List<String> list = new ArrayList<String>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 3; i++) {
 			list.add(String.valueOf(i));
 		}
 		return list;

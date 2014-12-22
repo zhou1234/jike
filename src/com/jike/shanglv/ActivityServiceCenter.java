@@ -62,10 +62,9 @@ public class ActivityServiceCenter extends Activity {
 		loading_ll = (LinearLayout) findViewById(R.id.loading_ll);
 		frame_ani_iv = (ImageView) findViewById(R.id.frame_ani_iv);
 		webView = (WebView) findViewById(R.id.webView);
-		// WebSettings webSettings = webView.getSettings();
-		// webSettings.setJavaScriptEnabled(true);//
+		 WebSettings webSettings = webView.getSettings();
+		 webSettings.setJavaScriptEnabled(true);//
 		// 在WebView中使用JavaScript，若页面中用了JavaScript，必须为WebView使能JavaScript
-
 		((TextView) findViewById(R.id.title)).setText("客服中心");
 
 		webView.setWebChromeClient(new WebChromeClient() {
@@ -103,12 +102,12 @@ public class ActivityServiceCenter extends Activity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		try {
-			loading_ll.setVisibility(View.VISIBLE);
-			frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
-			AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
-					.getBackground();
-			anim.setOneShot(false);
-			anim.start();
+//			loading_ll.setVisibility(View.VISIBLE);
+//			frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+//			AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
+//					.getBackground();
+//			anim.setOneShot(false);
+//			anim.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -125,6 +124,12 @@ public class ActivityServiceCenter extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		loading_ll.setVisibility(View.VISIBLE);
+		frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+		AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
+				.getBackground();
+		anim.setOneShot(false);
+		anim.start();
 		webView.loadUrl(url);
 		MobclickAgent.onPageStart("ActivityServiceCenter"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长

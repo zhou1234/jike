@@ -21,8 +21,15 @@ public class DateUtil {
 	 */
 	public static boolean isDateBefore(String date1, String date2) {
 		try {
-			DateFormat df = DateFormat.getDateTimeInstance();
-			return df.parse(date1).before(df.parse(date2));
+//			DateFormat df = DateFormat.getDateTimeInstance();
+			// return df.parse(date1).before(df.parse(date2));
+//			return df.parse(da).before(df.parse(da1));
+			long d1=Long.parseLong(date1.replace("/", "").replace(":", "").replace(" ", "").replace("-", ""));
+			long d2=Long.parseLong(date2.replace("/", "").replace(":", "").replace(" ", "").replace("-", ""));
+			if(d1>d2)return false;
+			else return true;
+			
+
 		} catch (Exception e) {
 			return false;
 		}
@@ -159,9 +166,17 @@ public class DateUtil {
 	public static String getTime(String dateString)
 			throws java.text.ParseException {
 		String time = "";
+		SimpleDateFormat sdf = null;
+		Date date = null;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = sdf.parse(dateString);
+			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				date = sdf.parse(dateString);
+			} catch (Exception e) {
+				sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				date = sdf.parse(dateString);
+			}
+
 			Calendar c = Calendar.getInstance();
 			c.setTime(date);
 			// Calendar.HOUR 12小时制 Calendar.HOUR_OF_DAY 24小时制的时间
@@ -207,6 +222,7 @@ public class DateUtil {
 		}
 		return time;
 	}
+
 	/**
 	 * 获得指定日期时间的MM:dd 月-日
 	 */

@@ -213,7 +213,7 @@ public class HotelCityActivity extends Activity {
 		try {
 			BufferedReader bf = new BufferedReader(new InputStreamReader(
 					getAssets().open(fileName), "GB2312"));
-			String line;
+			String line="";
 			while ((line = bf.readLine()) != null) {
 				stringBuilder.append(line);
 			}

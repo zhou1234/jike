@@ -205,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:text="￥32"
+                android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="#FD8F23"
                 android:textSize="16sp" >

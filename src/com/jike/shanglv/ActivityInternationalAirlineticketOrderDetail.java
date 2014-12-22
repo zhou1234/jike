@@ -59,6 +59,7 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 	private String orderID = "", amount = "";// amount为订单金额
 	private String orderDetailReturnJson;
 	private JSONObject orderDetailObject;// 返回的订单详情对象
+	private int paysystype = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,6 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 					break;
 				case R.id.pay_now_btn:
 					String userid = sp.getString(SPkeys.userid.getString(), "");
-					int paysystype = 1;
 					String siteid = sp.getString(SPkeys.siteid.getString(), "");
 					String sign = CommonFunc.MD5(orderID + amount + userid
 							+ paysystype + siteid);
@@ -144,8 +144,6 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 					intent.putExtra(Activity_Web_Pay.URL, url);
 					intent.putExtra(Activity_Web_Pay.TITLE, "机票订单支付");
 					startActivity(intent);
-					break;
-				default:
 					break;
 				}
 			} catch (Exception e) {
@@ -237,7 +235,13 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 				String stateString = orderDetailObject.getJSONObject("order")
 						.getString("OrderState");
 				order_state_tv.setText(stateString);
-				if (stateString.equals("已受理"))
+				if (stateString.equals("需补款")) {
+					paysystype = 9;
+				}
+				if (stateString.equals("已确认")) {
+					paysystype = 2;
+				}
+				if (stateString.equals("需补款") || stateString.equals("已确认"))
 					((RelativeLayout) findViewById(R.id.bottom_rl))
 							.setVisibility(View.VISIBLE);
 				else
@@ -431,14 +435,16 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		MobclickAgent.onPageEnd("ActivityInternationalAirlineticketOrderDetail");
+		MobclickAgent
+				.onPageEnd("ActivityInternationalAirlineticketOrderDetail");
 		MobclickAgent.onPause(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onPageStart("ActivityInternationalAirlineticketOrderDetail"); // 统计页面
+		MobclickAgent
+				.onPageStart("ActivityInternationalAirlineticketOrderDetail"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
 

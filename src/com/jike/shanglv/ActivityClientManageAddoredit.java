@@ -73,8 +73,8 @@ public class ActivityClientManageAddoredit extends Activity {
 			startValidDay_tv, endValidDay_tv, default_grad_tv;
 	private LinearLayout dealer_extra_info_ll, password_ll, setgrad_ll;
 	private com.jike.shanglv.Common.ClearEditText password_et,
-			comfirmPassword_et, contactPerson_et, contactPhone_et,
-			companyName_et;
+			comfirmPassword_et, contactPerson_et, companyName_et;
+	private EditText contactPhone_et;
 	private EditText username_et;
 	private String addAction = "", modifyAction = "", startValidDay = "",
 			endValidDay = "", addReturnJson = "", displayName = "",
@@ -117,7 +117,7 @@ public class ActivityClientManageAddoredit extends Activity {
 		password_et = (ClearEditText) findViewById(R.id.password_et);
 		comfirmPassword_et = (ClearEditText) findViewById(R.id.comfirmPassword_et);
 		contactPerson_et = (ClearEditText) findViewById(R.id.contactPerson_et);
-		contactPhone_et = (ClearEditText) findViewById(R.id.contactPhone_et);
+		contactPhone_et = (EditText) findViewById(R.id.contactPhone_et);
 		password_ll = (LinearLayout) findViewById(R.id.password_ll);
 		dealer_extra_info_ll = (LinearLayout) findViewById(R.id.dealer_extra_info_ll);
 		setgrad_ll = (LinearLayout) findViewById(R.id.setgrad_ll);
@@ -176,14 +176,14 @@ public class ActivityClientManageAddoredit extends Activity {
 				// contactPerson_et.setText(!editCustomerUser.getRealName().equals("null")?editCustomerUser.getRealName():"");
 				String realName = editCustomerUser.getRealName();
 				if (!realName.equals("null")) {
-					contactPerson_et.setEnabled(false);  
+					contactPerson_et.setEnabled(false);
 					contactPerson_et.setText(realName);
 				}
 				// contactPhone_et.setText(!editCustomerUser.getPhone().equals("null")?editCustomerUser.getPhone():"");
 				String phone = editCustomerUser.getPhone();
 				if (!phone.equals("null")) {
 					contactPhone_et.setText(phone);
-					//contactPhone_et.setEnabled(false);
+					contactPhone_et.setEnabled(false);
 				}
 				province_city_tv.setText(editCustomerUser.getCityName() + "-"
 						+ editCustomerUser.getProvinceName());

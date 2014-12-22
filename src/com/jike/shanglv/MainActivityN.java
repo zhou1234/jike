@@ -42,34 +42,34 @@ public class MainActivityN extends ActivityGroup implements
 		OnCheckedChangeListener {
 
 	public static MainActivity instance = null;
-	private RadioGroup radio_group;            
+	private RadioGroup radio_group;
 	private Intent mIntent;
 	private ViewFlipper container;
 	private RadioButton radio_order, radio_home, radio_mine, radio_more;
-	private Context context;                   
+	private Context context;
 	private SharedPreferences sp;
-	private String loginReturnJson = "";  
+	private String loginReturnJson = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
 			super.onCreate(savedInstanceState);
-//			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//			int FULLSCREEN = WindowManager.LayoutParams.FLAG_FULLSCREEN;   
-//			this.getWindow().setFlags(FULLSCREEN, FULLSCREEN);
+			// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			// int FULLSCREEN = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+			// this.getWindow().setFlags(FULLSCREEN, FULLSCREEN);
 			setContentView(R.layout.activity_main);
-			((MyApplication) getApplication()).addActivity(this);
+			((MyApplication) getApplication()).addActivity(MainActivityN.this);
 			// goB2BHome();
 			// MobclickAgent.updateOnlineConfig(context);
-			initView();    
+			initView();
 			initHomePage();
 			radio_group.setOnCheckedChangeListener(this);
 
 			if (!((MyApplication) getApplication()).getHasCheckedUpdate()) {
 				MyApp ma = new MyApp(MainActivityN.this);
-				UpdateManager manager = new UpdateManager(MainActivityN.this, ma
-						.getHm().get(PackageKeys.UPDATE_NOTE.getString())
-						.toString());
+				UpdateManager manager = new UpdateManager(MainActivityN.this,
+						ma.getHm().get(PackageKeys.UPDATE_NOTE.getString())
+								.toString());
 				manager.checkForUpdates(false);
 				((MyApplication) getApplication()).setHasCheckedUpdate(true);
 			}
@@ -296,7 +296,8 @@ public class MainActivityN extends ActivityGroup implements
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if ((System.currentTimeMillis() - mExitTime) > 2000) {
 				Object mHelperUtils;
-				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				Toast.makeText(MainActivityN.this, "再按一次退出程序",
+						Toast.LENGTH_SHORT).show();
 				mExitTime = System.currentTimeMillis();
 
 			} else {
@@ -305,7 +306,7 @@ public class MainActivityN extends ActivityGroup implements
 				// SysApplication.getInstance().exit();
 				((MyApplication) getApplication()).exit();
 				android.os.Process.killProcess(android.os.Process.myPid());
-				finish();
+				MainActivityN.this.finish();
 				System.exit(0);
 				// http://864331652.blog.163.com/blog/static/1168625632013415112635566/
 

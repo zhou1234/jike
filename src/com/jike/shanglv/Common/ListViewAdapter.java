@@ -9,24 +9,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-public class ListAdapter extends BaseAdapter {
+public class ListViewAdapter extends BaseAdapter {
 
 	private List<String> list;
-	private LayoutInflater mInflater;
 	private Context context;
 	private int cont = 0;
 	private int[] image = { R.drawable.ad_four, R.drawable.banner,
 			R.drawable.banner1 };
 
-	public ListAdapter(Context context, List<String> list) {
+	public ListViewAdapter(Context context, List<String> list) {
 		this.context = context;
 		this.list = list;
-		this.mInflater = LayoutInflater.from(context);
 	}
 
 	@Override
@@ -48,14 +44,39 @@ public class ListAdapter extends BaseAdapter {
 	@SuppressLint("ViewHolder")
 	@Override
 	public View getView(int postition, View convertView, ViewGroup arg2) {
-		View view = LayoutInflater.from(context).inflate(R.layout.view, arg2,
-				false);
-		ImageView imageView = (ImageView) view.findViewById(R.id.imageView1);
+		View view = convertView;
+		Holder holder = null;
+		if (view == null) {
+			view = LayoutInflater.from(context).inflate(R.layout.view, arg2,
+					false);
+			holder = new Holder(view);
+			view.setTag(holder);
+		} else {
+			holder = (Holder) view.getTag();
+		}
+		ImageView imageView = holder.getImageView();
 		if (cont == 3) {
 			cont = 0;
 		}
 		imageView.setImageResource(image[cont]);
 		cont++;
 		return view;
+	}
+
+	class Holder {
+		View view;
+		ImageView imageView;
+
+		public Holder(View view) {
+			this.view = view;
+		}
+
+		public ImageView getImageView() {
+			if (imageView == null) {
+				imageView = (ImageView) view.findViewById(R.id.imageView1);
+			}
+			return imageView;
+		}
+
 	}
 }

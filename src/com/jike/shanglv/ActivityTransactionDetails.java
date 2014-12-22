@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -116,6 +117,11 @@ public class ActivityTransactionDetails extends Activity implements
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
+				}
+				if (list_details.size() < 10) {
+					listView.onLoadMoreComplete(true);
+				} else {
+					listView.onLoadMoreComplete(false);
 				}
 				listView.setAdapter(new MyAdapter());
 				break;
@@ -236,6 +242,7 @@ public class ActivityTransactionDetails extends Activity implements
 			TextView tv_time = holder.getTv_time();
 			TextView tv_pingTaiDingDan = holder.getTv_pingTaiDingDan();
 			TextView tv_beiZhu = holder.getTv_beiZhu();
+			TextView tv_chuRu = holder.getTv_chuRu();
 
 			tv_orderId.setText(list_details.get(arg0).getOrderno());
 			tv_source.setText(list_details.get(arg0).getCashtradeapplication());
@@ -244,11 +251,17 @@ public class ActivityTransactionDetails extends Activity implements
 			tv_time.setText(list_details.get(arg0).getCreatetime());
 			tv_pingTaiDingDan.setText(list_details.get(arg0).getOutorderno());
 			tv_beiZhu.setText(list_details.get(arg0).getRemark());
-			String amt = list_details.get(arg0).getInamount();
-			if (amt.charAt(0) == '-') {
-				tv_chuZhang.setTextColor(Color.RED);
-			} else {
-				tv_chuZhang.setTextColor(Color.BLUE);
+			String amt = list_details.get(arg0).getInamount().trim();
+			if (!amt.equals("")) {
+				if (amt.charAt(0) == '-') {
+					tv_chuZhang.setTextColor(Color.RED);
+					tv_chuRu.setText("³öÕË:");
+				} else {
+					tv_chuZhang.setTextColor(Color.BLUE);
+					tv_chuRu.setText("ÈëÕË:");
+				}
+			}else{
+				amt="0.00";
 			}
 			tv_chuZhang.setText(amt);
 			return view;
@@ -257,6 +270,7 @@ public class ActivityTransactionDetails extends Activity implements
 
 	class Holder {
 		View view;
+		TextView tv_chuRu;
 		TextView tv_orderId;
 		TextView tv_source;
 		TextView tv_chuZhang;
@@ -317,6 +331,13 @@ public class ActivityTransactionDetails extends Activity implements
 				tv_beiZhu = (TextView) view.findViewById(R.id.tv_beiZhu);
 			}
 			return tv_beiZhu;
+		}
+
+		public TextView getTv_chuRu() {
+			if (tv_chuRu == null) {
+				tv_chuRu = (TextView) view.findViewById(R.id.tv_chuRu);
+			}
+			return tv_chuRu;
 		}
 
 	}

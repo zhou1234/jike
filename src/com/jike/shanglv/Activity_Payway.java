@@ -39,8 +39,9 @@ public class Activity_Payway extends Activity {
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		findViewById(R.id.wx_pay_rl).setOnClickListener(myClickListener);
 		findViewById(R.id.online_pay_rl).setOnClickListener(myClickListener);
-		if (!sp.getString(SPkeys.opensupperpay.getString(), "false").equals(
-				"true")) {
+		// if (!sp.getString(SPkeys.opensupperpay.getString(), "false").equals(
+		// "true")) {
+		if (!sp.getString(SPkeys.utype.getString(), "0").equals("1")) {
 			findViewById(R.id.sc_pay_rl).setVisibility(View.GONE);
 			findViewById(R.id.bottom_line).setVisibility(View.GONE);
 		}

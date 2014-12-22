@@ -126,7 +126,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	private ImageLoader imageLoader;
 	private Boolean hasCommited = false;
 
-	private String flightno = "FM1236", fare = "1210", sd = "2014-12-25",
+	private String flightno = "", fare = "", sd = "",
 			ischd = "0", isspe = "0";
 
 	@Override
@@ -160,7 +160,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// checkPrice();
+		checkPrice();
 	}
 
 	private void initView() {
@@ -494,7 +494,6 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	/**
 	 * SingleOrDouble.doubleWayGo会在选择返程后被处理为SingleOrDouble.doubleWayBack
 	 * 所以参数只可能为SingleOrDouble.singleWay或SingleOrDouble.doubleWayBack（代表往返机票）
-	 * 
 	 * @param sd
 	 * @return
 	 */
@@ -614,14 +613,16 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 					String canbooking = jsonObject.getString("canbook");
 
 					if (state.equals("0000")) {
-						// jipiaojia=price;
-						//
-						// jipiaojia_tv.setText("￥" +
-						// String.valueOf(jipiaojia));
+						if (!canbooking.equals("true")) {
+							String price = jsonObject.getString("fare");
+							jipiaojia = Float.parseFloat(price);
+							jipiaojia_tv.setText("￥"
+									+ String.valueOf(jipiaojia));
+						}
 
 					} else {
-						Toast.makeText(context, commitReturnJson, 0).show();
-						finish();
+//						Toast.makeText(context, commitReturnJson, 0).show();
+//						finish();
 					}
 					progressdialog.dismiss();
 				} catch (Exception e) {

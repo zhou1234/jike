@@ -902,10 +902,10 @@ public class ActivityOrderList extends Activity implements
 					((AirlineTicketListAdapter) adapter)
 							.refreshData(order_List_airlineticket);
 			} else if (actionName.equals(HOTEL_ORDERLIST)) {
-				if (order_List_hotel != null)
+				if (order_List_hotel != null && adapter != null)
 					((HotelListAdapter) adapter).refreshData(order_List_hotel);
 			} else if (actionName.equals(PHONE_ORDERLIST)) {
-				if (order_List_phone != null)
+				if (order_List_phone != null && adapter != null)
 					((PhoneListAdapter) adapter).refreshData(order_List_phone);
 			}
 			listview.onRefreshComplete();
