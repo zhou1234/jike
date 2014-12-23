@@ -520,6 +520,8 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 									R.layout.item_inland_airlineticket_searchlist,
 									null);
 				}
+				ImageView teHui_iv = (ImageView) convertView
+						.findViewById(R.id.teHui_iv);
 				TextView startTime_tv = (TextView) convertView
 						.findViewById(R.id.startTime_tv);
 				TextView endTime_tv = (TextView) convertView
@@ -554,6 +556,12 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 				// {
 				// fanMoney_ll.setVisibility(View.VISIBLE);
 				// }
+				String teHui = str.get(position).getIsTeHui();
+				if (teHui.equals("1")) {
+					teHui_iv.setVisibility(View.VISIBLE);
+				} else {
+					teHui_iv.setVisibility(View.GONE);
+				}
 
 				try {
 					startTime_tv.setText(DateUtil.getTime(str.get(position)

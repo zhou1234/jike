@@ -6,14 +6,21 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp" >
+    android:paddingLeft="10dp" >
+
+    <ImageView
+        android:id="@+id/teHui_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/te_hui" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true" >
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/CabinName_tv"
@@ -78,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="80dp"
+        android:layout_marginRight="90dp"
         android:gravity="center" >
 
         <TextView
@@ -144,6 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
         android:background="@drawable/booking_button" />
 
 </RelativeLayout>

@@ -263,9 +263,7 @@ public class ActivityHuafeichongzhi extends Activity {
 						});
 					}
 					startCommitOrder();
-				default:
-
-					break;
+				
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -508,8 +506,7 @@ public class ActivityHuafeichongzhi extends Activity {
 										.substring(1) + userid + paysystype
 								+ siteid);
 						MyApp ma = new MyApp(context);
-						// <string
-						// name="test_pay_server_url">http://gatewayceshi.51jp.cn/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
+						
 						String url = String.format(ma.getPayServeUrl(),
 								orderId, paymoney_tv.getText().toString()
 										.trim().substring(1), userid,
@@ -519,6 +516,15 @@ public class ActivityHuafeichongzhi extends Activity {
 						intent.putExtra(Activity_Web_Pay.URL, url);
 						intent.putExtra(Activity_Web_Pay.TITLE, "话费充值支付");
 						startActivity(intent);
+						
+//						Intent intent = new Intent(context, Activity_Payway.class);
+//						intent.putExtra("orderID", orderId);
+//						intent.putExtra("paysystype", paysystype);
+//						intent.putExtra("body", "话费充值");
+//						intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT, paymoney_tv.getText().toString()
+//								.trim().substring(1));
+//						startActivity(intent);
+//						finish();
 					} else {
 						String message = jsonObject.getString("msg");
 						// new AlertDialog.Builder(context).setTitle("订单提交失败")

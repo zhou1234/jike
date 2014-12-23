@@ -485,6 +485,16 @@ public class ActivityOrderList extends Activity implements
 											"话费充值支付");
 									// startActivity(intent);
 									startActivityForResult(intent, 1);
+
+									// Intent intent = new Intent(context,
+									// Activity_Payway.class);
+									// intent.putExtra("orderID", orderId);
+									// intent.putExtra("paysystype", 14);
+									// intent.putExtra("body", "话费充值订单支付");
+									// intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT,
+									// money);
+									// startActivity(intent);
+									// finish();
 								}
 							}
 						});

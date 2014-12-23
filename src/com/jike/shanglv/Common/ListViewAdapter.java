@@ -11,18 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 public class ListViewAdapter extends BaseAdapter {
 
 	private List<String> list;
 	private Context context;
-	private int cont = 0;
+	private ListView listView;
 	private int[] image = { R.drawable.ad_four, R.drawable.banner,
 			R.drawable.banner1 };
 
-	public ListViewAdapter(Context context, List<String> list) {
+	public ListViewAdapter(Context context, List<String> list, ListView listView) {
 		this.context = context;
 		this.list = list;
+		this.listView = listView;
 	}
 
 	@Override
@@ -55,11 +57,7 @@ public class ListViewAdapter extends BaseAdapter {
 			holder = (Holder) view.getTag();
 		}
 		ImageView imageView = holder.getImageView();
-		if (cont == 3) {
-			cont = 0;
-		}
-		imageView.setImageResource(image[cont]);
-		cont++;
+		imageView.setImageResource(image[postition % list.size()]);
 		return view;
 	}
 

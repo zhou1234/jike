@@ -1,10 +1,15 @@
 package com.jike.shanglv;
 
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,6 +21,8 @@ import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.jike.shanglv.NetAndJson.JSONHelper;
+import com.jike.shanglv.NetAndJson.UserInfo;
 import com.umeng.analytics.MobclickAgent;
 
 public class ActivityZhanghuchongzhi extends Activity {
@@ -26,6 +33,7 @@ public class ActivityZhanghuchongzhi extends Activity {
 	private Button chongzhi_button;
 	private Context context;
 	private SharedPreferences sp;
+	private String loginReturnJson;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,7 @@ public class ActivityZhanghuchongzhi extends Activity {
 			setContentView(R.layout.activity_zhanghuchongzhi);
 			initView();
 			((MyApplication) getApplication()).addActivity(this);
+			queryUserInfo();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -160,4 +169,63 @@ public class ActivityZhanghuchongzhi extends Activity {
 		MobclickAgent.onPageStart("ActivityZhanghuchongzhi"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
+	
+	private void queryUserInfo() {//重新获取账户余额
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					MyApp ma = new MyApp(context);
+					String str = "{\"uname\":\""
+							+ sp.getString(SPkeys.lastUsername.getString(), "")
+							+ "\",\"upwd\":\""
+							+ sp.getString(SPkeys.lastPassword.getString(), "")
+							+ "\"}";
+					String param = "action=userlogin&sitekey=&userkey="
+							+ ma.getHm().get(PackageKeys.USERKEY.getString())
+									.toString()
+							+ "&str="
+							+ str
+							+ "&sign="
+							+ CommonFunc.MD5(ma.getHm()
+									.get(PackageKeys.USERKEY.getString())
+									.toString()
+									+ "userlogin" + str);
+					loginReturnJson = HttpUtils.getJsonContent(
+							ma.getServeUrl(), param);
+					Log.v("loginReturnJson", loginReturnJson);
+					Message msg = new Message();
+					msg.what = 1;
+					handler.sendMessage(msg);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:// 
+				JSONTokener jsonParser;
+				jsonParser = new JSONTokener(loginReturnJson);
+				try {
+					JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
+					String state = jsonObject.getString("c");
+					if (state.equals("0000")) {
+						String content = jsonObject.getString("d");					
+						UserInfo user = JSONHelper.parseObject(content,
+								UserInfo.class);
+						dangqianyue_tv.setText("￥"
+								+ user.getAmmount());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+	};
 }

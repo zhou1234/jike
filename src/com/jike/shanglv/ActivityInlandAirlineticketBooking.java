@@ -126,8 +126,9 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	private ImageLoader imageLoader;
 	private Boolean hasCommited = false;
 
-	private String flightno = "", fare = "", sd = "",
-			ischd = "0", isspe = "0";
+	private String flightno = "", fare = "", sd = "", ischd = "0", isspe = "0";
+
+	private String IsTeHui, PriceProvider, FareProviderStr, FlagEn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -287,7 +288,10 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 					ia.getFlightNo(),
 					jsonObject.getJSONArray("CabList")
 							.getJSONObject(selectCabinListIndex)
-							.getString("Cabin"), startoff_date_tv.getText()
+							.getString("Cabin"),
+					jsonObject.getJSONArray("CabList")
+							.getJSONObject(selectCabinListIndex)
+							.getString("IsTeHui"), startoff_date_tv.getText()
 							.toString(), TUIGAIQIAN_MSG_CODE);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -459,7 +463,10 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 					ia.getFlightNo(),
 					jsonObject3.getJSONArray("CabList")
 							.getJSONObject(selectCabinListIndex)
-							.getString("Cabin"), startoff_date_tv3.getText()
+							.getString("Cabin"),
+					jsonObject3.getJSONArray("CabList")
+							.getJSONObject(selectCabinListIndex)
+							.getString("IsTeHui"), startoff_date_tv3.getText()
 							.toString(), TUIGAIQIAN_MSG_CODE3);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -494,6 +501,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	/**
 	 * SingleOrDouble.doubleWayGo会在选择返程后被处理为SingleOrDouble.doubleWayBack
 	 * 所以参数只可能为SingleOrDouble.singleWay或SingleOrDouble.doubleWayBack（代表往返机票）
+	 * 
 	 * @param sd
 	 * @return
 	 */
@@ -508,6 +516,11 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 						ActivityInlandAirlineticketSelectCabin.TOKEN_NAME1)
 						.toString());
 				ia = new InlandAirlineInfo(jsonObject);
+				
+				IsTeHui = ia.getIsTeHui();
+				PriceProvider = ia.getPriceProvider();
+				FareProviderStr = ia.getFareProviderStr();
+
 			} else if (sd == SingleOrDouble.doubleWayBack) {
 				selectCabinListIndex3 = Integer.parseInt(bundle.get(
 						SELECTED_CABIN_INDEX2).toString());
@@ -621,8 +634,8 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 						}
 
 					} else {
-//						Toast.makeText(context, commitReturnJson, 0).show();
-//						finish();
+						// Toast.makeText(context, commitReturnJson, 0).show();
+						// finish();
 					}
 					progressdialog.dismiss();
 				} catch (Exception e) {
@@ -668,15 +681,16 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	}
 
 	private void startQueryTuigaiqian(final String flightNo,
-			final String cabin, final String fdate, final int TUIGAIQIAN_mc) {
+			final String cabin, final String IsTeHui, final String fdate,
+			final int TUIGAIQIAN_mc) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					MyApp ma = new MyApp(context);
 					String str = "{\"alcode\":\"" + flightNo
-							+ "\",\"cabin\":\"" + cabin + "\",\"fdate\":\""
-							+ fdate + "\"}";
+							+ "\",\"cabin\":\"" + cabin + "\",\"IsTeHui\":\""
+							+ IsTeHui + "\",\"fdate\":\"" + fdate + "\"}";
 					String param = "action=visor&str="
 							+ str
 							+ "&userkey="

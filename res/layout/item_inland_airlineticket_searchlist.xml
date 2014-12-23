@@ -4,12 +4,21 @@
     android:layout_height="wrap_content"
     android:background="@drawable/list_item_color_bg"
     android:paddingBottom="15dp"
-    android:paddingTop="15dp" >
+    >
+
+    <ImageView
+        android:id="@+id/teHui_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/te_hui" />
 
     <RelativeLayout
         android:id="@+id/one_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+         android:paddingTop="15dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
@@ -158,8 +167,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/one_rl"
         android:layout_marginLeft="10sp"
-        android:layout_marginTop="2dp"
         android:layout_marginRight="10sp"
+        android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/flight_rl"
         android:gravity="center_vertical|right" >
 
@@ -181,8 +190,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="3张"
             android:singleLine="true"
+            android:text="3张"
             android:textColor="#CD3737"
             android:textSize="16sp" >
         </TextView>
@@ -204,9 +213,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:text="￥32"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="￥32"
                 android:textColor="#FD8F23"
                 android:textSize="16sp" >
             </TextView>

@@ -116,7 +116,7 @@ public class HomeActivityNewN extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		//setListViewHeightBasedOnChildren(this.listView);
 	}
 
 	private ArrayList<HomeGridCell> getDefaultCellsData() {
@@ -133,22 +133,22 @@ public class HomeActivityNewN extends Activity {
 				if (str.equals("云商城")) {
 					intent.putExtra(Activity_Web_Frame.TITLE, "云商城");
 					intent.putExtra(Activity_Web_Frame.URL,
-							"http://b2b.51jp.cn/login");
+							"http://m.51jp.cn/About/Construction.html");
 				}
 				if (str.equals("签证")) {
 					intent.putExtra(Activity_Web_Frame.TITLE, "签证");
 					intent.putExtra(Activity_Web_Frame.URL,
-							"http://b2b.51jp.cn/login");
+							"http://m.51jp.cn/About/Construction.html");
 				}
 				if (str.equals("保险")) {
 					intent.putExtra(Activity_Web_Frame.TITLE, "保险");
 					intent.putExtra(Activity_Web_Frame.URL,
-							"http://b2b.51jp.cn/login");
+							"http://m.51jp.cn/About/Construction.html");
 				}
 				if (str.equals("商户联盟")) {
 					intent.putExtra(Activity_Web_Frame.TITLE, "商户联盟");
 					intent.putExtra(Activity_Web_Frame.URL,
-							"http://b2b.51jp.cn/login");
+							"http://m.51jp.cn/About/Construction.html");
 				}
 
 				HomeGridCell hgc = new HomeGridCell(i, defaultImg[i],
@@ -555,6 +555,25 @@ public class HomeActivityNewN extends Activity {
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPageEnd("HomeActivityNew");
+	}
 
+	private void setListViewHeightBasedOnChildren(ListView listView) {
+		if (listView == null)
+			return;
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			// pre-condition
+			return;
+		}
+		int totalHeight = 0;
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			View listItem = listAdapter.getView(i, null, listView);
+			listItem.measure(0, 0);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
 	}
 }

@@ -35,7 +35,7 @@ public class CommonFunc {
 		 Pattern p = null;  
 	        Matcher m = null;  
 	        boolean b = false;   
-	        p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号  
+	        p = Pattern.compile("^[1][3,4,5,7,8][0-9]{9}$"); // 验证手机号  
 	        m = p.matcher(mobiles);  
 	        b = m.matches();   
 	        return b;  

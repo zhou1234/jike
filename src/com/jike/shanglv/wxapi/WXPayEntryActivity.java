@@ -1,6 +1,8 @@
 package com.jike.shanglv.wxapi;
 
 import com.jike.shanglv.ActivityInlandAirlineticketOrderDetail;
+import com.jike.shanglv.ActivityInternationalAirlineticketOrderDetail;
+import com.jike.shanglv.ActivityOrderList;
 import com.jike.shanglv.ActivityZhanghuchongzhi;
 import com.jike.shanglv.MyApplication;
 import com.jike.shanglv.R;
@@ -25,6 +27,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	private static final String TAG = "WXPayEntryActivity";
 
 	private IWXAPI api;
+	@SuppressWarnings("unused")
+	private final String ORDERRECEIPT = "ORDERRECEIPT";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,10 +75,36 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 						public void onClick(DialogInterface arg0, int arg1) {
 							MyApplication application = (MyApplication) getApplication();
 							int code = application.getCode();
+							MyApplication myApplication = (MyApplication) getApplication();
 							if (code == 1) {
-								startActivity(new Intent(
+								Intent intent1 = new Intent(
 										WXPayEntryActivity.this,
-										ActivityInlandAirlineticketOrderDetail.class));
+										ActivityInlandAirlineticketOrderDetail.class);
+								intent1.putExtra(ORDERRECEIPT,
+										myApplication.getOrderID());
+								startActivity(intent1);
+								finish();
+							}
+							if (code == 2) {
+								Intent intent2 = new Intent(
+										WXPayEntryActivity.this,
+										ActivityInternationalAirlineticketOrderDetail.class);
+								intent2.putExtra(ORDERRECEIPT,
+										myApplication.getOrderID());
+								startActivity(intent2);
+								finish();
+							}
+							if (code == 14) {
+								Intent intent = new Intent(
+										WXPayEntryActivity.this,
+										ActivityOrderList.class);
+								intent.putExtra(
+										ActivityOrderList.ACTION_TOKENNAME,
+										ActivityOrderList.PHONE_ORDERLIST);
+								intent.putExtra(
+										ActivityOrderList.TITLE_TOKENNAME,
+										"话费充值订单");
+								startActivity(intent);
 								finish();
 							}
 							if (code == 15) {
@@ -83,7 +113,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 										ActivityZhanghuchongzhi.class));
 								finish();
 							}
-							
+
 						}
 					});
 			builder.show();

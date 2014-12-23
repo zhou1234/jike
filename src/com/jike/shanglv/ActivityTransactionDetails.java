@@ -132,6 +132,9 @@ public class ActivityTransactionDetails extends Activity implements
 	};
 
 	private void startQuery() {
+		if (HttpUtils.showNetCannotUse(context)) {
+			return;
+		}
 		new Thread(new Runnable() {
 
 			@Override
@@ -260,8 +263,8 @@ public class ActivityTransactionDetails extends Activity implements
 					tv_chuZhang.setTextColor(Color.BLUE);
 					tv_chuRu.setText("»Î’À:");
 				}
-			}else{
-				amt="0.00";
+			} else {
+				amt = "0.00";
 			}
 			tv_chuZhang.setText(amt);
 			return view;

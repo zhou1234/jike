@@ -144,28 +144,28 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 					startActivity(new Intent(context, MainActivityN.class));
 					break;
 				case R.id.pay_now_btn:
-					String userid = sp.getString(SPkeys.userid.getString(), "");
-					int paysystype = 1;
-					String siteid = sp.getString(SPkeys.siteid.getString(), "");
-					String sign = CommonFunc.MD5(orderID + amount + userid
-							+ paysystype + siteid);
-					MyApp ma = new MyApp(context);
-					String url = String.format(ma.getPayServeUrl(), orderID,
-							amount, userid, paysystype, siteid, sign);
-					Intent intent = new Intent(context, Activity_Web_Pay.class);
-					intent.putExtra(Activity_Web_Pay.URL, url);
-					intent.putExtra(Activity_Web_Pay.TITLE, "机票订单支付");
-					startActivity(intent);
+					// String userid = sp.getString(SPkeys.userid.getString(),
+					// "");
+					// int paysystype = 1;
+					// String siteid = sp.getString(SPkeys.siteid.getString(),
+					// "");
+					// String sign = CommonFunc.MD5(orderID + amount + userid
+					// + paysystype + siteid);
+					// MyApp ma = new MyApp(context);
+					// String url = String.format(ma.getPayServeUrl(), orderID,
+					// amount, userid, paysystype, siteid, sign);
 					// Intent intent = new Intent(context,
-					// Activity_Payway.class);
-					// intent.putExtra("orderID", orderID);
-					// intent.putExtra("paysystype", 1);
-					// intent.putExtra("body", "机票订单支付");
-					// intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT, amount);
+					// Activity_Web_Pay.class);
+					// intent.putExtra(Activity_Web_Pay.URL, url);
+					// intent.putExtra(Activity_Web_Pay.TITLE, "机票订单支付");
 					// startActivity(intent);
-					// finish();
-					break;
-				default:
+					Intent intent = new Intent(context, Activity_Payway.class);
+					intent.putExtra("orderID", orderID);
+					intent.putExtra("paysystype", 1);
+					intent.putExtra("body", "国内机票订单支付");
+					intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT, amount);
+					startActivity(intent);
+					finish();
 					break;
 				}
 			} catch (Exception e) {

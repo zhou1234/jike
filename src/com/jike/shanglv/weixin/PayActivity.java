@@ -49,6 +49,7 @@ public class PayActivity extends Activity {
 	private float amo;
 	private String orderID;
 	private MyApplication maApp;
+	private String orderno;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,6 @@ public class PayActivity extends Activity {
 	private void startRequest() {
 		progressDialog = ProgressDialog.show(PayActivity.this, "", "加载中。 。 。");
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				String userid = sp.getString(SPkeys.userid.getString(), "");
@@ -102,13 +102,12 @@ public class PayActivity extends Activity {
 									+ "paylog" + str);
 					result = HttpUtils.getJsonContent(ma.getServeUrl(), url);
 				}
-				if (paysystype == 1) {
+				if (paysystype == 1 || paysystype == 2 || paysystype == 14) {
 					float amount1 = (float) (amo + amo * 0.006);
-					String data = Float.toString(amount1);
 					amountWX = Integer.toString(Math.round(amount1 * 100));
 					String action = "action=paylog";
 					String str = "{\"orderID\":\"" + orderID
-							+ "\",\"amount\":\"" + data + "\",\"userid\":\""
+							+ "\",\"amount\":\"" + amo + "\",\"userid\":\""
 							+ userid + "\",\"paysystype\":\"" + paysystype
 							+ "\",\"siteid\":\"" + siteid + "\"}";
 					String url = action
@@ -140,9 +139,10 @@ public class PayActivity extends Activity {
 			super.handleMessage(msg);
 			progressDialog.dismiss();
 			try {
-				JSONObject jsonObject = new JSONObject(result);
+				JSONObject jsonObject = new JSONObject(result);//{"c":"0000","d":"添加支付日志成功","orderno":"201412230907471110"}
 				String str = jsonObject.getString("c");
 				if (str.equals("0000")) {
+					orderno=jsonObject.getString("orderno");
 					new GetAccessTokenTask().execute();
 				} else {
 					String data = jsonObject.getString("d");
@@ -151,9 +151,7 @@ public class PayActivity extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
 		}
-
 	};
 
 	/**
@@ -420,15 +418,6 @@ public class PayActivity extends Activity {
 		return "crestxu_" + genTimeStamp();
 	}
 
-	/**
-	 * 注意：商户系统内部的订单号,32个字符内、可包含字母,确保在商户系统唯一
-	 */
-	private String genOutTradNo() {
-		Random random = new Random();
-		return MD5.getMessageDigest(String.valueOf(random.nextInt(10000))
-				.getBytes());
-	}
-
 	private long timeStamp;
 	private String nonceStr, packageValue;
 
@@ -460,7 +449,7 @@ public class PayActivity extends Activity {
 											// 由开发者自定义，可用于订单的查询与跟踪，建议根据支付用户信息生成此id
 			json.put("traceid", traceId);
 			nonceStr = genNonceStr();
-			json.put("noncestr", nonceStr);   
+			json.put("noncestr", nonceStr);
 
 			List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
 			packageParams.add(new BasicNameValuePair("bank_type", "WX"));
@@ -470,7 +459,7 @@ public class PayActivity extends Activity {
 			packageParams.add(new BasicNameValuePair("notify_url",
 					"http://servers.51jp.cn/PayNotify-Weixin"));
 			packageParams.add(new BasicNameValuePair("out_trade_no",
-					genOutTradNo()));
+					orderno));
 			packageParams.add(new BasicNameValuePair("partner",
 					Constants.PARTNER_ID));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip",
@@ -525,6 +514,7 @@ public class PayActivity extends Activity {
 		api.sendReq(req);
 		finish();
 	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();

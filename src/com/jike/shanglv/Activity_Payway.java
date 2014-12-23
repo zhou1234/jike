@@ -63,10 +63,11 @@ public class Activity_Payway extends Activity {
 		} else {
 			tv_counterFee.setVisibility(View.VISIBLE);
 		}
-		if (paysystype == 1) {
+		if (paysystype == 1 || paysystype == 2 || paysystype == 14) {
 			orderID = intent.getStringExtra("orderID");
+			findViewById(R.id.sc_pay_rl).setVisibility(View.GONE);
+			findViewById(R.id.bottom_line).setVisibility(View.GONE);
 		}
-
 	}
 
 	OnClickListener myClickListener = new OnClickListener() {
@@ -76,41 +77,41 @@ public class Activity_Payway extends Activity {
 			try {
 				switch (arg0.getId()) {
 				case R.id.wx_pay_rl:
-					// Intent intent1 = new Intent(context, PayActivity.class);
-					// intent1.putExtra("amount", amount);
-					// intent1.putExtra("body", body);
-					// intent1.putExtra("paysystype", paysystype);
-					// intent1.putExtra("orderID", orderID);
-					// boolean isPaySupported = api.getWXAppSupportAPI() >=
-					// Build.PAY_SUPPORTED_SDK_INT;
-					// if (api.isWXAppInstalled()) {
-					// if (isPaySupported) {
-					// startActivity(intent1);
-					// finish();
-					// } else {
-					// Toast.makeText(context, "当前微信版本不支持",
-					// Toast.LENGTH_SHORT).show();
-					// }
-					// } else {
-					// Toast.makeText(context, "微信未安装", Toast.LENGTH_SHORT)
-					// .show();
-					// }
+					Intent intent1 = new Intent(context, PayActivity.class);
+					intent1.putExtra("amount", amount);
+					intent1.putExtra("body", body);
+					intent1.putExtra("paysystype", paysystype);
+					intent1.putExtra("orderID", orderID);
+					boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+					if (api.isWXAppInstalled()) {
+						if (isPaySupported) {
+							startActivity(intent1);
+							finish();
+						} else {
+							Toast.makeText(context, "当前微信版本不支持",
+									Toast.LENGTH_SHORT).show();
+						}
+					} else {
+						Toast.makeText(context, "微信未安装", Toast.LENGTH_SHORT)
+								.show();
+					}
 
 					break;
 				case R.id.online_pay_rl:
 					String userid = sp.getString(SPkeys.userid.getString(), "");
-					int paysystype = 15;
+					// int paysystype = 15;
 					String siteid = sp.getString(SPkeys.siteid.getString(), "");
-					String sign = CommonFunc.MD5(amount + userid + paysystype
+					String sign = CommonFunc.MD5(orderID
+							+ amount + userid + paysystype
 							+ siteid);
 					MyApp ma = new MyApp(context);
 					// <string
 					// name="test_pay_server_url">http://gatewayceshi.51jp.cn/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
-					String url = String.format(ma.getPayServeUrl(), "", amount,
+					String url = String.format(ma.getPayServeUrl(), orderID, amount,
 							userid, paysystype, siteid, sign);
 					Intent intent = new Intent(context, Activity_Web_Pay.class);
 					intent.putExtra(Activity_Web_Pay.URL, url);
-					intent.putExtra(Activity_Web_Pay.TITLE, "账户充值支付");
+					intent.putExtra(Activity_Web_Pay.TITLE, body);
 					startActivity(intent);
 					finish();
 					break;

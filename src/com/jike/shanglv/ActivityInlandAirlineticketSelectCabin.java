@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -96,7 +97,7 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 		getIntentData();
 
 		InlandAirlineInfo ia = new InlandAirlineInfo(jsonObject);
-		
+
 		title_tv.setText(ia.getCarrinerName() + ia.getFlightNo());
 		try {
 			startoff_date_tv.setText(DateUtil.getDate(ia.getOffTime()));
@@ -138,6 +139,7 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 		}
 		// 用户搜索条件数据
 		if (bundle != null) {
+
 			if (bundle.containsKey("wayType"))
 				wayType = (SingleOrDouble) bundle.get("wayType");
 			if (bundle.containsKey("startcity_code"))
@@ -234,6 +236,8 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 					convertView = inflater.inflate(
 							R.layout.item_inland_airlineticket_cabinlist, null);
 				}
+				ImageView teHui_iv = (ImageView) convertView
+						.findViewById(R.id.teHui_iv);
 				TextView tv_price = (TextView) convertView
 						.findViewById(R.id.tv_price);
 				TextView CabinName_tv = (TextView) convertView
@@ -260,6 +264,13 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 				// {
 				// fanMoney_rl.setVisibility(View.VISIBLE);
 				// }
+				//String teHui = str.get(position).getIsTeHui();
+//				if (teHui.equals("1")) {
+//					teHui_iv.setVisibility(View.VISIBLE);
+//				} else {
+					teHui_iv.setVisibility(View.GONE);
+//				}
+
 				tv_price.setText(" ￥" + str.get(position).getFareEx());
 				CabinName_tv.setText(str.get(position).getCabinName()
 						+ str.get(position).getCabin());
@@ -448,5 +459,5 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 		MobclickAgent.onPageStart("ActivityInlandAirlineticketSelectCabin"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
-	
+
 }
