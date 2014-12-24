@@ -30,8 +30,12 @@ import android.widget.TextView;
  *******************************************************************/
 
 public class CustomProgressDialog extends Dialog {
-	private Context context = null;
-	private static CustomProgressDialog customProgressDialog = null;
+
+	protected CustomProgressDialog(Context context, boolean cancelable,
+			OnCancelListener cancelListener) {
+		super(context, cancelable, cancelListener);
+		this.context = context;
+	}
 
 	public CustomProgressDialog(Context context) {
 		super(context);
@@ -40,12 +44,17 @@ public class CustomProgressDialog extends Dialog {
 
 	public CustomProgressDialog(Context context, int theme) {
 		super(context, theme);
+		this.context = context;
 	}
+
+	private Context context = null;
+	private static CustomProgressDialog customProgressDialog = null;
 
 	public static CustomProgressDialog createDialog(Context context) {
 		customProgressDialog = new CustomProgressDialog(context,
 				R.style.CustomProgressDialog);
-		customProgressDialog.setContentView(R.layout.custom_progress_dialog_new);
+		customProgressDialog
+				.setContentView(R.layout.custom_progress_dialog_new);
 		customProgressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
 
 		return customProgressDialog;

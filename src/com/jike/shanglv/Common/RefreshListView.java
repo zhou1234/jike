@@ -21,32 +21,31 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.jike.shanglv.R;
 
-public class RefreshListView extends ListView implements OnScrollListener, OnClickListener{
+public class RefreshListView extends ListView implements OnScrollListener,
+		OnClickListener {
 
-	public interface IListViewState
-	{
-		int LVS_NORMAL = 0;					//  普通状态
-		int LVS_PULL_REFRESH = 1;			//  下拉刷新状态
-		int LVS_RELEASE_REFRESH = 2;		//  松开刷新状态
-		int LVS_LOADING = 3;				//  加载状态
+	public interface IListViewState {
+		int LVS_NORMAL = 0; // 普通状态
+		int LVS_PULL_REFRESH = 1; // 下拉刷新状态
+		int LVS_RELEASE_REFRESH = 2; // 松开刷新状态
+		int LVS_LOADING = 3; // 加载状态
 	}
-	
-	public interface IOnRefreshListener
-	{
+
+	public interface IOnRefreshListener {
 		void OnRefresh();
 	}
-	
-	private View mHeadView;				
+
+	private View mHeadView;
 	private TextView mRefreshTextview;
 	private TextView mLastUpdateTextView;
 	private ImageView mArrowImageView;
 	private ProgressBar mHeadProgressBar;
-	
+
 	private int mHeadContentWidth;
 	private int mHeadContentHeight;
 
-	private IOnRefreshListener mOnRefreshListener;			// 头部刷新监听器
-	
+	private IOnRefreshListener mOnRefreshListener; // 头部刷新监听器
+
 	// 用于保证startY的值在一个完整的touch事件中只被记录一次
 	private boolean mIsRecord = false;
 	// 标记的Y坐标值
@@ -59,66 +58,67 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 	private int mViewState = IListViewState.LVS_NORMAL;
 
 	private final static int RATIO = 2;
-	
+
 	private RotateAnimation animation;
 	private RotateAnimation reverseAnimation;
 	private boolean mBack = false;
-	
+
 	public RefreshListView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		init(context);
 	}
-	
+
 	public RefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);
 	}
-	
-	public void setOnRefreshListener(IOnRefreshListener listener)
-	{
+
+	public RefreshListView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context);
+	}
+
+	public void setOnRefreshListener(IOnRefreshListener listener) {
 		mOnRefreshListener = listener;
 	}
-	
-	private void onRefresh()
-	{
-		if (mOnRefreshListener != null)
-		{
+
+	private void onRefresh() {
+		if (mOnRefreshListener != null) {
 			mOnRefreshListener.OnRefresh();
 		}
 	}
-	
-	public void onRefreshComplete()
-	{
-		mHeadView.setPadding(0,  -1 * mHeadContentHeight, 0, 0);
+
+	public void onRefreshComplete() {
+		mHeadView.setPadding(0, -1 * mHeadContentHeight, 0, 0);
 		mLastUpdateTextView.setText("最近更新:" + new Date().toLocaleString());
 		switchViewState(IListViewState.LVS_NORMAL);
 	}
-	
-	private void init(Context context)
-	{
+
+	private void init(Context context) {
 		initHeadView(context);
-		
+
 		initLoadMoreView(context);
-		
+
 		setOnScrollListener(this);
 	}
-	
-	
-	// 初始化headview试图
-	private void initHeadView(Context context)
-	{
-		mHeadView = LayoutInflater.from(context).inflate(R.layout.refresh_listview_head, null);
 
-		mArrowImageView = (ImageView) mHeadView.findViewById(R.id.head_arrowImageView);
+	// 初始化headview试图
+	private void initHeadView(Context context) {
+		mHeadView = LayoutInflater.from(context).inflate(
+				R.layout.refresh_listview_head, null);
+
+		mArrowImageView = (ImageView) mHeadView
+				.findViewById(R.id.head_arrowImageView);
 		mArrowImageView.setMinimumWidth(60);
 
+		mHeadProgressBar = (ProgressBar) mHeadView
+				.findViewById(R.id.head_progressBar);
 
-		mHeadProgressBar= (ProgressBar) mHeadView.findViewById(R.id.head_progressBar);
-		
-		mRefreshTextview = (TextView) mHeadView.findViewById(R.id.head_tipsTextView);
-		
-		mLastUpdateTextView = (TextView) mHeadView.findViewById(R.id.head_lastUpdatedTextView);
+		mRefreshTextview = (TextView) mHeadView
+				.findViewById(R.id.head_tipsTextView);
+
+		mLastUpdateTextView = (TextView) mHeadView
+				.findViewById(R.id.head_lastUpdatedTextView);
 
 		measureView(mHeadView);
 		mHeadContentHeight = mHeadView.getMeasuredHeight();
@@ -128,39 +128,39 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 		mHeadView.invalidate();
 
 		addHeaderView(mHeadView, null, false);
-		
-		animation = new RotateAnimation(0, -180,
-				Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
+
+		animation = new RotateAnimation(0, -180, Animation.RELATIVE_TO_SELF,
+				0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		animation.setInterpolator(new LinearInterpolator());
 		animation.setDuration(250);
 		animation.setFillAfter(true);
 
 		reverseAnimation = new RotateAnimation(-180, 0,
-				Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
 		reverseAnimation.setInterpolator(new LinearInterpolator());
 		reverseAnimation.setDuration(200);
 		reverseAnimation.setFillAfter(true);
 	}
-	
+
 	// 初始化footview试图
-	private void initLoadMoreView(Context context)
-	{
-		mFootView= LayoutInflater.from(context).inflate(R.layout.refresh_listview_loadmore, null);
-		
+	private void initLoadMoreView(Context context) {
+		mFootView = LayoutInflater.from(context).inflate(
+				R.layout.refresh_listview_loadmore, null);
+
 		mLoadMoreView = mFootView.findViewById(R.id.load_more_view);
-		
-		mLoadMoreTextView = (TextView) mFootView.findViewById(R.id.load_more_tv);
-		
+
+		mLoadMoreTextView = (TextView) mFootView
+				.findViewById(R.id.load_more_tv);
+
 		mLoadingView = mFootView.findViewById(R.id.loading_layout);
-	
+
 		mLoadMoreView.setOnClickListener(this);
-		
+
 		addFooterView(mFootView);
 
 	}
-	
+
 	// 此方法直接照搬自网络上的一个下拉刷新的demo，计算headView的width以及height
 	private void measureView(View child) {
 		ViewGroup.LayoutParams p = child.getLayoutParams();
@@ -182,23 +182,23 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 	}
 
 	@Override
-	public void onScroll(AbsListView arg0, int firstVisiableItem, int visibleItemCount, int totalItemCount) {
+	public void onScroll(AbsListView arg0, int firstVisiableItem,
+			int visibleItemCount, int totalItemCount) {
 		mFirstItemIndex = firstVisiableItem;
 
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView arg0, int arg1) {
-		
+
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-				
-		if (mOnRefreshListener != null)
-		{
+
+		if (mOnRefreshListener != null) {
 			switch (ev.getAction()) {
-			case MotionEvent.ACTION_DOWN:		
+			case MotionEvent.ACTION_DOWN:
 				doActionDown(ev);
 				break;
 			case MotionEvent.ACTION_MOVE:
@@ -209,96 +209,80 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 				break;
 			default:
 				break;
-			}	
+			}
 		}
 		return super.onTouchEvent(ev);
 	}
-	
-	private void doActionDown(MotionEvent ev)
-	{
-		if(mIsRecord == false && mFirstItemIndex == 0)
-		{
+
+	private void doActionDown(MotionEvent ev) {
+		if (mIsRecord == false && mFirstItemIndex == 0) {
 			mStartY = (int) ev.getY();
 			mIsRecord = true;
 		}
 	}
-	
-	private void doActionMove(MotionEvent ev)
-	{
+
+	private void doActionMove(MotionEvent ev) {
 		mMoveY = (int) ev.getY();
-		
-		if(mIsRecord == false && mFirstItemIndex == 0)
-		{
+
+		if (mIsRecord == false && mFirstItemIndex == 0) {
 			mStartY = (int) ev.getY();
 			mIsRecord = true;
 		}
-		
-		if (mIsRecord == false || mViewState == IListViewState.LVS_LOADING)
-		{
-			return ;
-		}	
-		
-		int offset = (mMoveY - mStartY) / RATIO;	
-		
-		switch(mViewState)
-		{
-			case IListViewState.LVS_NORMAL:
-			{
-				if (offset > 0)
-				{		
-					mHeadView.setPadding(0, offset - mHeadContentHeight, 0, 0);
-					switchViewState(IListViewState.LVS_PULL_REFRESH);
-				}
-			}
-				break;
-			case IListViewState.LVS_PULL_REFRESH:
-			{
-				setSelection(0);
+
+		if (mIsRecord == false || mViewState == IListViewState.LVS_LOADING) {
+			return;
+		}
+
+		int offset = (mMoveY - mStartY) / RATIO;
+
+		switch (mViewState) {
+		case IListViewState.LVS_NORMAL: {
+			if (offset > 0) {
 				mHeadView.setPadding(0, offset - mHeadContentHeight, 0, 0);
-				if (offset < 0)
-				{
-					switchViewState(IListViewState.LVS_NORMAL);
-				}else if (offset > mHeadContentHeight)
-				{
-					switchViewState(IListViewState.LVS_RELEASE_REFRESH);
-				}
+				switchViewState(IListViewState.LVS_PULL_REFRESH);
 			}
-				break;
-			case IListViewState.LVS_RELEASE_REFRESH:
-			{
-				setSelection(0);
-				mHeadView.setPadding(0, offset - mHeadContentHeight, 0, 0);
-				if (offset >= 0 && offset <= mHeadContentHeight)
-				{
-					mBack = true;
-					switchViewState(IListViewState.LVS_PULL_REFRESH);
-				}else if (offset < 0)
-				{
-					switchViewState(IListViewState.LVS_NORMAL);
-				}else{
-				
-				}
+		}
+			break;
+		case IListViewState.LVS_PULL_REFRESH: {
+			setSelection(0);
+			mHeadView.setPadding(0, offset - mHeadContentHeight, 0, 0);
+			if (offset < 0) {
+				switchViewState(IListViewState.LVS_NORMAL);
+			} else if (offset > mHeadContentHeight) {
+				switchViewState(IListViewState.LVS_RELEASE_REFRESH);
 			}
-				break;
-			default:
-				return;
-		};		
+		}
+			break;
+		case IListViewState.LVS_RELEASE_REFRESH: {
+			setSelection(0);
+			mHeadView.setPadding(0, offset - mHeadContentHeight, 0, 0);
+			if (offset >= 0 && offset <= mHeadContentHeight) {
+				mBack = true;
+				switchViewState(IListViewState.LVS_PULL_REFRESH);
+			} else if (offset < 0) {
+				switchViewState(IListViewState.LVS_NORMAL);
+			} else {
+
+			}
+		}
+			break;
+		default:
+			return;
+		}
+		;
 	}
-	
-	private void doActionUp(MotionEvent ev)
-	{
+
+	private void doActionUp(MotionEvent ev) {
 		mIsRecord = false;
 		mBack = false;
-		
-		if (mViewState == IListViewState.LVS_LOADING)
-		{
-			return ;
+
+		if (mViewState == IListViewState.LVS_LOADING) {
+			return;
 		}
-		
-		switch(mViewState)
-		{
+
+		switch (mViewState) {
 		case IListViewState.LVS_NORMAL:
-		
+
 			break;
 		case IListViewState.LVS_PULL_REFRESH:
 			mHeadView.setPadding(0, -1 * mHeadContentHeight, 0, 0);
@@ -309,142 +293,125 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 			switchViewState(IListViewState.LVS_LOADING);
 			onRefresh();
 			break;
-		}	
+		}
 	}
-	
 
 	// 切换headview视图
-	private void switchViewState(int state)
-	{	
-		switch(state)
-		{
-			case IListViewState.LVS_NORMAL:
-			{
-				Log.e("!!!!!!!!!!!", "convert to IListViewState.LVS_NORMAL");
-				mArrowImageView.clearAnimation();
-				mArrowImageView.setImageResource(R.drawable.refresh_arrow);
-			}
-				break;
-			case IListViewState.LVS_PULL_REFRESH:
-			{
-				Log.e("!!!!!!!!!!!", "convert to IListViewState.LVS_PULL_REFRESH");
-				mHeadProgressBar.setVisibility(View.GONE);
-				mArrowImageView.setVisibility(View.VISIBLE);
-				mRefreshTextview.setText("下拉可以刷新");
-				mArrowImageView.clearAnimation();
+	private void switchViewState(int state) {
+		switch (state) {
+		case IListViewState.LVS_NORMAL: {
+			Log.e("!!!!!!!!!!!", "convert to IListViewState.LVS_NORMAL");
+			mArrowImageView.clearAnimation();
+			mArrowImageView.setImageResource(R.drawable.refresh_arrow);
+		}
+			break;
+		case IListViewState.LVS_PULL_REFRESH: {
+			Log.e("!!!!!!!!!!!", "convert to IListViewState.LVS_PULL_REFRESH");
+			mHeadProgressBar.setVisibility(View.GONE);
+			mArrowImageView.setVisibility(View.VISIBLE);
+			mRefreshTextview.setText("下拉可以刷新");
+			mArrowImageView.clearAnimation();
 
-				// 是由RELEASE_To_REFRESH状态转变来的
-				if (mBack)
-				{
-					mBack = false;
-					mArrowImageView.clearAnimation();
-					mArrowImageView.startAnimation(reverseAnimation);
-				}
-			}
-				break;
-			case IListViewState.LVS_RELEASE_REFRESH:
-			{
-				Log.e("!!!!!!!!!!!", "convert to IListViewState.LVS_RELEASE_REFRESH");
-				mHeadProgressBar.setVisibility(View.GONE);
-				mArrowImageView.setVisibility(View.VISIBLE);
-				mRefreshTextview.setText("松开获取更多");
+			// 是由RELEASE_To_REFRESH状态转变来的
+			if (mBack) {
+				mBack = false;
 				mArrowImageView.clearAnimation();
-				mArrowImageView.startAnimation(animation);
+				mArrowImageView.startAnimation(reverseAnimation);
 			}
-				break;
-			case IListViewState.LVS_LOADING:
-			{
-				Log.e("!!!!!!!!!!!", "convert to IListViewState.LVS_LOADING");
-				mHeadProgressBar.setVisibility(View.VISIBLE);
-				mArrowImageView.clearAnimation();
-				mArrowImageView.setVisibility(View.GONE);
-				mRefreshTextview.setText("载入中...");
-			}
-				break;
-				default:
-					return;
-		}	
+		}
+			break;
+		case IListViewState.LVS_RELEASE_REFRESH: {
+			Log.e("!!!!!!!!!!!",
+					"convert to IListViewState.LVS_RELEASE_REFRESH");
+			mHeadProgressBar.setVisibility(View.GONE);
+			mArrowImageView.setVisibility(View.VISIBLE);
+			mRefreshTextview.setText("松开获取更多");
+			mArrowImageView.clearAnimation();
+			mArrowImageView.startAnimation(animation);
+		}
+			break;
+		case IListViewState.LVS_LOADING: {
+			Log.e("!!!!!!!!!!!", "convert to IListViewState.LVS_LOADING");
+			mHeadProgressBar.setVisibility(View.VISIBLE);
+			mArrowImageView.clearAnimation();
+			mArrowImageView.setVisibility(View.GONE);
+			mRefreshTextview.setText("载入中...");
+		}
+			break;
+		default:
+			return;
+		}
 		mViewState = state;
 	}
-	
-	private View mFootView;								
+
+	private View mFootView;
 	private View mLoadMoreView;
 	private TextView mLoadMoreTextView;
 	private View mLoadingView;
-	private IOnLoadMoreListener mLoadMoreListener;						// 加载更多监听器
+	private IOnLoadMoreListener mLoadMoreListener; // 加载更多监听器
 	private int mLoadMoreState = IListViewState.LVS_NORMAL;
-	
-	public interface ILoadMoreViewState
-	{
-		int LMVS_NORMAL= 0;					//  普通状态
-		int LMVS_LOADING = 1;				//  加载状态
-		int LMVS_OVER = 2;					//  结束状态
+
+	public interface ILoadMoreViewState {
+		int LMVS_NORMAL = 0; // 普通状态
+		int LMVS_LOADING = 1; // 加载状态
+		int LMVS_OVER = 2; // 结束状态
 	}
-	
-	public interface IOnLoadMoreListener
-	{
+
+	public interface IOnLoadMoreListener {
 		void OnLoadMore();
 	}
-	
-	public void setOnLoadMoreListener(IOnLoadMoreListener listener)
-	{
+
+	public void setOnLoadMoreListener(IOnLoadMoreListener listener) {
 		mLoadMoreListener = listener;
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch(v.getId())
-		{
-			case R.id.load_more_view:
-			{
-				if (mLoadMoreListener != null && mLoadMoreState == IListViewState.LVS_NORMAL)
-				{
-					updateLoadMoreViewState(ILoadMoreViewState.LMVS_LOADING);
-					mLoadMoreListener.OnLoadMore();
-				}
+		switch (v.getId()) {
+		case R.id.load_more_view: {
+			if (mLoadMoreListener != null
+					&& mLoadMoreState == IListViewState.LVS_NORMAL) {
+				updateLoadMoreViewState(ILoadMoreViewState.LMVS_LOADING);
+				mLoadMoreListener.OnLoadMore();
 			}
+		}
 			break;
 		}
 	}
-	
+
 	// flag 数据是否已全部加载完毕
-	public void onLoadMoreComplete(boolean flag)
-	{
-		if (flag)
-		{
+	public void onLoadMoreComplete(boolean flag) {
+		if (flag) {
 			updateLoadMoreViewState(ILoadMoreViewState.LMVS_OVER);
-		}else{
+		} else {
 			updateLoadMoreViewState(ILoadMoreViewState.LMVS_NORMAL);
 		}
 	}
-	
+
 	// 更新footview视图
-	private void updateLoadMoreViewState(int state)
-	{
-		switch(state)
-		{
-			case ILoadMoreViewState.LMVS_NORMAL:
-				mLoadingView.setVisibility(View.GONE);
-				mLoadMoreTextView.setVisibility(View.VISIBLE);
-				mLoadMoreTextView.setText("查看更多");
-				break;
-			case ILoadMoreViewState.LMVS_LOADING:
-				mLoadingView.setVisibility(View.VISIBLE);
-				mLoadMoreTextView.setVisibility(View.GONE);
-				break;
-			case ILoadMoreViewState.LMVS_OVER:
-				mLoadingView.setVisibility(View.GONE);
-				mLoadMoreTextView.setVisibility(View.GONE);
-				mLoadMoreTextView.setText("加载完成，没有更多啦！");
-				break;
-				default:
-					break;
+	private void updateLoadMoreViewState(int state) {
+		switch (state) {
+		case ILoadMoreViewState.LMVS_NORMAL:
+			mLoadingView.setVisibility(View.GONE);
+			mLoadMoreTextView.setVisibility(View.VISIBLE);
+			mLoadMoreTextView.setText("查看更多");
+			break;
+		case ILoadMoreViewState.LMVS_LOADING:
+			mLoadingView.setVisibility(View.VISIBLE);
+			mLoadMoreTextView.setVisibility(View.GONE);
+			break;
+		case ILoadMoreViewState.LMVS_OVER:
+			mLoadingView.setVisibility(View.GONE);
+			mLoadMoreTextView.setVisibility(View.GONE);
+			mLoadMoreTextView.setText("加载完成，没有更多啦！");
+			break;
+		default:
+			break;
 		}
 		mLoadMoreState = state;
 	}
-	
-	public void removeFootView()
-	{
+
+	public void removeFootView() {
 		removeFooterView(mFootView);
 	}
 }

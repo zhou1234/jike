@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/list_item_color_bg"
-    android:paddingBottom="15dp"
-    >
+    android:paddingBottom="15dp" >
 
     <ImageView
         android:id="@+id/teHui_iv"
@@ -18,9 +17,9 @@
         android:id="@+id/one_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:paddingTop="15dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:paddingRight="10dp"
+        android:paddingTop="15dp" >
 
         <LinearLayout
             android:id="@+id/city_ll"
@@ -155,6 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
+            android:ellipsize="end"
             android:singleLine="true"
             android:text="739中"
             android:textColor="@color/black6"
@@ -167,7 +167,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/one_rl"
         android:layout_marginLeft="10sp"
-        android:layout_marginRight="10sp"
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/flight_rl"
         android:gravity="center_vertical|right" >
@@ -200,6 +199,7 @@
             android:id="@+id/fanMoney_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:gravity="center_vertical" >
 
             <ImageView
@@ -214,6 +214,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:ellipsize="end"
+                android:gravity="right"
                 android:singleLine="true"
                 android:text="￥32"
                 android:textColor="#FD8F23"

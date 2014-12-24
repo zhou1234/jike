@@ -264,12 +264,12 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 				// {
 				// fanMoney_rl.setVisibility(View.VISIBLE);
 				// }
-				//String teHui = str.get(position).getIsTeHui();
-//				if (teHui.equals("1")) {
-//					teHui_iv.setVisibility(View.VISIBLE);
-//				} else {
+				String teHui = str.get(position).getIsTeHui();
+				if (teHui.equals("1")) {
+					teHui_iv.setVisibility(View.VISIBLE);
+				} else {
 					teHui_iv.setVisibility(View.GONE);
-//				}
+				}
 
 				tv_price.setText(" гд" + str.get(position).getFareEx());
 				CabinName_tv.setText(str.get(position).getCabinName()

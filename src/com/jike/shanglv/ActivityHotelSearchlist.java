@@ -518,7 +518,6 @@ public class ActivityHotelSearchlist extends Activity implements
 										.toString()
 										+ "hlist" + str1);
 					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					String str2 = "";
@@ -809,6 +808,7 @@ public class ActivityHotelSearchlist extends Activity implements
 					}
 				});
 			}
+			marker.remove();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -843,7 +843,7 @@ public class ActivityHotelSearchlist extends Activity implements
 
 		@Override
 		public int getCount() {
-			return str.size();   
+			return str.size();
 		}
 
 		public void updateListView(List<Hotel> list) {
@@ -997,7 +997,12 @@ public class ActivityHotelSearchlist extends Activity implements
 	protected void onDestroy() {
 		super.onDestroy();
 		// 在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-		// mMapView.onDestroy();
+		if (mMapView != null) {
+			mBaidumap.clear();
+			mBaidumap = null;
+			mMapView.destroyDrawingCache();
+			mMapView.removeAllViews();
+		}
 
 	}
 

@@ -98,12 +98,12 @@ public class Activity_Web_Frame extends Activity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		try {
-			loading_ll.setVisibility(View.VISIBLE);
-			frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
-			AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
-					.getBackground();
-			anim.setOneShot(false);
-			anim.start();
+//			loading_ll.setVisibility(View.VISIBLE);
+//			frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+//			AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
+//					.getBackground();
+//			anim.setOneShot(false);
+//			anim.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -120,6 +120,12 @@ public class Activity_Web_Frame extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		loading_ll.setVisibility(View.VISIBLE);
+		frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+		AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
+				.getBackground();
+		anim.setOneShot(false);
+		anim.start();
 		webView.loadUrl(url);
 		MobclickAgent.onPageStart("Activity_Web_Frame"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长

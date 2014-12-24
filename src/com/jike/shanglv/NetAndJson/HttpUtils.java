@@ -76,6 +76,7 @@ public class HttpUtils {
 					baos.write(data, 0, len);
 				}
 				jsonString = new String(baos.toByteArray());
+				baos.close();
 			}
 
 		} catch (Exception e) {

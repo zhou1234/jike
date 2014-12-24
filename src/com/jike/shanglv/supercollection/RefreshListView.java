@@ -66,7 +66,6 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 	
 	public RefreshListView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		init(context);
 	}
 	
@@ -74,7 +73,11 @@ public class RefreshListView extends ListView implements OnScrollListener, OnCli
 		super(context, attrs);
 		init(context);
 	}
-	
+	public RefreshListView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context);
+	}
+
 	public void setOnRefreshListener(IOnRefreshListener listener)
 	{
 		mOnRefreshListener = listener;

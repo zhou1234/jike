@@ -174,7 +174,7 @@ public class SelectZhengceActivity extends Activity {
 									.get(PackageKeys.USERKEY.getString())
 									.toString()
 									+ "policylist" + str);
-					// policyReturnJson = HttpUtils.getJsonContent(  
+					// policyReturnJson = HttpUtils.getJsonContent(
 					// ma.getServeUrl(), param);
 					policyReturnJson = HttpUtils.myPost(ma.getServeUrl(), param);
 					Message msg = new Message();

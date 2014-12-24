@@ -14,6 +14,8 @@ public class CabList {
 
 	public CabList(JSONObject json) {
 		try {
+			this.IsTeHui=json.getString("IsTeHui");
+			this.FareProviderStr=json.getString("FareProviderStr");
 			this.Cabin = json.getString("Cabin");
 			this.PolicyID = json.getString("PolicyID");
 			this.VerifyInfo = json.getString("VerifyInfo");

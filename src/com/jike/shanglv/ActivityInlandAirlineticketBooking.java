@@ -322,6 +322,8 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 				+ jipiaojia
 				+ "\",\"scode\":\""
 				+ startcity_code
+				+ "\",\"IsTeHui\":\""
+				+ IsTeHui
 				+ "\",\"ecode\":\""
 				+ arrivecity_code
 				+ "\",\"godate\":\""
@@ -363,6 +365,8 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 				+ jipiaojia3
 				+ "\",\"scode\":\""
 				+ arrivecity_code
+				+ "\",\"IsTeHui\":\""
+				+ IsTeHui
 				+ "\",\"ecode\":\""
 				+ startcity_code
 				+ "\",\"godate\":\""
@@ -516,11 +520,10 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 						ActivityInlandAirlineticketSelectCabin.TOKEN_NAME1)
 						.toString());
 				ia = new InlandAirlineInfo(jsonObject);
-				
 				IsTeHui = ia.getIsTeHui();
 				PriceProvider = ia.getPriceProvider();
 				FareProviderStr = ia.getFareProviderStr();
-
+				FlagEn = ia.getFareProviderStr();
 			} else if (sd == SingleOrDouble.doubleWayBack) {
 				selectCabinListIndex3 = Integer.parseInt(bundle.get(
 						SELECTED_CABIN_INDEX2).toString());
@@ -528,6 +531,10 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 						ActivityInlandAirlineticketSelectCabin.TOKEN_NAME2)
 						.toString());
 				ia = new InlandAirlineInfo(jsonObject3);
+				IsTeHui = ia.getIsTeHui();
+				PriceProvider = ia.getPriceProvider();
+				FareProviderStr = ia.getFareProviderStr();
+				FlagEn = ia.getFareProviderStr();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -782,6 +789,19 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 							+ sp.getString(SPkeys.userid.getString(), "")
 							+ "\",\"amount\": \""
 							+ totalPrice
+
+							+ "\",\"isTeHui\": \""
+							+ IsTeHui
+
+							+ "\",\"priceProvider\": \""
+							+ PriceProvider
+
+							+ "\",\"fareProviderStr\": \""
+							+ FareProviderStr
+
+							+ "\",\"flagEn\": \""
+							+ FlagEn
+
 							+ "\",\"origin\":\"2\",\"orderremark\":\"Android¿Í»§¶Ë\""
 							+ ",\"flights\":[" + flightString
 							+ "],\"passenger\":" + getPassengerJsonString()

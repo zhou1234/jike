@@ -85,7 +85,7 @@ public class ActivityHotelOrderDetail extends Activity {
 		home_imgbtn.setOnClickListener(btnClickListner);
 		frame_ani_iv = (ImageView) findViewById(R.id.frame_ani_iv);
 		loading_ll = (RelativeLayout) findViewById(R.id.loading_ll);
-		scrollview = (ScrollView) findViewById(R.id.scrollview);
+		scrollview = (ScrollView) findViewById(R.id.hotel_scrollview);
 		pay_now_btn = (Button) findViewById(R.id.pay_now_btn);
 		pay_now_btn.setOnClickListener(btnClickListner);
 		pay_type_tv = (TextView) findViewById(R.id.pay_type_tv);

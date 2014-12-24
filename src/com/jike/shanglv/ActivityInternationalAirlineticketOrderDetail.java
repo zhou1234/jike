@@ -108,7 +108,7 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 		pay_now_btn.setOnClickListener(btnClickListner);
 		frame_ani_iv = (ImageView) findViewById(R.id.frame_ani_iv);
 		loading_ll = (RelativeLayout) findViewById(R.id.loading_ll);
-		scrollview = (ScrollView) findViewById(R.id.scrollview);
+		scrollview = (ScrollView) findViewById(R.id.international_scrollview);
 
 		order_state_tv = (TextView) findViewById(R.id.order_state_tv);
 		order_no_tv = (TextView) findViewById(R.id.order_no_tv);

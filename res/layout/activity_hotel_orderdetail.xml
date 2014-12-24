@@ -65,7 +65,7 @@
     </RelativeLayout>
 
     <ScrollView
-        android:id="@+id/scrollview"
+        android:id="@+id/hotel_scrollview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/bottom_rl"

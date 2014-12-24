@@ -97,7 +97,7 @@ public class ActivityTrainOrderDetail extends Activity {
 		passengerList = new ArrayList<Passenger>();
 		frame_ani_iv = (ImageView) findViewById(R.id.frame_ani_iv);
 		loading_ll = (RelativeLayout) findViewById(R.id.loading_ll);
-		scrollview = (ScrollView) findViewById(R.id.scrollview);
+		scrollview = (ScrollView) findViewById(R.id.train_scrollview);
 
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
 		home_imgbtn = (ImageButton) findViewById(R.id.home_imgbtn);
