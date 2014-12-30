@@ -169,7 +169,7 @@
         android:layout_marginLeft="10sp"
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/flight_rl"
-        android:gravity="center_vertical|right" >
+        android:gravity="center_vertical" >
 
         <TextView
             android:id="@+id/CabinName_tv"
@@ -179,6 +179,7 @@
             android:gravity="right"
             android:singleLine="true"
             android:text="经济舱"
+            android:layout_weight="1"
             android:textColor="@color/black6"
             android:textSize="16sp"
             android:width="60dp" >
@@ -189,7 +190,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:singleLine="true"
             android:text="3张"
             android:textColor="#CD3737"
             android:textSize="16sp" >

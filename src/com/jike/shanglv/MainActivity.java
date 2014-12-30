@@ -271,8 +271,8 @@ public class MainActivity extends ActivityGroup implements
 		context = this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		container = (ViewFlipper) findViewById(R.id.container);
-		radio_group = (RadioGroup) findViewById(R.id.radio_group);
-		radio_order = (RadioButton) findViewById(R.id.radio_order);
+		radio_group= (RadioGroup) findViewById(R.id.radio_group);
+		radio_order= (RadioButton) findViewById(R.id.radio_order);
 		radio_home = (RadioButton) findViewById(R.id.radio_home);
 		radio_mine = (RadioButton) findViewById(R.id.radio_mine);
 		radio_more = (RadioButton) findViewById(R.id.radio_more);

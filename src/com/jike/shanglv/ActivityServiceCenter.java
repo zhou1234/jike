@@ -28,7 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ActivityServiceCenter extends Activity {
-	private String url = "http://m.51jp.cn/About/Service.html";
+	private String url = "http://m.51jp.cn/About/Service.html";// 
 	private WebView webView;
 	private LinearLayout loading_ll;
 	private ImageView frame_ani_iv;
@@ -63,7 +63,7 @@ public class ActivityServiceCenter extends Activity {
 		frame_ani_iv = (ImageView) findViewById(R.id.frame_ani_iv);
 		webView = (WebView) findViewById(R.id.webView);
 		WebSettings webSettings = webView.getSettings();
-		webSettings.setJavaScriptEnabled(true);//
+		webSettings.setJavaScriptEnabled(true);
 		// 在WebView中使用JavaScript，若页面中用了JavaScript，必须为WebView使能JavaScript
 		((TextView) findViewById(R.id.title)).setText("客服中心");
 
@@ -76,27 +76,28 @@ public class ActivityServiceCenter extends Activity {
 			}
 		});
 
-		// webView.setWebViewClient(new WebViewClient() {// / 不重写的话，会跳到手机浏览器中
-		// @Override
-		// public void onReceivedError(WebView view, int errorCode,
-		// String description, String failingUrl) { // Handle the
-		// // error
-		// }
-		//
-		// @Override
-		// public boolean shouldOverrideUrlLoading(WebView view, String url) {
-		// return true;
-		// }
-		//
-		// @Override
-		// public void onPageFinished(WebView view, String url) {
-		// super.onPageFinished(view, url);
-		// loading_ll.setVisibility(View.GONE);
-		// webView.setVisibility(View.VISIBLE);
-		// }
-		// });
-		// webView.loadUrl(url);
-
+		 webView.setWebViewClient(new WebViewClient() {// / 不重写的话，会跳到手机浏览器中
+		 @Override
+		 public void onReceivedError(WebView view, int errorCode,
+		 String description, String failingUrl) { // Handle the
+		 // error
+		 }
+		
+		 @Override
+		 public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			 view.loadUrl(url);
+		 return true;
+		 }
+		
+		 @Override
+		 public void onPageFinished(WebView view, String url) {
+		 super.onPageFinished(view, url);
+//		 loading_ll.setVisibility(View.GONE);
+//		 webView.setVisibility(View.VISIBLE);
+		 }
+		 });
+		 webView.loadUrl(url);
+		 
 	}
 
 	@Override

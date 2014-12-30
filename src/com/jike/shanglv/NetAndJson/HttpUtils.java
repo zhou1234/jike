@@ -48,7 +48,7 @@ public class HttpUtils {
 			// 设置属性
 			// 设置该连接是否可输入
 			conn.setDoInput(true);
-			int code = conn.getResponseCode();
+			int code = conn.getResponseCode();  
 			System.out.println(code + "****");
 			if (code == 200) {
 				return changeInputString(conn.getInputStream());
@@ -76,9 +76,9 @@ public class HttpUtils {
 					baos.write(data, 0, len);
 				}
 				jsonString = new String(baos.toByteArray());
-				baos.close();
 			}
-
+			baos.close();
+			is.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

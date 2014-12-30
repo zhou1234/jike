@@ -35,6 +35,7 @@ public class MyApp {
 
 	public static String userkey = "ffdd14d2e6c26b70749c8b2c08067c69 ";// da0bee39709731f3f1baaff194f43d41
 	public static String sitekey = "";
+	public static String Pkey = "5D85BCAC5A85476380226ED6F7C34B8C";// 公钥
 
 	public MyApp(Context context) {
 		this.context = context;
@@ -52,12 +53,20 @@ public class MyApp {
 	/**
 	 * 获取接口的地址
 	 */
+	public String getMallServeUrl() {
+
+		return context.getResources().getString(R.string.mall_server_url);
+
+	}
+
+	/**
+	 * 获取接口的地址
+	 */
 	public String getServeUrl() {
 		if (RELEASE)
 			return context.getResources().getString(R.string.formal_server_url);
 		else
 			return context.getResources().getString(R.string.test_server_url);
-
 	}
 
 	/**

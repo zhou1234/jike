@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jike.shanglv"
     android:installLocation="auto"
-    android:versionCode="26"
-    android:versionName="7.4.7" >
+    android:versionCode="28"
+    android:versionName="7.4.9" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -546,6 +546,9 @@
         </activity>
         <!-- 客服中心 -->
         <activity android:name="com.jike.shanglv.ActivityServiceCenter" >
+        </activity>
+        <!-- 云商城 -->
+        <activity android:name="com.jike.shanglv.ActivityMall" >
         </activity>
     </application>
 

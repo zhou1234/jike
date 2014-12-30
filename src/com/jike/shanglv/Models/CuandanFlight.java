@@ -35,7 +35,32 @@ public class CuandanFlight {
     private String rebate;// 4.10
     private String userrebate;// 3.90
     private String policytype;// 1
+    private String  isTeHui, priceProvider,	fareProviderStr, flagEn;
     
+	public String getIsTeHui() {
+		return isTeHui;
+	}
+	public void setIsTeHui(String isTeHui) {
+		this.isTeHui = isTeHui;
+	}
+	public String getPriceProvider() {
+		return priceProvider;
+	}
+	public void setPriceProvider(String priceProvider) {
+		this.priceProvider = priceProvider;
+	}
+	public String getFareProviderStr() {
+		return fareProviderStr;
+	}
+	public void setFareProviderStr(String fareProviderStr) {
+		this.fareProviderStr = fareProviderStr;
+	}
+	public String getFlagEn() {
+		return flagEn;
+	}
+	public void setFlagEn(String flagEn) {
+		this.flagEn = flagEn;
+	}
 	public String getScode() {
 		return scode;
 	}

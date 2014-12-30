@@ -20,14 +20,6 @@
         android:orientation="horizontal" >
 
         <RadioButton
-            android:id="@+id/radio_order"
-            style="@style/main_tab_bottom"
-            android:drawableTop="@drawable/tabs_bottom_dd"
-            android:text="@string/dingdan"
-            android:textColor="@color/tabs_text_color"
-            android:textSize="12dp" />
-
-        <RadioButton
             android:id="@+id/radio_home"
             style="@style/main_tab_bottom"
             android:checked="true"
@@ -37,10 +29,18 @@
             android:textSize="12dp" />
 
         <RadioButton
+            android:id="@+id/radio_order"
+            style="@style/main_tab_bottom"
+            android:drawableTop="@drawable/tabs_bottom_dd"
+            android:text="@string/dingdan"
+            android:textColor="@color/tabs_text_color"
+            android:textSize="12dp" />
+
+        <RadioButton
             android:id="@+id/radio_mine"
             style="@style/main_tab_bottom"
             android:drawableTop="@drawable/tabs_bottom_wd"
-            android:text="@string/qianbao"
+            android:text="@string/mall"
             android:textColor="@color/tabs_text_color"
             android:textSize="12dp" />
 
@@ -48,7 +48,7 @@
             android:id="@+id/radio_more"
             style="@style/main_tab_bottom"
             android:drawableTop="@drawable/tabs_bottom_gd"
-            android:text="@string/gengduo"
+            android:text="@string/wode"
             android:textColor="@color/tabs_text_color"
             android:textSize="12dp" />
     </RadioGroup>

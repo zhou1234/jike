@@ -30,7 +30,7 @@ import android.widget.Toast;
 public class MineActivity extends Activity {
 	private ImageButton back_iv, user_login_imgbtn;
 	private RelativeLayout my_account_rl, all_order_rl, noLogin_rl,
-			hasLogin_rl;
+			hasLogin_rl, geng_duo;
 	private TextView welcome_tv, username_tv, zhanghuyue_tv, chongzhi_tv;
 	private SharedPreferences sp;
 	private Boolean loginState = false;
@@ -56,6 +56,8 @@ public class MineActivity extends Activity {
 			back_iv.setOnClickListener(btnClickListner);
 			my_account_rl = (RelativeLayout) findViewById(R.id.my_account_rl);
 			all_order_rl = (RelativeLayout) findViewById(R.id.all_order_rl);
+			geng_duo = (RelativeLayout) findViewById(R.id.geng_duo);
+			geng_duo.setOnClickListener(btnClickListner);
 			all_order_rl.setOnClickListener(btnClickListner);
 			my_account_rl.setOnClickListener(btnClickListner);
 			noLogin_rl = (RelativeLayout) findViewById(R.id.noLogin_rl);
@@ -94,6 +96,17 @@ public class MineActivity extends Activity {
 				case R.id.back_imgbtn:
 					startActivity(new Intent(MineActivity.this,
 							MainActivityN.class));
+					break;
+					
+				case R.id.geng_duo:
+					if (!loginState) {
+						Toast.makeText(getApplicationContext(), "ÇëÏÈµÇÂ¼£¡", 0)
+								.show();
+						break;
+					}
+					startActivity(new Intent(MineActivity.this,
+							MoreActivity.class));
+					
 					break;
 				case R.id.all_order_rl:
 					// startActivity(new Intent(MineActivity.this,

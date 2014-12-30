@@ -1,5 +1,7 @@
 package com.jike.shanglv;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
@@ -7,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -17,6 +20,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.jike.shanglv.Common.BitmapUtil;
 import com.jike.shanglv.Enums.SPkeys;
 import com.umeng.analytics.MobclickAgent;
 
@@ -47,13 +52,19 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 
 	private void initViews() {
 		LayoutInflater inflater = LayoutInflater.from(this);
-
 		views = new ArrayList<View>();
+		
+		View view1 = inflater.inflate(R.layout.what_new_one, null);
+		View view2 = inflater.inflate(R.layout.what_new_two, null);
+		View view3 = inflater.inflate(R.layout.what_new_three, null);
+		View view4 = inflater.inflate(R.layout.what_new_four, null);
+		
+		
 		// 初始化引导图片列表
-		views.add(inflater.inflate(R.layout.what_new_one, null));
-		views.add(inflater.inflate(R.layout.what_new_two, null));
-		views.add(inflater.inflate(R.layout.what_new_three, null));
-		views.add(inflater.inflate(R.layout.what_new_four, null));
+		views.add(view1);
+		views.add(view2);
+		views.add(view3);
+		views.add(view4);
 
 		// 初始化Adapter
 		vpAdapter = new ViewPagerAdapter(views, this);

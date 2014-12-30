@@ -1,5 +1,7 @@
 package com.jike.shanglv;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -12,6 +14,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -25,12 +29,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jike.shanglv.Common.BitmapUtil;
 import com.jike.shanglv.Common.MyGridView;
 import com.jike.shanglv.Common.TimeTaskScroll;
 import com.jike.shanglv.Enums.PackageKeys;
@@ -70,16 +74,6 @@ public class HomeActivityNewN extends Activity {
 			ActivityZhanghuchongzhi.class, ActivityHuafeichongzhi.class,
 			ActivityHangbandongtai.class };
 
-	// int[] defaultImg = { R.drawable.gnjp_n, R.drawable.gjjp_n,
-	// R.drawable.jdyd_n, R.drawable.hcp_n, R.drawable.qbcz_n,
-	// R.drawable.hfcz_n, R.drawable.hbdt_n };
-	// String[] defaultText = { "国内机票", "国际机票", "酒店预订", "火车票", "钱包充值", "话费充值",
-	// "航班动态" };
-	// Class<?>[] defaultActivities = { ActivityInlandAirlineticket.class,
-	// ActivityInternationalAirlineticket.class, ActivityHotel.class,
-	// ActivityTrain.class, ActivityZhanghuchongzhi.class,
-	// ActivityHuafeichongzhi.class, ActivityHangbandongtai.class };
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
@@ -104,7 +98,9 @@ public class HomeActivityNewN extends Activity {
 			gridCells();
 			listView = (ListView) findViewById(R.id.list_view);
 			listView.setEnabled(false);
+
 			list = getList();
+			setBitmap();
 			initAd();
 			// findViewById(R.id.ad_include).setVisibility(View.GONE);
 			// findViewById(R.id.title_bg).setVisibility(View.VISIBLE);
@@ -131,6 +127,7 @@ public class HomeActivityNewN extends Activity {
 							.getString(R.string.lvyou_url));
 				}
 				if (str.equals("云商城")) {
+					intent.putExtra("flag", "0");
 					intent.putExtra(Activity_Web_Frame.TITLE, "云商城");
 					intent.putExtra(Activity_Web_Frame.URL,
 							"http://m.51jp.cn/About/Construction.html");
@@ -222,6 +219,17 @@ public class HomeActivityNewN extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		// for (int i = 0; i < bitmap.length; i++) {
+		// if (bitmap[i].isRecycled()) {
+		// bitmap[i].recycle();// 回收图片所占的内存
+		// }
+		// }
+		// for (int i = 0; i < bitmap1.length; i++) {
+		// if (bitmap1[i].isRecycled()) {
+		// bitmap1[i].recycle();// 回收图片所占的内存
+		// }
+		// }
+		// System.gc();// 提醒系统及时回收
 	}
 
 	public class MyAdapter extends BaseAdapter {
@@ -306,6 +314,10 @@ public class HomeActivityNewN extends Activity {
 			case R.id.grid_n:
 				arg1.setPressed(false);
 				arg1.setSelected(false);
+				if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
+					startActivity(new Intent(context, Activity_Login.class));
+					return;
+				}
 				startActivity(cell.get(arg2).getIntent());
 				break;
 			}
@@ -330,6 +342,8 @@ public class HomeActivityNewN extends Activity {
 
 	private ScheduledExecutorService scheduledExecutorService;
 
+	private Bitmap[] bitmap1;
+
 	// 切换当前显示的图片
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -353,6 +367,19 @@ public class HomeActivityNewN extends Activity {
 					"商旅管家"));
 
 			imageResId = new int[] { R.drawable.ad_one, R.drawable.ad_three };// R.drawable.ad_two,
+
+			InputStream is = null;
+			bitmap1 = new Bitmap[2];
+			for (int j = 0; j < imageResId.length; j++) {
+				is = context.getResources().openRawResource(imageResId[j]);
+				Bitmap bm = BitmapFactory.decodeStream(is, null, null);
+				bitmap1[j] = bm;
+			}
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			titles = new String[imageResId.length];
 			// titles[0] = "舌尖上的美食，大闸蟹";
 			titles[0] = "商旅钱包，可以省钱的钱包";
@@ -362,7 +389,7 @@ public class HomeActivityNewN extends Activity {
 			// 初始化图片资源
 			for (int i = 0; i < adsList.size(); i++) {
 				ImageView imageView = new ImageView(this);
-				imageView.setImageResource(imageResId[i]);
+				imageView.setImageBitmap(bitmap1[i]);
 				imageView.setScaleType(ScaleType.CENTER_CROP);
 				imageViews.add(imageView);
 			}
@@ -391,10 +418,12 @@ public class HomeActivityNewN extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	protected View createView(Boolean isSelected) {
 		View iv = new View(this);
-		iv.setBackground(context.getResources().getDrawable(R.drawable.dot_pic));
+		iv.setBackgroundDrawable(HomeActivityNewN.this.getResources()
+				.getDrawable(R.drawable.dot_pic));
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(7, 7);
 		lp.setMargins(5, 5, 5, 5);
 		iv.setLayoutParams(lp);
@@ -403,13 +432,19 @@ public class HomeActivityNewN extends Activity {
 		return iv;
 	}
 
+	private int[] image = { R.drawable.ad_four, R.drawable.banner,
+			R.drawable.banner1 };
+
+	private Bitmap[] bitmap;
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 		timer = new Timer();
-		timer.schedule(
-				new TimeTaskScroll(HomeActivityNewN.this, listView, list), 20,
-				2000);
+
+		timer.schedule(new TimeTaskScroll(HomeActivityNewN.this, listView,
+				list, bitmap), 50, 2000);
+
 		scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 		// 当Activity显示出来后，每两秒钟切换一次图片显示
 		scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 2, 3,
@@ -557,4 +592,17 @@ public class HomeActivityNewN extends Activity {
 		MobclickAgent.onPageEnd("HomeActivityNew");
 	}
 
+	private void setBitmap() {
+		InputStream is = null;
+		bitmap = new Bitmap[3];
+		for (int j = 0; j < image.length; j++) {
+			is = context.getResources().openRawResource(image[j]);
+			Bitmap bm = BitmapFactory.decodeStream(is, null, null);
+			bitmap[j] = bm;
+		}
+		try {
+			is.close();
+		} catch (IOException e) {
+		}
+	}
 }

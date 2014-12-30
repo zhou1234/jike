@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Common.DateUtil;
+import com.jike.shanglv.Common.MyListView;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.InternationalFlightInfo;
@@ -48,7 +49,8 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 	private ImageButton back_imgbtn, home_imgbtn;
 	private TextView order_state_tv, order_no_tv, order_date_tv,
 			order_totalmoney_tv, contact_person_phone_tv;
-	private ListView passenger_listview, flightInfo_listview;
+	private ListView passenger_listview;
+	private MyListView flightInfo_listview;
 	private ImageView frame_ani_iv;
 	private RelativeLayout loading_ll;
 	private ScrollView scrollview;
@@ -117,7 +119,7 @@ public class ActivityInternationalAirlineticketOrderDetail extends Activity {
 		contact_person_phone_tv = (TextView) findViewById(R.id.contact_person_phone_tv);
 
 		passenger_listview = (ListView) findViewById(R.id.passenger_listview);
-		flightInfo_listview = (ListView) findViewById(R.id.flightInfo_listview);
+		flightInfo_listview = (MyListView) findViewById(R.id.flightInfo_listview);
 	}
 
 	View.OnClickListener btnClickListner = new View.OnClickListener() {

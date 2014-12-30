@@ -5,6 +5,7 @@
     <string name="test_update_url">http://dn-rocky.qbox.me/shanglvguanjiaversion.xml</string>
     <string name="formal_update_url">http://gatewayv3.51jp.cn/version.xml</string>
     <string name="formal_server_url">http://gatewayv4.51jp.cn/gateway.aspx</string> <!-- http://gatewayv3.51jp.cn/gateway -->
+    <string name="mall_server_url">http://192.168.1.21/</string>
     <string name="test_server_url">http://211.152.50.208:8011/gateway.aspx</string>
     <string name="formal_pay_server_url">http://gatewayv4.51jp.cn/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
     <string name="test_pay_server_url">http://211.152.50.208:8011/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
@@ -42,6 +43,7 @@
     <string name="shouye">首页</string>
     <string name="wode">我的</string>
     <string name="qianbao">钱包</string>
+     <string name="mall">商城</string>
     <string name="gengduo">更多</string>
     <string name="menu_settings">Settings</string>
     <string name="type_0">单程</string>

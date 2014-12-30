@@ -555,5 +555,9 @@ public class ActivityHotel extends Activity {
 		MobclickAgent.onPageStart("ActivityHotel"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
-	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		mLocationClient.stop();
+	}
 }

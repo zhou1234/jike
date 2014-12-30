@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_weight="6"
-            android:text="钱  包"
+            android:text="我  的"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -213,7 +213,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/advise_iv"
             android:gravity="center_vertical"
-            android:text="交易明细"
+            android:text="钱包交易明细"
             android:textColor="@color/item_gray"
             android:textSize="18sp" />
 
@@ -264,6 +264,56 @@
             android:layout_toRightOf="@id/gwpf_iv"
             android:gravity="center_vertical"
             android:text="我的账户"
+            android:textColor="@color/item_gray"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/xuanzejt_icon" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/deep_gray" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="15dp"
+        android:background="@color/deep_gray" />
+
+    <RelativeLayout
+        android:id="@+id/geng_duo"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/list_item_color_bg"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <ImageView
+            android:id="@+id/gwpf_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/gd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/gwpf_iv"
+            android:gravity="center_vertical"
+            android:text="更多"
             android:textColor="@color/item_gray"
             android:textSize="18sp" />
 

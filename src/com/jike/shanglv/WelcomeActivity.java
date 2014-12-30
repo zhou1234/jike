@@ -1,14 +1,19 @@
 package com.jike.shanglv;
 
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
+
+import com.jike.shanglv.Common.BitmapUtil;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.Platform;
 import com.jike.shanglv.Enums.SPkeys;
@@ -23,6 +28,7 @@ public class WelcomeActivity extends Activity {
 	SharedPreferences preferences;
 	private static final int GO_HOME = 1000;
 	private static final int GO_GUIDE = 1001;
+	private ImageView imageView;
 	// 延迟3秒
 	private static final long SPLASH_DELAY_MILLIS = 2000;
 	Context mContext;
@@ -57,9 +63,12 @@ public class WelcomeActivity extends Activity {
 
 	private void init() {
 		MyApp mApp = new MyApp(getApplicationContext());
-		((ImageView) findViewById(R.id.welcome_iv))
-				.setBackgroundResource((Integer) mApp.getHm().get(
-						PackageKeys.WELCOME_DRAWABLE.getString()));
+		imageView = (ImageView) findViewById(R.id.welcome_iv);
+		imageView.setBackgroundResource((Integer) mApp.getHm().get(
+				PackageKeys.WELCOME_DRAWABLE.getString()));
+		InputStream is = mContext.getResources().openRawResource(
+				R.drawable.welcome);
+		imageView.setImageBitmap(BitmapUtil.getSmallBitmap(is));
 		// 读取SharedPreferences中需要的数据
 		// 使用SharedPreferences来记录程序的使用次数
 		preferences = getSharedPreferences(SPkeys.SPNAME.getString(),

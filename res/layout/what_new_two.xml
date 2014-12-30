@@ -4,12 +4,13 @@
     android:layout_height="match_parent" >
 
     <ImageView
+        android:id="@+id/img2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:adjustViewBounds="false"
         android:focusable="true"
-        android:scaleType="centerCrop"
-        android:background="@drawable/guide_02" />
+        android:src="@drawable/guide_02"
+        android:scaleType="centerCrop" />
 
 </RelativeLayout>

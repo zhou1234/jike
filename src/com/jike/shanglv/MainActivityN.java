@@ -3,6 +3,7 @@ package com.jike.shanglv;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.app.Activity;
 import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.jike.shanglv.Common.CommonFunc;
+import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.Platform;
 import com.jike.shanglv.Enums.SPkeys;
@@ -54,9 +58,6 @@ public class MainActivityN extends ActivityGroup implements
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
 			super.onCreate(savedInstanceState);
-			// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			// int FULLSCREEN = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-			// this.getWindow().setFlags(FULLSCREEN, FULLSCREEN);
 			setContentView(R.layout.activity_main);
 			((MyApplication) getApplication()).addActivity(MainActivityN.this);
 			// goB2BHome();
@@ -65,14 +66,14 @@ public class MainActivityN extends ActivityGroup implements
 			initHomePage();
 			radio_group.setOnCheckedChangeListener(this);
 
-			if (!((MyApplication) getApplication()).getHasCheckedUpdate()) {
-				MyApp ma = new MyApp(MainActivityN.this);
-				UpdateManager manager = new UpdateManager(MainActivityN.this,
-						ma.getHm().get(PackageKeys.UPDATE_NOTE.getString())
-								.toString());
-				manager.checkForUpdates(false);
-				((MyApplication) getApplication()).setHasCheckedUpdate(true);
-			}
+			// if (!((MyApplication) getApplication()).getHasCheckedUpdate()) {
+			MyApp ma = new MyApp(MainActivityN.this);
+			UpdateManager manager = new UpdateManager(MainActivityN.this, ma
+					.getHm().get(PackageKeys.UPDATE_NOTE.getString())
+					.toString());
+			manager.checkForUpdates(false);
+			((MyApplication) getApplication()).setHasCheckedUpdate(true);
+			// }
 			queryUserInfo();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -177,7 +178,7 @@ public class MainActivityN extends ActivityGroup implements
 						sp.edit()
 								.putString(SPkeys.opensupperpay.getString(),
 										user.getOpensupperpay()).commit();
-					} else if (state.equals("1003")) {
+					} else {
 						sp.edit().putString(SPkeys.userid.getString(), "")
 								.commit();
 						sp.edit().putString(SPkeys.username.getString(), "")
@@ -207,10 +208,20 @@ public class MainActivityN extends ActivityGroup implements
 			mIntent = new Intent(this, HomeActivityNewN.class);
 			break;
 		case 2:
-			mIntent = new Intent(this, MineActivity.class);
+			// mIntent = new Intent(this, ActivityMall.class);
+			// if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
+			// startActivity(new Intent(context, Activity_Login.class));
+			// return;
+			// }
+			mIntent = new Intent(this, Activity_Web_Frame.class);
+			mIntent.putExtra("flag", "1");
+			mIntent.putExtra(Activity_Web_Frame.TITLE, "云商城");
+			mIntent.putExtra(Activity_Web_Frame.URL,
+					"http://m.51jp.cn/About/Construction.html");
 			break;
 		case 3:
-			mIntent = new Intent(this, MoreActivity.class);
+			// mIntent = new Intent(this, MoreActivity.class);
+			mIntent = new Intent(this, MineActivity.class);
 			break;
 
 		default:
@@ -256,7 +267,7 @@ public class MainActivityN extends ActivityGroup implements
 		container.removeAllViews();
 		mIntent = new Intent(this, HomeActivityNewN.class);
 		mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		Window subActivity = getLocalActivityManager().startActivity(
+		Window subActivity = this.getLocalActivityManager().startActivity(
 				"subActivity", mIntent);
 		container.addView(subActivity.getDecorView(),
 				new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
@@ -271,7 +282,7 @@ public class MainActivityN extends ActivityGroup implements
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		container = (ViewFlipper) findViewById(R.id.container);
 		radio_group = (RadioGroup) findViewById(R.id.radio_group);
-		radio_order = (RadioButton) findViewById(R.id.radio_order);
+		radio_order =(RadioButton)findViewById(R.id.radio_order);
 		radio_home = (RadioButton) findViewById(R.id.radio_home);
 		radio_mine = (RadioButton) findViewById(R.id.radio_mine);
 		radio_more = (RadioButton) findViewById(R.id.radio_more);
@@ -321,12 +332,30 @@ public class MainActivityN extends ActivityGroup implements
 	protected void onResume() {
 		super.onResume();
 		MobclickAgent.onResume(this); // 统计时长
+		showNetCannotUse(context);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		MobclickAgent.onPause(this);
+	}
 
+	public static void showNetCannotUse(Context context) {
+		final Context cont = context;
+		if (!HttpUtils.checkNet(context)) {
+			// new AlertDialog.Builder(context).setTitle("网络连接失败")
+			// .setMessage("无法连接网路，请检查网络设置！")
+			// .setPositiveButton("确定", null).show();
+			final CustomerAlertDialog cad = new CustomerAlertDialog(context,
+					true);
+			cad.setTitle("无法连接网路，请检查网络设置！");
+			cad.setPositiveButton("知道了", new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					cad.dismiss();
+				}
+			});
+		}
 	}
 }

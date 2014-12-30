@@ -4,13 +4,14 @@
     android:layout_height="match_parent" >
 
     <ImageView
+        android:id="@+id/img4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:adjustViewBounds="false"
-        android:background="@drawable/guide_04"
         android:focusable="true"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/guide_04" />
 
     <ImageView
         android:id="@+id/iv_start"

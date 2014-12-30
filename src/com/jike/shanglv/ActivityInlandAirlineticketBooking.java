@@ -6,12 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.wireless.ui.IFormShow;
 import com.jike.shanglv.Common.ClearEditText;
 import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Common.CustomProgressDialog;
@@ -52,6 +49,7 @@ import com.jike.shanglv.Models.CuandanPassenger;
 import com.jike.shanglv.Models.InlandAirlineInfo;
 import com.jike.shanglv.Models.Passenger;
 import com.jike.shanglv.Models.PolicyList;
+import com.jike.shanglv.Models.VerifyFlightPrice;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -117,8 +115,8 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 
 	private Boolean needBaoxianBoolean = true;// 是否购买保险
 	private String baoxianReturnJson = "", commitReturnJson = "",
-			tuigaiqianReturnJson = "", cabin = "", cabin3 = "",
-			startcity_code = "", arrivecity_code = "";
+			checkReturnJson = "", tuigaiqianReturnJson = "", cabin = "",
+			cabin3 = "", startcity_code = "", arrivecity_code = "";
 	private ArrayList<Passenger> passengerList;// 选择的乘机人列表
 	private ArrayList<Passenger> allPassengerList;// 当前所有乘机人的列表（服务端和用户新增的）
 	private PolicyList selectedPolicyB;// B2B用户自定义选择的政策信息
@@ -161,7 +159,6 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		checkPrice();
 	}
 
 	private void initView() {
@@ -170,6 +167,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		imageLoader = new ImageLoader(context.getApplicationContext());
 		passengerList = new ArrayList<Passenger>();
 		allPassengerList = new ArrayList<Passenger>();
+		VerifyFlightPrice vfp = new VerifyFlightPrice();
 
 		total_jipiaojia_tv = (TextView) findViewById(R.id.total_jipiaojia_tv);
 		total_jijian_price_tv = (TextView) findViewById(R.id.total_jijian_price_tv);
@@ -293,6 +291,16 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 							.getJSONObject(selectCabinListIndex)
 							.getString("IsTeHui"), startoff_date_tv.getText()
 							.toString(), TUIGAIQIAN_MSG_CODE);
+			vfp.setFlightno(ia.getFlightNo());
+			vfp.setCabin(ia.getCabinName());
+			vfp.setE(ia.getEndPort());
+			vfp.setFare(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex).getString("Fare"));
+			vfp.setIschd("0");
+			vfp.setIsspe("0");
+			vfp.setS(ia.getStartPort());
+			vfp.setSd(sd);
+			vfp.setSiteid(sp.getString(SPkeys.siteid.getString(), ""));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -313,6 +321,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		baoxian_check_imgbtn.setSelected(true);
 		baoxian_price_and_count_tv.setTextColor(getResources().getColor(
 				R.color.price_yellow));
+		checkPrice(vfp);
 	}
 
 	private String getPolicyStr() {
@@ -420,6 +429,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		runtime_tv3 = (TextView) findViewById(R.id.runtime_tv3);
 		up_down_arrow_iv3 = (ImageView) findViewById(R.id.up_down_arrow_iv3);
 		zhengcefandian_tv3 = (TextView) findViewById(R.id.zhengcefandian_tv3);
+		VerifyFlightPrice vfp = new VerifyFlightPrice();
 
 		InlandAirlineInfo ia = new InlandAirlineInfo();
 		// if (getOrderWayType()==SingleOrDouble.singleWay) {
@@ -472,6 +482,18 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 							.getJSONObject(selectCabinListIndex)
 							.getString("IsTeHui"), startoff_date_tv3.getText()
 							.toString(), TUIGAIQIAN_MSG_CODE3);
+
+			vfp.setFlightno(ia.getFlightNo());
+			vfp.setCabin(ia.getCabinName());
+			vfp.setE(ia.getEndPort());
+			vfp.setFare(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex).getString("Fare"));
+			vfp.setIschd("0");
+			vfp.setIsspe("0");
+			vfp.setS(ia.getStartPort());
+			vfp.setSd(sd);
+			vfp.setSiteid(sp.getString(SPkeys.siteid.getString(), ""));
+			checkPrice(vfp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -628,21 +650,74 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 				break;
 			case CHECK_PRICE_MSG_CODE:
 				try {
-					JSONObject jsonObject = new JSONObject(commitReturnJson);
+					JSONObject jsonObject = new JSONObject(checkReturnJson);
 					String state = jsonObject.getString("c");
-					String canbooking = jsonObject.getString("canbook");
 
-					if (state.equals("0000")) {
-						if (!canbooking.equals("true")) {
+					if (state.equals("0000")) {// 可以预定，价格可能有变化
+						String canbooking = jsonObject.getString("canbook");
+						if (canbooking.equals("true")) {
 							String price = jsonObject.getString("fare");
-							jipiaojia = Float.parseFloat(price);
-							jipiaojia_tv.setText("￥"
-									+ String.valueOf(jipiaojia));
+							order_now_btn.setVisibility(View.VISIBLE);
+							if (getOrderWayType() == SingleOrDouble.singleWay) {
+								if (Float.parseFloat(price) != jipiaojia) {
+									jipiaojia = Float.parseFloat(price);
+									jipiaojia_tv.setText("￥"
+											+ String.valueOf(jipiaojia));
+									caculateBaoxian(baoxian_unitPrice);
+									final CustomerAlertDialog cad2 = new CustomerAlertDialog(
+											context, true);
+									cad2.setTitle("该机票的实际票面价格为：￥" + jipiaojia);
+									cad2.setPositiveButton("确定",
+											new OnClickListener() {
+												@Override
+												public void onClick(View arg0) {
+													cad2.dismiss();
+												}
+											});
+								}
+							} else {
+								if (Float.parseFloat(price) != jipiaojia3) {
+									jipiaojia3 = Float.parseFloat(price);
+									jipiaojia_tv.setText("￥"
+											+ String.valueOf(jipiaojia3));
+									caculateBaoxian(baoxian_unitPrice);
+									final CustomerAlertDialog cad2 = new CustomerAlertDialog(
+											context, true);
+									cad2.setTitle("该机票的实际票面价格为：￥" + jipiaojia3);
+									cad2.setPositiveButton("确定",
+											new OnClickListener() {
+												@Override
+												public void onClick(View arg0) {
+													cad2.dismiss();
+												}
+											});
+								}
+							}
+						}else{//false 不可预定
+							order_now_btn.setVisibility(View.GONE);
+							final CustomerAlertDialog cad2 = new CustomerAlertDialog(
+									context, true);
+							cad2.setTitle("该舱位已售完，请选择其他舱位");
+							cad2.setPositiveButton("确定", new OnClickListener() {
+								@Override
+								public void onClick(View arg0) {
+									cad2.dismiss();
+								}
+							});
 						}
-
-					} else {
+					} else {//验证价格出现错误
 						// Toast.makeText(context, commitReturnJson, 0).show();
 						// finish();
+						order_now_btn.setVisibility(View.GONE);
+						final CustomerAlertDialog cad2 = new CustomerAlertDialog(
+								context, true);
+						cad2.setTitle("该舱位已售完，请选择其他舱位");
+						cad2.setPositiveButton("确定", new OnClickListener() {
+							@Override
+							public void onClick(View arg0) {
+								cad2.dismiss();
+							}
+						});
 					}
 					progressdialog.dismiss();
 				} catch (Exception e) {
@@ -723,20 +798,21 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	/**
 	 * 验价
 	 */
-	private void checkPrice() {
+	private void checkPrice(final VerifyFlightPrice vfp) {
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				MyApp ma = new MyApp(context);
 				String action = "action=cabinverify&str=";
-				String siteid = sp.getString(SPkeys.siteid.getString(), "65");
-				String str = "{\"flightno\":\"" + flightno + "\",\"s\": \""
-						+ startcity_code + "\",\"e\":\"" + arrivecity_code
-						+ "\",\"sd\": \"" + sd + "\",\"cabin\": \"" + cabin
-						+ "\",\"fare\": \"" + fare + "\",\"ischd\": \"" + ischd
-						+ "\",\"isspe\": \"" + isspe + "\",\"siteid\": \""
-						+ siteid + "\"}";
+				String str = JSONHelper.toJSON(vfp);
+				// String siteid = sp.getString(SPkeys.siteid.getString(),
+				// "65");
+				// String str = "{\"flightno\":\"" + flightno + "\",\"s\": \""
+				// + startcity_code + "\",\"e\":\"" + arrivecity_code
+				// + "\",\"sd\": \"" + sd + "\",\"cabin\": \"" + cabin
+				// + "\",\"fare\": \"" + fare + "\",\"ischd\": \"" + ischd
+				// + "\",\"isspe\": \"" + isspe + "\",\"siteid\": \""
+				// + siteid + "\"}";
 				String param = action
 						+ str
 						+ "&userkey="
@@ -748,7 +824,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 								.toString()
 								+ "cabinverify" + str);
 
-				commitReturnJson = HttpUtils.getJsonContent(ma.getServeUrl(),
+				checkReturnJson = HttpUtils.getJsonContent(ma.getServeUrl(),
 						param);
 				Message msg = new Message();
 				msg.what = CHECK_PRICE_MSG_CODE;
@@ -789,19 +865,6 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 							+ sp.getString(SPkeys.userid.getString(), "")
 							+ "\",\"amount\": \""
 							+ totalPrice
-
-							+ "\",\"isTeHui\": \""
-							+ IsTeHui
-
-							+ "\",\"priceProvider\": \""
-							+ PriceProvider
-
-							+ "\",\"fareProviderStr\": \""
-							+ FareProviderStr
-
-							+ "\",\"flagEn\": \""
-							+ FlagEn
-
 							+ "\",\"origin\":\"2\",\"orderremark\":\"Android客户端\""
 							+ ",\"flights\":[" + flightString
 							+ "],\"passenger\":" + getPassengerJsonString()
@@ -929,6 +992,10 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		cf.setIsspe(cabin.getIsSpe());
 		cf.setOil(flight.getOil());
 		cf.setPlane(flight.getPlaneModel());
+		cf.setIsTeHui(cabin.getIsTeHui());
+		cf.setFareProviderStr(cabin.getFareProviderStr());
+		cf.setPriceProvider(cabin.getPriceProvider());
+		cf.setFlagEn(cabin.getFlagEn());
 		if (sp.getString(SPkeys.utype.getString(), "0").equals("2")) {
 			cf.setPolicyid(cabin.getPolicyID());
 			cf.setPolicytype(cabin.getIsSpePolicy() == "true" ? "1" : "0");
@@ -944,7 +1011,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 			cf.setRate(selectedPolicyB.getUserrate());
 			cf.setRateinfo(selectedPolicyB.getRateinfo());
 			cf.setRebate(selectedPolicyB.getTotalrate());// 总返点
-			cf.setRemark(selectedPolicyB.getRemark());
+			cf.setRemark("");
 			cf.setUserrebate(selectedPolicyB.getUserrate());
 		}
 

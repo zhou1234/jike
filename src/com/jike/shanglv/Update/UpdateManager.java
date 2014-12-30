@@ -37,7 +37,6 @@ import com.jike.shanglv.Update.UpdateNode;
 import com.jike.shanglv.Update.UpdateManager.downloadApkThread;
 import com.jike.shanglv.R;
 
-
 public class UpdateManager {
 	/* 下载�? */
 	private static final int DOWNLOAD = 1;
@@ -272,7 +271,10 @@ public class UpdateManager {
 				e.printStackTrace();
 			}
 			// 取消下载对话框显�?
-			mDownloadDialog.dismiss();
+			if (mDownloadDialog != null) {
+				mDownloadDialog.dismiss();
+			}
+
 		}
 	};
 
@@ -407,7 +409,7 @@ public class UpdateManager {
 			// 服务器上apkVersionName的第二位�?，例�?.4.1�?.4，则必须进行强制更新
 			try {
 				String forceUpdteBit = apkVersionName.substring(
-						apkVersionName.indexOf(".")+1,
+						apkVersionName.indexOf(".") + 1,
 						apkVersionName.indexOf(".") + 2);
 				if (forceUpdteBit.equals("4"))
 					isForceUpdate = true;

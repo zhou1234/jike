@@ -1,11 +1,14 @@
 //使用WebView加载内容：只需要提供标题和加载的url即可
 package com.jike.shanglv;
 
+import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -29,6 +32,8 @@ public class Activity_Web_Frame extends Activity {
 	private String url;
 	private LinearLayout loading_ll;
 	private ImageView frame_ani_iv;
+	private SharedPreferences sp;
+	private Context context;
 
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -39,6 +44,7 @@ public class Activity_Web_Frame extends Activity {
 					.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 			requestWindowFeature(Window.FEATURE_NO_TITLE);
 			setContentView(R.layout.activity_web_frame);
+			context = this;
 			((MyApplication) getApplication()).addActivity(this);
 
 			((ImageButton) findViewById(R.id.back))
@@ -87,6 +93,9 @@ public class Activity_Web_Frame extends Activity {
 					webView.setVisibility(View.VISIBLE);
 				}
 			});
+			if (HttpUtils.showNetCannotUse(context)) {
+				return;
+			}
 			webView.loadUrl(url);
 			// webView.loadDataWithBaseURL(null, url, "text/html", "utf-8",
 			// null);
@@ -98,12 +107,12 @@ public class Activity_Web_Frame extends Activity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		try {
-//			loading_ll.setVisibility(View.VISIBLE);
-//			frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
-//			AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
-//					.getBackground();
-//			anim.setOneShot(false);
-//			anim.start();
+			// loading_ll.setVisibility(View.VISIBLE);
+			// frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+			// AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
+			// .getBackground();
+			// anim.setOneShot(false);
+			// anim.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
