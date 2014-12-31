@@ -9,8 +9,7 @@ public class InlandAirlineInfo {
 			AirLineCode, Oil, JoinDate, RunTime, StartPortName, OffTime,
 			MinCabin, FlightNo, StartT, StartPort, Distance, Tax, ETicket,
 			MinFare, EndT, EndPortName, JoinPort, Meat, StaFare, ArriveTime,
-			EndPort, MinDiscount, IndexID, IsTeHui, PriceProvider,
-			FareProviderStr, FlagEn;
+			EndPort, MinDiscount, IndexID,IsTeHui;
 	private JSONArray cablist;
 	private String YouHui, CabinName;
 
@@ -76,19 +75,12 @@ public class InlandAirlineInfo {
 					.getString("CabinName");
 			MinTicketCount = json.getJSONArray("CabList").getJSONObject(0)
 					.getString("TicketCount");
-			IsTeHui = json.getJSONArray("CabList").getJSONObject(0)
+			IsTeHui= json.getJSONArray("CabList").getJSONObject(0)
 					.getString("IsTeHui");
-			PriceProvider = json.getJSONArray("CabList").getJSONObject(0)
-					.getString("PriceProvider");
-			FareProviderStr = json.getJSONArray("CabList").getJSONObject(0)
-					.getString("FareProviderStr");
-			FlagEn = json.getJSONArray("CabList").getJSONObject(0)
-					.getString("FlagEn");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}  
 
 	public JSONArray getCablist() {
 		return cablist;
@@ -208,18 +200,6 @@ public class InlandAirlineInfo {
 
 	public String getIsTeHui() {
 		return IsTeHui;
-	}
-
-	public String getPriceProvider() {
-		return PriceProvider;
-	}
-
-	public String getFareProviderStr() {
-		return FareProviderStr;
-	}
-
-	public String getFlagEn() {
-		return FlagEn;
 	}
 
 }

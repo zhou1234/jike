@@ -330,7 +330,6 @@ public class ActivityHotelBooking extends Activity {
 								public void onDateSet(DatePicker view,
 										int year, int monthOfYear,
 										int dayOfMonth) {
-									// TODO Auto-generated method stub
 									String month = String
 											.valueOf((monthOfYear + 1));
 									creditYear = year + "";

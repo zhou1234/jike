@@ -50,7 +50,7 @@ public class HttpUtils {
 			conn.setDoInput(true);
 			int code = conn.getResponseCode();  
 			System.out.println(code + "****");
-			if (code == 200) {
+			if (code == 200) {  
 				return changeInputString(conn.getInputStream());
 			}
 			// else {

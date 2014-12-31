@@ -26,7 +26,7 @@ public class MyApp {
 	// put(K key, V value)
 	// hm.put(a,b); //插入值为b,key值为a
 	// hm.get(key); //返回值为value
-	/**
+	/**   
 	 * 打包不同程序时更改此处 另外打包时需要更改百度地图的key
 	 * 此类中只需更改以下三个值：RELEASE、hm、AndroidManifest中的程序名及图标
 	 */

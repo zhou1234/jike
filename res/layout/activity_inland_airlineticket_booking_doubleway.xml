@@ -295,7 +295,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:gravity="center_vertical"
                 android:paddingBottom="10dp"
@@ -322,6 +322,25 @@
                     android:textSize="@dimen/booking_item_small_textsize" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="机票价"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/booking_item_small_textsize" />
+
+                <TextView
+                    android:id="@+id/shoujia_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:text=""
+                    android:textColor="@color/price_yellow"
+                    android:textSize="@dimen/booking_item_small_textsize" />
+
+                <TextView
                     android:id="@+id/fanMoney_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -332,6 +351,16 @@
                     android:textAlignment="center"
                     android:textColor="@color/price_yellow_transparent"
                     android:textSize="@dimen/booking_item_small_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -394,9 +423,23 @@
                 android:padding="10dp" >
 
                 <TextView
+                    android:id="@+id/tv_x"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="1dp"
+                    android:layout_toLeftOf="@+id/zhengce_tv"
+                    android:text="*"
+                    android:textColor="@color/red"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/zhence_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:layout_toRightOf="@+id/tv_x"
                     android:text="政策"
                     android:textColor="@color/black"
                     android:textSize="@dimen/booking_item_content_textsize" />
@@ -729,7 +772,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:gravity="center_vertical"
                 android:paddingBottom="10dp"
@@ -756,6 +799,25 @@
                     android:textSize="@dimen/booking_item_small_textsize" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="机票价"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/booking_item_small_textsize" />
+
+                <TextView
+                    android:id="@+id/shoujia_tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:text=""
+                    android:textColor="@color/price_yellow"
+                    android:textSize="@dimen/booking_item_small_textsize" />
+
+                <TextView
                     android:id="@+id/fanMoney_tv3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -766,6 +828,16 @@
                     android:textAlignment="center"
                     android:textColor="@color/price_yellow_transparent"
                     android:textSize="@dimen/booking_item_small_textsize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -828,9 +900,22 @@
                 android:padding="10dp" >
 
                 <TextView
+                    android:id="@+id/tv_x3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="1dp"
+                    android:text="*"
+                    android:textColor="@color/red"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/zhengce_tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:layout_toRightOf="@+id/tv_x3"
                     android:text="政策"
                     android:textColor="@color/black"
                     android:textSize="@dimen/booking_item_content_textsize" />
@@ -941,7 +1026,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="机票价"
+                    android:text="票面价"
                     android:textColor="@color/black"
                     android:textSize="@dimen/booking_item_content_textsize" />
 

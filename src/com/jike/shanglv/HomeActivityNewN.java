@@ -60,19 +60,33 @@ public class HomeActivityNewN extends Activity {
 	private List<String> list;
 	private Timer timer;
 	// 默认有的栏目为：国内、国际、酒店、火车票、航班、话费、账户充值
+	// int[] defaultImg = { R.drawable.gnjp_n, R.drawable.gjjp_n,
+	// R.drawable.jdyd_n, R.drawable.hcp_n, R.drawable.ysc, R.drawable.qz,
+	// R.drawable.ly, R.drawable.bx, R.drawable.shlm, R.drawable.qbcz_n,
+	// R.drawable.hfcz_n, R.drawable.hbdt_n };
+	// String[] defaultText = { "国内机票", "国际机票", "酒店预订", "火车票", "云商城", "签证",
+	// "旅游",
+	// "保险", "商户联盟", "钱包充值", "话费充值", "航班动态" };
+	// Class<?>[] defaultActivities = { ActivityInlandAirlineticket.class,
+	// ActivityInternationalAirlineticket.class, ActivityHotel.class,
+	// ActivityTrain.class, Activity_Web_Frame.class,
+	// Activity_Web_Frame.class, Activity_Web_Frame.class,
+	// Activity_Web_Frame.class, Activity_Web_Frame.class,
+	// ActivityZhanghuchongzhi.class, ActivityHuafeichongzhi.class,
+	// ActivityHangbandongtai.class };
+
 	int[] defaultImg = { R.drawable.gnjp_n, R.drawable.gjjp_n,
-			R.drawable.jdyd_n, R.drawable.hcp_n, R.drawable.ysc, R.drawable.qz,
-			R.drawable.ly, R.drawable.bx, R.drawable.shlm, R.drawable.qbcz_n,
+			R.drawable.jdyd_n, R.drawable.ysc, R.drawable.qz, R.drawable.ly,
+			R.drawable.bx, R.drawable.shlm, R.drawable.qbcz_n,
 			R.drawable.hfcz_n, R.drawable.hbdt_n };
-	String[] defaultText = { "国内机票", "国际机票", "酒店预订", "火车票", "云商城", "签证", "旅游",
-			"保险", "商户联盟", "钱包充值", "话费充值", "航班动态" };
+	String[] defaultText = { "国内机票", "国际机票", "酒店预订", "云商城", "签证", "旅游", "保险",
+			"商户联盟", "钱包充值", "话费充值", "航班动态" };
 	Class<?>[] defaultActivities = { ActivityInlandAirlineticket.class,
 			ActivityInternationalAirlineticket.class, ActivityHotel.class,
-			ActivityTrain.class, Activity_Web_Frame.class,
 			Activity_Web_Frame.class, Activity_Web_Frame.class,
 			Activity_Web_Frame.class, Activity_Web_Frame.class,
-			ActivityZhanghuchongzhi.class, ActivityHuafeichongzhi.class,
-			ActivityHangbandongtai.class };
+			Activity_Web_Frame.class, ActivityZhanghuchongzhi.class,
+			ActivityHuafeichongzhi.class, ActivityHangbandongtai.class };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +144,7 @@ public class HomeActivityNewN extends Activity {
 					intent.putExtra("flag", "0");
 					intent.putExtra(Activity_Web_Frame.TITLE, "云商城");
 					intent.putExtra(Activity_Web_Frame.URL,
-							"http://m.51jp.cn/About/Construction.html");
+							"http://m.99263.com/");
 				}
 				if (str.equals("签证")) {
 					intent.putExtra(Activity_Web_Frame.TITLE, "签证");
@@ -219,17 +233,6 @@ public class HomeActivityNewN extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		// for (int i = 0; i < bitmap.length; i++) {
-		// if (bitmap[i].isRecycled()) {
-		// bitmap[i].recycle();// 回收图片所占的内存
-		// }
-		// }
-		// for (int i = 0; i < bitmap1.length; i++) {
-		// if (bitmap1[i].isRecycled()) {
-		// bitmap1[i].recycle();// 回收图片所占的内存
-		// }
-		// }
-		// System.gc();// 提醒系统及时回收
 	}
 
 	public class MyAdapter extends BaseAdapter {

@@ -61,6 +61,7 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 	private String orderID = "", pnr = "", amount = "", PayLimit, stateString;// amount为订单金额
 	private String orderDetailReturnJson;
 	private JSONObject orderDetailObject;// 返回的订单详情对象
+	private String isTeHui;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +178,9 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 	private Boolean getOrderReceipt() {
 		Intent intent = getIntent();
 		if (intent != null) {
+			if (intent.hasExtra("isTeHui")) {
+				isTeHui = intent.getStringExtra("isTeHui");
+			}
 			if (intent.hasExtra(ORDERRECEIPT)) {
 				orderID = intent.getStringExtra(ORDERRECEIPT);
 				// pnr=or.getPnr();//为了保持该页面的一致性（有可能来自列表也可能是订单提交页面），不能从上页中获取pnr
@@ -191,6 +195,7 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 	}
 
 	private Handler handler = new Handler() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void handleMessage(Message msg) {
 			JSONTokener jsonParser;
@@ -230,17 +235,19 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 							} else if (pnr.trim().equals("")
 									&& (stateString.equals("新订单") || stateString
 											.equals("已受理"))) {
+								String msage = "";
+								if (isTeHui.equals("1")) {
+									msage = "您预订的是特惠机票,请在5-10分钟后刷新订单!";  
+								} else {
+									msage = "定位失败，暂不能支付！";
+								}
 								pay_now_btn
 										.setBackgroundDrawable(getResources()
 												.getDrawable(R.drawable.btn_3_d));
 								pay_now_btn.setEnabled(false);
-								// new AlertDialog.Builder(context)
-								// .setTitle("定位失败")
-								// .setMessage("定位失败，暂不能支付！")
-								// .setPositiveButton("确定", null).show();
 								final CustomerAlertDialog cad = new CustomerAlertDialog(
 										context, true);
-								cad.setTitle("定位失败，暂不能支付！");
+								cad.setTitle(msage);
 								cad.setPositiveButton("确定",
 										new OnClickListener() {
 											@Override

@@ -208,16 +208,16 @@ public class MainActivityN extends ActivityGroup implements
 			mIntent = new Intent(this, HomeActivityNewN.class);
 			break;
 		case 2:
-			// mIntent = new Intent(this, ActivityMall.class);
-			// if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
-			// startActivity(new Intent(context, Activity_Login.class));
-			// return;
-			// }
-			mIntent = new Intent(this, Activity_Web_Frame.class);
-			mIntent.putExtra("flag", "1");
-			mIntent.putExtra(Activity_Web_Frame.TITLE, "云商城");
-			mIntent.putExtra(Activity_Web_Frame.URL,
-					"http://m.51jp.cn/About/Construction.html");
+//			mIntent = new Intent(this, ActivityMall.class);
+//			if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
+//				startActivity(new Intent(context, Activity_Login.class));
+//				return;
+//			}
+			 mIntent = new Intent(this, Activity_Web_Frame.class);
+			 mIntent.putExtra("flag", "1");
+			 mIntent.putExtra(Activity_Web_Frame.TITLE, "云商城");
+			 mIntent.putExtra(Activity_Web_Frame.URL,
+			 "http://m.99263.com/");
 			break;
 		case 3:
 			// mIntent = new Intent(this, MoreActivity.class);
@@ -282,7 +282,7 @@ public class MainActivityN extends ActivityGroup implements
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		container = (ViewFlipper) findViewById(R.id.container);
 		radio_group = (RadioGroup) findViewById(R.id.radio_group);
-		radio_order =(RadioButton)findViewById(R.id.radio_order);
+		radio_order = (RadioButton) findViewById(R.id.radio_order);
 		radio_home = (RadioButton) findViewById(R.id.radio_home);
 		radio_mine = (RadioButton) findViewById(R.id.radio_mine);
 		radio_more = (RadioButton) findViewById(R.id.radio_more);

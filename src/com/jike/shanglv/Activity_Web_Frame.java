@@ -51,7 +51,8 @@ public class Activity_Web_Frame extends Activity {
 					.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							finish();
+							startActivity(new Intent(Activity_Web_Frame.this,
+									MainActivityN.class));
 						}
 					});
 			((ImageButton) findViewById(R.id.home))

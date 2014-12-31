@@ -81,6 +81,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initView() {
 		context = this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
@@ -114,11 +115,15 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 		getIntentData();
 		title_tv.setText(startcity + "-" + arrivecity);
 		if (!DateUtil.IsMoreThanToday(currentdate)) {
-			left_arrow_iv.setBackground(getResources().getDrawable(
-					R.drawable.solid_arrow_left_disable));
+			left_arrow_iv
+					.setBackgroundDrawable(ActivityInlandAirlineticketSearchlist.this
+							.getResources().getDrawable(
+									R.drawable.solid_arrow_left_disable));
 		} else {
-			left_arrow_iv.setBackground(getResources().getDrawable(
-					R.drawable.solid_arrow_left));
+			left_arrow_iv
+					.setBackgroundDrawable(ActivityInlandAirlineticketSearchlist.this
+							.getResources().getDrawable(
+									R.drawable.solid_arrow_left));
 		}
 	}
 
