@@ -316,7 +316,7 @@ public class ActivityHuafeichongzhi extends Activity {
 
 	private void startQueryPhonepro() {
 		startLoadingAni();
-		if (HttpUtils.showNetCannotUse(context)) {
+		if (!HttpUtils.checkNetCannotUse(context)) {
 			return;
 		}
 		new Thread(new Runnable() {
@@ -441,6 +441,7 @@ public class ActivityHuafeichongzhi extends Activity {
 	}
 
 	private Handler handler = new Handler() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -462,7 +463,7 @@ public class ActivityHuafeichongzhi extends Activity {
 						chongzhi_button.setEnabled(true);
 						loading_ll.setVisibility(View.GONE);
 						hedui_ll.setVisibility(View.VISIBLE);
-						chongzhi_button.setBackground(getResources()
+						chongzhi_button.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.btn_3));
 						chongzhi_button.setEnabled(true);
 					} else {

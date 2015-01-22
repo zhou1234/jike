@@ -83,7 +83,7 @@ public class ActivityZhanghuchongzhi extends Activity {
 
 					break;
 				case R.id.chongzhi_button:
-					if (HttpUtils.showNetCannotUse(context)) {
+					if (!HttpUtils.checkNetCannotUse(context)) {
 						break;
 					}
 					if (chongzhijine_et.getText().toString().trim().length() == 0) {

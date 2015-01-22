@@ -10,8 +10,7 @@ import com.jike.shanglv.R;
 public class CustomerAlertDialog {
 	Context context;
 	android.app.AlertDialog ad;
-	TextView dialog_title_tv, dialog_content_tv, dialog_cancel_tv,
-			dialog_ok_tv;
+	TextView dialog_title_tv, dialog_cancel_tv, dialog_ok_tv;// dialog_content_tv
 
 	public CustomerAlertDialog(Context context, Boolean isOneBtn) {
 		try {
@@ -24,8 +23,8 @@ public class CustomerAlertDialog {
 			window.setContentView(R.layout.customer_alertdialog_towbtn);
 			dialog_title_tv = (TextView) window
 					.findViewById(R.id.dialog_title_tv);
-			dialog_content_tv = (TextView) window
-					.findViewById(R.id.dialog_content_tv);
+			// dialog_content_tv = (TextView) window
+			// .findViewById(R.id.dialog_content_tv);
 			dialog_cancel_tv = (TextView) window
 					.findViewById(R.id.dialog_cancel_tv);
 			dialog_ok_tv = (TextView) window.findViewById(R.id.dialog_ok_tv);
@@ -39,20 +38,25 @@ public class CustomerAlertDialog {
 	}
 
 	public void setTitle(int resId) {
-		dialog_title_tv.setText(resId);
+		if (dialog_title_tv != null) {
+			dialog_title_tv.setText(resId);
+		}
+
 	}
 
 	public void setTitle(String title) {
-		dialog_title_tv.setText(title);
+		if (dialog_title_tv != null) {
+			dialog_title_tv.setText(title);
+		}
 	}
 
-	public void setMessage(int resId) {
-		dialog_content_tv.setText(resId);
-	}
-
-	public void setMessage(String message) {
-		dialog_content_tv.setText(message);
-	}
+	// public void setMessage(int resId) {
+	// dialog_content_tv.setText(resId);
+	// }
+	//
+	// public void setMessage(String message) {
+	// dialog_content_tv.setText(message);
+	// }
 
 	public void setPositiveButtonText(String message) {
 		dialog_ok_tv.setText(message);
@@ -70,14 +74,20 @@ public class CustomerAlertDialog {
 	 */
 	public void setPositiveButton(String text,
 			final View.OnClickListener listener) {
-		dialog_ok_tv.setText(text);
-		dialog_ok_tv.setOnClickListener(listener);
+		if (dialog_ok_tv != null) {
+			dialog_ok_tv.setText(text);
+			dialog_ok_tv.setOnClickListener(listener);
+		}
+
 	}
 
 	public void setPositiveButton(String text, OnClickListener onClickListener) {
-		dialog_ok_tv.setText(text);
-		dialog_ok_tv
-				.setOnClickListener((android.view.View.OnClickListener) onClickListener);
+		if (dialog_ok_tv != null) {
+			dialog_ok_tv.setText(text);
+			dialog_ok_tv
+					.setOnClickListener((android.view.View.OnClickListener) onClickListener);
+		}
+
 	}
 
 	/**
@@ -88,14 +98,19 @@ public class CustomerAlertDialog {
 	 */
 	public void setNegativeButton1(String text,
 			final View.OnClickListener listener) {
-		dialog_cancel_tv.setText(text);
-		dialog_cancel_tv.setOnClickListener(listener);
+		if (dialog_cancel_tv != null) {
+			dialog_cancel_tv.setText(text);
+			dialog_cancel_tv.setOnClickListener(listener);
+		}
+
 	}
 
 	/**
 	 * ¹Ø±Õ¶Ô»°¿ò
 	 */
 	public void dismiss() {
-		ad.dismiss();
+		if (ad != null) {
+			ad.dismiss();
+		}
 	}
 }

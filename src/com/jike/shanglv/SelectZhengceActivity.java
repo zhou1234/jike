@@ -199,7 +199,8 @@ public class SelectZhengceActivity extends Activity {
 				progressdialog.dismiss();
 				JSONTokener jsonParser;
 				jsonParser = new JSONTokener(policyReturnJson);
-				if (policyReturnJson.length() == 0) {
+				if (policyReturnJson == null || policyReturnJson.isEmpty()
+						|| policyReturnJson.length() == 0) {
 					final CustomerAlertDialog cad = new CustomerAlertDialog(
 							context, true);
 					cad.setTitle("获取政策信息失败");

@@ -38,6 +38,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jike.shanglv.Common.BitmapUtil;
 import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Common.CustomProgressDialog;
 import com.jike.shanglv.Common.CustomerAlertDialog;
@@ -119,7 +120,7 @@ public class ActivityHotelDetail extends Activity {
 
 	@SuppressWarnings("static-access")
 	private void initView() {
-		context = this;
+		context = ActivityHotelDetail.this;
 		imm = (InputMethodManager) getSystemService(context.INPUT_METHOD_SERVICE);
 		imageLoader = new ImageLoader(context.getApplicationContext());
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);

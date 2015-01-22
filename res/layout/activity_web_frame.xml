@@ -47,7 +47,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/text_bg"
-        android:layerType="none" />
+        android:layerType="software" />
 
     <LinearLayout
         android:id="@+id/loading_ll"
@@ -66,42 +66,55 @@
             android:layout_marginTop="150dp" />
     </LinearLayout>
 
-    <!--
-   <TextView
-        android:id="@+id/yue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_bg"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#FF000000"
-        android:textSize="18sp" >
-    </TextView>
+    <LinearLayout
+        android:id="@+id/notNetWork_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/text_bg"
+        android:background="#eeeeee"
+        android:orientation="vertical"
+        android:visibility="gone" >
 
-    <EditText
-        android:id="@+id/chongzhi_input"
-        android:layout_width="300dp"
-        android:layout_height="37dp"
-        android:layout_below="@id/yue"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/register_input"
-        android:hint="@string/chongzhi_hint"
-        android:inputType="number"
-        android:paddingLeft="10dp"
-        android:singleLine="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/chongzhi"
-        android:layout_width="300dp"
-        android:layout_height="39dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_9"
-        android:text="@string/chongzhi"
-        android:textColor="#FFF0F0F0"
-        android:textSize="20sp" />
-    -->
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/wifi_icon" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="无网络"
+                android:textSize="30dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="请检查你的手机是否联网,点击按钮重新加载"
+                android:textColor="#999999" />
+
+            <Button
+                android:id="@+id/jiazai_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/jiazai_bg"
+                android:text="重新加载" />
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -50,7 +50,7 @@ public class JSONHelper {
 			}
 			return;
 		}
-
+  
 		Class<?> clazz = o.getClass();
 		if (isObject(clazz)) { // ∂‘œÛ
 			serializeObject(js, o);
@@ -67,7 +67,7 @@ public class JSONHelper {
 				js.value(o);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}  
 		}
 	}
 

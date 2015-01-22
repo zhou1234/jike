@@ -102,8 +102,9 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initView() {
-		context = this;
+		context = ActivityInlandAirlineticketAddoreditPassengers.this;
 		passengerList = new ArrayList<Passenger>();
 		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		cancel_tv = (TextView) findViewById(R.id.cancel_tv);
@@ -142,11 +143,11 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 					&& !editPassenger.getAddto().equals("null")) {
 				saveAsContact = editPassenger.getAddto() == "1" ? true : false;
 				if (saveAsContact) {
-					savecontact_checkbox_iv.setBackground(context
+					savecontact_checkbox_iv.setBackgroundDrawable(context
 							.getResources().getDrawable(
 									R.drawable.fuxuankuang_yes));
 				} else {
-					savecontact_checkbox_iv.setBackground(context
+					savecontact_checkbox_iv.setBackgroundDrawable(context
 							.getResources().getDrawable(
 									R.drawable.fuxuankuang_no));
 				}
@@ -189,8 +190,9 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 
 			if (passengerName_et.getText().toString().trim().equals("")) {// 新建联系人，默认选中保存为常用联系人
 				saveAsContact = true;
-				savecontact_checkbox_iv.setBackground(context.getResources()
-						.getDrawable(R.drawable.fuxuankuang_yes));
+				savecontact_checkbox_iv
+						.setBackgroundDrawable(context.getResources()
+								.getDrawable(R.drawable.fuxuankuang_yes));
 			}
 		}
 	}
@@ -239,21 +241,23 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 	}
 
 	OnClickListener clickListener = new OnClickListener() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onClick(View v) {
 			try {
 				switch (v.getId()) {
 				case R.id.cancel_tv://
+					setResult(RESULT_CANCELED, getIntent());
 					finish();
 					break;
 				case R.id.savecontact_rl:
 					saveAsContact = !saveAsContact;
 					if (saveAsContact) {
-						savecontact_checkbox_iv.setBackground(context
+						savecontact_checkbox_iv.setBackgroundDrawable(context
 								.getResources().getDrawable(
 										R.drawable.fuxuankuang_yes));
 					} else {
-						savecontact_checkbox_iv.setBackground(context
+						savecontact_checkbox_iv.setBackgroundDrawable(context
 								.getResources().getDrawable(
 										R.drawable.fuxuankuang_no));
 					}
@@ -788,10 +792,11 @@ public class ActivityInlandAirlineticketAddoreditPassengers extends Activity {
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			try {
-				Holder myHolder;
+				Holder myHolder=null;
 				if (convertView == null) {
 					myHolder = new Holder();
 					convertView = inflater.inflate(

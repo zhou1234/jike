@@ -37,268 +37,368 @@
         android:layout_marginTop="15dp"
         android:background="@color/deep_gray" />
 
-    <RelativeLayout
-        android:id="@+id/gnjp_rl"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/list_item_color_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/gnjp_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/user_gnjp_icon" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/gnjp_iv"
-            android:gravity="center_vertical"
-            android:text="国内机票订单"
-            android:textColor="@color/item_gray"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/gnjp_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/xuanzejt_icon" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/gnjp_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/user_gnjp_icon" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/deep_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/gnjp_iv"
+                    android:gravity="center_vertical"
+                    android:text="国内机票订单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
 
-    <RelativeLayout
-        android:id="@+id/gjjp_xqd_rl"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/list_item_color_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/gjjp_xqd_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/user_gjxqdicon" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/gjjp_xqd_iv"
-            android:gravity="center_vertical"
-            android:text="国际机票需求单"
-            android:textColor="@color/item_gray"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/gjjp_xqd_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/xuanzejt_icon" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/gjjp_xqd_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/user_gjxqdicon" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/deep_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/gjjp_xqd_iv"
+                    android:gravity="center_vertical"
+                    android:text="国际机票需求单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
 
-    <RelativeLayout
-        android:id="@+id/gjjp_rl"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/list_item_color_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/gjjp_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/user_gjjp_icon" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/gjjp_iv"
-            android:gravity="center_vertical"
-            android:text="国际机票订单"
-            android:textColor="@color/item_gray"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/gjjp_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/xuanzejt_icon" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/gjjp_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/user_gjjp_icon" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/deep_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/gjjp_iv"
+                    android:gravity="center_vertical"
+                    android:text="国际机票订单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
 
-    <RelativeLayout
-        android:id="@+id/jd_rl"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/list_item_color_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/jd_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/user_jd_icon" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/jd_iv"
-            android:gravity="center_vertical"
-            android:text="酒店订单"
-            android:textColor="@color/item_gray"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/jd_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/xuanzejt_icon" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/jd_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/user_jd_icon" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/deep_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/jd_iv"
+                    android:gravity="center_vertical"
+                    android:text="酒店订单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
 
-    <RelativeLayout
-        android:id="@+id/hcp_rl"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/list_item_color_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/hcp_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/user_hcp_icon" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/hcp_iv"
-            android:gravity="center_vertical"
-            android:text="火车票订单"
-            android:textColor="@color/item_gray"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/hcp_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/xuanzejt_icon" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/hcp_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/user_hcp_icon" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/deep_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/hcp_iv"
+                    android:gravity="center_vertical"
+                    android:text="火车票订单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
 
-    <RelativeLayout
-        android:id="@+id/hfcz_rl"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/list_item_color_bg"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/hfcz_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/user_hfcz_icon" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/hfcz_iv"
-            android:gravity="center_vertical"
-            android:text="话费充值订单"
-            android:textColor="@color/item_gray"
-            android:textSize="18sp" />
+            <RelativeLayout
+                android:id="@+id/hfcz_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/xuanzejt_icon" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/hfcz_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/user_hfcz_icon" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="@color/deep_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/hfcz_iv"
+                    android:gravity="center_vertical"
+                    android:text="话费充值订单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
+
+            <RelativeLayout
+                android:id="@+id/mall_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <ImageView
+                    android:id="@+id/hfcz_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/mall_dd" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/hfcz_iv"
+                    android:gravity="center_vertical"
+                    android:text="云商城订单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
+
+            <RelativeLayout
+                android:id="@+id/visa_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/list_item_color_bg"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <ImageView
+                    android:id="@+id/hfcz_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/qz_dd" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/hfcz_iv"
+                    android:gravity="center_vertical"
+                    android:text="签证订单"
+                    android:textColor="@color/item_gray"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/xuanzejt_icon" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/deep_gray" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

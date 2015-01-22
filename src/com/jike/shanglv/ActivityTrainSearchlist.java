@@ -305,6 +305,7 @@ public class ActivityTrainSearchlist extends Activity {
 		}
 	};
 	View.OnClickListener btnClickListner = new View.OnClickListener() {
+		@SuppressWarnings("deprecation")
 		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onClick(View v) {
@@ -325,12 +326,12 @@ public class ActivityTrainSearchlist extends Activity {
 					sort_time_iv.setSelected(false);
 					byTypeAsc = !byTypeAsc;
 					if (byTypeAsc) {
-						sort_type_iv.setBackground(getResources().getDrawable(
+						sort_type_iv.setBackgroundDrawable(getResources().getDrawable(
 								R.drawable.sort_arrow_up));
 						Collections.sort(train_List, comparator_type_desc);
 						adapter.notifyDataSetChanged();
 					} else {
-						sort_type_iv.setBackground(getResources().getDrawable(
+						sort_type_iv.setBackgroundDrawable(getResources().getDrawable(
 								R.drawable.sort_arrow_down));
 						Collections.sort(train_List, comparator_type_asc);
 						adapter.notifyDataSetChanged();
@@ -343,12 +344,12 @@ public class ActivityTrainSearchlist extends Activity {
 					sort_time_iv.setSelected(true);
 					byTimeAsc = !byTimeAsc;
 					if (byTimeAsc) {
-						sort_time_iv.setBackground(getResources().getDrawable(
+						sort_time_iv.setBackgroundDrawable(getResources().getDrawable(
 								R.drawable.sort_arrow_up));
 						Collections.sort(train_List, comparator_time_desc);
 						adapter.notifyDataSetChanged();
 					} else {
-						sort_time_iv.setBackground(getResources().getDrawable(
+						sort_time_iv.setBackgroundDrawable(getResources().getDrawable(
 								R.drawable.sort_arrow_down));
 						Collections.sort(train_List, comparator_time_asc);
 						adapter.notifyDataSetChanged();
@@ -397,6 +398,7 @@ public class ActivityTrainSearchlist extends Activity {
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			try {
@@ -457,18 +459,18 @@ public class ActivityTrainSearchlist extends Activity {
 					String SType = SFType.substring(0, 1);
 					String FType = SFType.substring(2, 3);
 					if (SType.equals("ЪМ")) {
-						start_station_icon_iv.setBackground(getResources()
+						start_station_icon_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.trains_start));
 					} else if (SType.equals("Й§")) {
-						start_station_icon_iv.setBackground(getResources()
+						start_station_icon_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.train_over));
 					}
 
 					if (FType.equals("же")) {
-						end_station_icon_iv.setBackground(getResources()
+						end_station_icon_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.train_final));
 					} else if (FType.equals("Й§")) {
-						end_station_icon_iv.setBackground(getResources()
+						end_station_icon_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.train_over));
 					}
 				}

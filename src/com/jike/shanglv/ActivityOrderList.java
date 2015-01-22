@@ -406,6 +406,7 @@ public class ActivityOrderList extends Activity implements
 						}
 						listview.setAdapter((ListAdapter) adapter);
 						listview.setOnItemClickListener(new OnItemClickListener() {
+							@SuppressWarnings("unused")
 							@Override
 							public void onItemClick(AdapterView<?> parent,
 									View view, int position, long id) {
@@ -462,6 +463,9 @@ public class ActivityOrderList extends Activity implements
 									String money = order.getAmount();
 									String userid = sp.getString(
 											SPkeys.userid.getString(), "");
+									if (order.getStatus() == null)
+										return;
+
 									if (!order.getStatus().equals("Î´¸¶¿î"))
 										return;
 									int paysystype = 14;
@@ -904,20 +908,24 @@ public class ActivityOrderList extends Activity implements
 
 		@Override
 		protected void onPostExecute(Void result) {
-			if (actionName.equals(FLIGHT_ORDERLIST)
-					|| actionName.equals(DEMAND_ORDERLIST)
-					|| actionName.equals(TRAIN_ORDERLIST)) {
-				if (order_List_airlineticket != null)
-					((AirlineTicketListAdapter) adapter)
-							.refreshData(order_List_airlineticket);
-			} else if (actionName.equals(HOTEL_ORDERLIST)) {
-				if (order_List_hotel != null && adapter != null)
-					((HotelListAdapter) adapter).refreshData(order_List_hotel);
-			} else if (actionName.equals(PHONE_ORDERLIST)) {
-				if (order_List_phone != null && adapter != null)
-					((PhoneListAdapter) adapter).refreshData(order_List_phone);
+			if (actionName != null || !actionName.isEmpty()) {
+				if (actionName.equals(FLIGHT_ORDERLIST)
+						|| actionName.equals(DEMAND_ORDERLIST)
+						|| actionName.equals(TRAIN_ORDERLIST)) {
+					if (order_List_airlineticket != null)
+						((AirlineTicketListAdapter) adapter)
+								.refreshData(order_List_airlineticket);
+				} else if (actionName.equals(HOTEL_ORDERLIST)) {
+					if (order_List_hotel != null && adapter != null)
+						((HotelListAdapter) adapter)
+								.refreshData(order_List_hotel);
+				} else if (actionName.equals(PHONE_ORDERLIST)) {
+					if (order_List_phone != null && adapter != null)
+						((PhoneListAdapter) adapter)
+								.refreshData(order_List_phone);
+				}
+				listview.onRefreshComplete();
 			}
-			listview.onRefreshComplete();
 		}
 	}
 

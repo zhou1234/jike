@@ -5,7 +5,7 @@
     <string name="test_update_url">http://dn-rocky.qbox.me/shanglvguanjiaversion.xml</string>
     <string name="formal_update_url">http://gatewayv3.51jp.cn/version.xml</string>
     <string name="formal_server_url">http://gatewayv4.51jp.cn/gateway.aspx</string> <!-- http://gatewayv3.51jp.cn/gateway -->
-    <string name="mall_server_url">http://m.99263.com/</string><!--192.168.1.21-->
+    <string name="mall_server_url">http://m.99263.com/</string>                          
     <string name="test_server_url">http://211.152.50.208:8011/gateway.aspx</string>
     <string name="formal_pay_server_url">http://gatewayv4.51jp.cn/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
     <string name="test_pay_server_url">http://211.152.50.208:8011/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
@@ -398,7 +398,7 @@
     <string name="app_finish">完成</string>
     <string name="app_find">查找</string>
     <string name="app_edit">编辑</string>
-
+    <string name="train_tishi">平台提供火车票代购是与12306铁路官网统一的，我们义务为大家进行代购！我们承诺：“不收取任何交易手续费，不以任何形式加价”此外，平台提供的火车票保险服务采取自愿原则，您可根据自身需求选择是否需要保险。</string>
     <!-- applet -->
     <string name="applet_secimg_title">填写验证码</string>
     <string name="applet_secimg_change">换一张图片</string>

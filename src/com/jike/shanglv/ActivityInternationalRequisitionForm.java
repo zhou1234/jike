@@ -1,6 +1,5 @@
 package com.jike.shanglv;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -18,7 +17,6 @@ import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +35,7 @@ import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Common.CustomProgressDialog;
 import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Common.IdType;
+import com.jike.shanglv.Common.MyListView;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Enums.SingleOrDouble;
@@ -62,7 +61,7 @@ public class ActivityInternationalRequisitionForm extends Activity {
 	private LinearLayout backDate_ll;
 	private ImageButton lianxiren_icon_imgbtn, back_imgbtn, home_imgbtn,
 			baoxian_check_imgbtn;
-	private ListView passenger_listview;
+	private MyListView passenger_listview;
 	private View passenger_head_divid_line, backDate_topLine;
 	private Button commit_button;
 	private Context context;
@@ -92,7 +91,7 @@ public class ActivityInternationalRequisitionForm extends Activity {
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		passengerList = new ArrayList<Passenger>();
 		allPassengerList = new ArrayList<Passenger>();
-		passenger_listview = (ListView) findViewById(R.id.passenger_listview);
+		passenger_listview = (MyListView) findViewById(R.id.passenger_listview);
 		add_passager_tv = (TextView) findViewById(R.id.add_passager_tv);
 		passenger_head_divid_line = findViewById(R.id.passenger_head_divid_line);
 		backDate_topLine = findViewById(R.id.backDate_topLine);
@@ -573,8 +572,8 @@ public class ActivityInternationalRequisitionForm extends Activity {
 					ListAdapter adapter = new PassengerListAdapter(context,
 							passengerList);
 					passenger_listview.setAdapter(adapter);
-					ActivityInlandAirlineticketBooking
-							.setListViewHeightBasedOnChildren(passenger_listview);
+//					ActivityInlandAirlineticketBooking
+//							.setListViewHeightBasedOnChildren(passenger_listview);
 				} catch (Exception e) {
 					e.printStackTrace();
 					break;

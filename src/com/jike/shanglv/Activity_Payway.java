@@ -116,14 +116,14 @@ public class Activity_Payway extends Activity {
 					finish();
 					break;
 				case R.id.sc_pay_rl:
-					// Intent intent5 = new Intent(
-					// context,
-					// com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
-					// sp.edit()
-					// .putString(SPkeys.chongZhiJinE.getString(), amount)
-					// .commit();
-					// intent5.setClass(getApplication(),
-					// com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
+//					 Intent intent5 = new Intent(
+//					 context,
+//					 com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
+//					 sp.edit()
+//					 .putString(SPkeys.chongZhiJinE.getString(), amount)
+//					 .commit();
+//					 intent5.setClass(getApplication(),
+//					 com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
 
 					Intent intent5 = new Intent(context, ActivityQianbao.class);
 					intent5.putExtra("amt", amount);

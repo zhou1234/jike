@@ -15,7 +15,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,7 +49,9 @@ public class ActivityInternationalAirlineticket extends Activity {
 			startcity = 3, arrivecity = 4;
 	private SingleOrDouble wayType = SingleOrDouble.singleWay;// 单程or往返
 	private SharedPreferences sp;
-
+	private View img_vline;
+	private ImageView iv_animation;
+	private LinearLayout enddate_choose_ll;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
@@ -80,6 +84,10 @@ public class ActivityInternationalAirlineticket extends Activity {
 		matrix.postTranslate(0, 0);
 		scrollbar_iv.setImageMatrix(matrix);// 设置动画初始位置
 
+		img_vline = findViewById(R.id.img_vline);
+		iv_animation = (ImageView) findViewById(R.id.iv_animation);
+		enddate_choose_ll = (LinearLayout) findViewById(R.id.enddate_choose_ll);
+		
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
 		home_imgbtn = (ImageButton) findViewById(R.id.home_imgbtn);
 		search_button = (Button) findViewById(R.id.chongzhi_button);
@@ -144,14 +152,35 @@ public class ActivityInternationalAirlineticket extends Activity {
 							R.color.blue_title_color));
 					doubleline_tv.setTextColor(context.getResources().getColor(
 							R.color.black_txt_color));
-					date_choose_single_rl.setVisibility(View.VISIBLE);
-					date_choose_double_rl.setVisibility(View.INVISIBLE);
+					
+					Animation animation1 = AnimationUtils.loadAnimation(
+							context, R.anim.translate_left1);
+					img_vline.startAnimation(animation1);
+					iv_animation.startAnimation(animation1);
+					enddate_choose_ll.startAnimation(animation1);
 
 					Animation animation = new TranslateAnimation(one, 0, 0, 0);
 					animation.setFillAfter(true);// True:图片停在动画结束位置
 					animation.setDuration(300);
 					scrollbar_iv.startAnimation(animation);
+					animation1.setAnimationListener(new AnimationListener() {
 
+						@Override
+						public void onAnimationStart(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationRepeat(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationEnd(Animation arg0) {
+							date_choose_single_rl.setVisibility(View.VISIBLE);
+							date_choose_double_rl.setVisibility(View.INVISIBLE);
+						}
+					});
 					break;
 				case R.id.doubleline_tv:// 往返
 					wayType = SingleOrDouble.doubleWayGo;
@@ -161,7 +190,11 @@ public class ActivityInternationalAirlineticket extends Activity {
 							R.color.blue_title_color));
 					date_choose_single_rl.setVisibility(View.INVISIBLE);
 					date_choose_double_rl.setVisibility(View.VISIBLE);
-
+					Animation animation2 = AnimationUtils.loadAnimation(
+							context, R.anim.translate_right1);
+					img_vline.startAnimation(animation2);
+					iv_animation.startAnimation(animation2);
+					enddate_choose_ll.startAnimation(animation2);
 					animation = new TranslateAnimation(offset, one, 0, 0);
 					animation.setFillAfter(true);// True:图片停在动画结束位置
 					animation.setDuration(300);
@@ -202,18 +235,48 @@ public class ActivityInternationalAirlineticket extends Activity {
 					finish();
 					break;
 				case R.id.swith_city_iv:
-					String tempCity = "",
-					tempCityCode = "";
-					tempCity = startcity_tv.getText().toString().trim();
-					startcity_tv
-							.setText(endcity_tv.getText().toString().trim());
-					endcity_tv.setText(tempCity);
+					Animation rotateAnimation = AnimationUtils.loadAnimation(
+							context, R.anim.rotate_qiehuan);
+					Animation translateAnimation = AnimationUtils
+							.loadAnimation(context, R.anim.translate_left);
+					Animation translateAnimation1 = AnimationUtils
+							.loadAnimation(context, R.anim.translate_right);
+					endcity_tv.startAnimation(translateAnimation1);
+					startcity_tv.startAnimation(translateAnimation);
+					swith_city_iv.startAnimation(rotateAnimation);
 
-					tempCityCode = startcity_code_tv.getText().toString()
-							.trim();
-					startcity_code_tv.setText(endcity_code_tv.getText()
-							.toString().trim());
-					endcity_code_tv.setText(tempCityCode);
+					translateAnimation
+							.setAnimationListener(new AnimationListener() {
+
+								@Override
+								public void onAnimationStart(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationRepeat(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animation arg0) {
+									String tempCity = "", tempCityCode = "";
+									tempCity = startcity_tv.getText()
+											.toString().trim();
+									startcity_tv.setText(endcity_tv.getText()
+											.toString().trim());
+									endcity_tv.setText(tempCity);
+
+									tempCityCode = startcity_code_tv.getText()
+											.toString().trim();
+									startcity_code_tv.setText(endcity_code_tv
+											.getText().toString().trim());
+									endcity_code_tv.setText(tempCityCode);
+								}
+							});
+
 					break;
 				case R.id.chongzhi_button:// 搜索
 					if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {

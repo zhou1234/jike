@@ -1,8 +1,9 @@
 package com.jike.shanglv.Models;
 
 public class VerifyFlightPrice {
-	 private String flightno,s,e,sd,cabin,fare,ischd,isspe,siteid,istehui,
-	 userrate;
+	@SuppressWarnings("unused")
+	private String flightno, s, e, sd, cabin, fare, ischd, isspe, siteid,
+			istehui, userrate, stime, iskx, kxsiteid, kxspvalue;
 
 	public String getFlightno() {
 		return flightno;
@@ -91,5 +92,37 @@ public class VerifyFlightPrice {
 	public void setUserrate(String userrate) {
 		this.userrate = userrate;
 	}
-	 
+
+	public String getStime() {
+		return stime;
+	}
+
+	public void setStime(String stime) {
+		this.stime = stime;
+	}
+
+	public String getIskx() {
+		return iskx;
+	}
+
+	public void setIskx(String iskx) {
+		this.iskx = iskx;
+	}
+
+	public String getKxsiteid() {
+		return kxsiteid;
+	}
+
+	public void setKxsiteid(String kxsiteid) {
+		this.kxsiteid = kxsiteid;
+	}
+
+	public String getKxspvalue() {
+		return kxspvalue;
+	}
+
+	public void setKxspvalue(String kxspvalue) {
+		this.kxspvalue = kxspvalue;
+	}
+
 }

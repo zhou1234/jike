@@ -1,6 +1,5 @@
 package com.jike.shanglv.Common;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,16 +20,21 @@ public class DateUtil {
 	 */
 	public static boolean isDateBefore(String date1, String date2) {
 		try {
-//			DateFormat df = DateFormat.getDateTimeInstance();
+			// DateFormat df = DateFormat.getDateTimeInstance();
 			// return df.parse(date1).before(df.parse(date2));
-//			return df.parse(da).before(df.parse(da1));
-			long d1=Long.parseLong(date1.replace("/", "").replace(":", "").replace(" ", "").replace("-", ""));
-			long d2=Long.parseLong(date2.replace("/", "").replace(":", "").replace(" ", "").replace("-", ""));
-			if(d1>d2)return false;
-			else return true;
-			
+			// return df.parse(da).before(df.parse(da1));
+			long d1 = Long.parseLong(date1.replace("/", "").replace(":", "")
+					.replace(" ", "").replace("-", ""));
+			long d2 = Long.parseLong(date2.replace("/", "").replace(":", "")
+					.replace(" ", "").replace("-", ""));
+			if (d1 > d2) {
+				return false;
+			} else {
+				return true;
+			}
 
 		} catch (Exception e) {
+			
 			return false;
 		}
 	}

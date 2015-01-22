@@ -5,17 +5,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import org.json.JSONArray;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-//import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-//import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -28,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,7 +37,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.jike.shanglv.Common.ClearEditText;
 import com.jike.shanglv.Common.CommonFunc;
@@ -53,6 +52,8 @@ import com.jike.shanglv.Models.TrainOrderPassenger;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.jike.shanglv.NetAndJson.JSONHelper;
 import com.umeng.analytics.MobclickAgent;
+//import android.app.AlertDialog;
+//import android.content.DialogInterface.OnClickListener;
 
 public class ActivityTrainBooking extends Activity {
 
@@ -106,6 +107,7 @@ public class ActivityTrainBooking extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initView() {
 		context = this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
@@ -195,7 +197,7 @@ public class ActivityTrainBooking extends Activity {
 		});
 		if (selectedSeatIndex == -1) {
 			order_now_btn.setEnabled(false);
-			order_now_btn.setBackground(getResources().getDrawable(
+			order_now_btn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.booking_immediately_button_d));
 		}
 
@@ -204,17 +206,17 @@ public class ActivityTrainBooking extends Activity {
 			String SType = SFType.substring(0, 1);
 			String FType = SFType.substring(2, 3);
 			if (SType.equals("ЪМ")) {
-				start_station_icon_iv.setBackground(getResources().getDrawable(
+				start_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.trains_start));
 			} else if (SType.equals("Й§")) {
-				start_station_icon_iv.setBackground(getResources().getDrawable(
+				start_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.train_over));
 			}
 			if (FType.equals("же")) {
-				end_station_icon_iv.setBackground(getResources().getDrawable(
+				end_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.train_final));
 			} else if (FType.equals("Й§")) {
-				end_station_icon_iv.setBackground(getResources().getDrawable(
+				end_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.train_over));
 			}
 		}
@@ -223,7 +225,7 @@ public class ActivityTrainBooking extends Activity {
 		if (sp.getString(SPkeys.trainContactPhone.getString(), "").equals("")) {
 			if (CommonFunc.getPhoneNumber(context).equals("")) {
 				contact_person_phone_et.setText(sp.getString(
-						SPkeys.username.getString(), ""));
+						SPkeys.userphone.getString(), ""));
 			} else {
 				contact_person_phone_et.setText(CommonFunc
 						.getPhoneNumber(context));

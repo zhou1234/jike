@@ -51,7 +51,7 @@ public class MyApp {
 	}
 
 	/**
-	 * 获取接口的地址
+	 * 获取商城接口的地址
 	 */
 	public String getMallServeUrl() {
 

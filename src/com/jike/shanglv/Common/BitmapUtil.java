@@ -1,68 +1,44 @@
 package com.jike.shanglv.Common;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 public class BitmapUtil {
-	public static Bitmap getSmallBitmap(InputStream is) {
 
-		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeStream(is, null, options);
-
-		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, 480, 800);
-
-		// Decode bitmap with inSampleSize set
-		options.inJustDecodeBounds = false;
-
-		Bitmap bm = BitmapFactory.decodeStream(is, null, options);
-		if (bm == null) {
-			return null;
-		}
-		ByteArrayOutputStream baos = null;
-		try {
-			baos = new ByteArrayOutputStream();
-			bm.compress(Bitmap.CompressFormat.JPEG, 30, baos);
-
-		} finally {
-			try {
-				if (baos != null)
-					baos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return bm;
-
+	/**
+	 * 以最省内存的方式读取本地资源的图片
+	 */
+	public static Bitmap readBitMap(Context context, int resId) {
+		BitmapFactory.Options opt = new BitmapFactory.Options();
+		opt.inPreferredConfig = Bitmap.Config.RGB_565;
+		opt.inPurgeable = true;
+		opt.inInputShareable = true;
+		// 获取资源图片
+		InputStream is = context.getResources().openRawResource(resId);
+		return BitmapFactory.decodeStream(is, null, opt);
 	}
 
-	private static int calculateInSampleSize(BitmapFactory.Options options,
-			int reqWidth, int reqHeight) {
-		// Raw height and width of image
-		final int height = options.outHeight;
-		final int width = options.outWidth;
-		int inSampleSize = 1;
-
-		if (height > reqHeight || width > reqWidth) {
-
-			// Calculate ratios of height and width to requested height and
-			// width
-			final int heightRatio = Math.round((float) height
-					/ (float) reqHeight);
-			final int widthRatio = Math.round((float) width / (float) reqWidth);
-
-			// Choose the smallest ratio as inSampleSize value, this will
-			// guarantee
-			// a final image with both dimensions larger than or equal to the
-			// requested height and width.
-			inSampleSize = heightRatio < widthRatio ? widthRatio : heightRatio;
+	/**
+	 * 图片回收
+	 * 
+	 * @param imageView
+	 */
+	public static void releaseImageViewResouce(ImageView imageView) {
+		if (imageView == null)
+			return;
+		Drawable drawable = imageView.getDrawable();
+		if (drawable != null && drawable instanceof BitmapDrawable) {
+			BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+			Bitmap bitmap = bitmapDrawable.getBitmap();
+			if (bitmap != null && !bitmap.isRecycled()) {
+				bitmap.recycle();
+			}
 		}
-
-		return inSampleSize;
 	}
 }

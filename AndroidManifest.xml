@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jike.shanglv"
     android:installLocation="auto"
-    android:versionCode="30"
-    android:versionName="7.4.11" >
+    android:versionCode="33"
+    android:versionName="7.4.14" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -545,10 +545,16 @@
         <activity android:name="com.jike.shanglv.ActivityTransactionDetails" >
         </activity>
         <!-- 客服中心 -->
-        <activity android:name="com.jike.shanglv.ActivityServiceCenter" >
+        <activity
+            android:name="com.jike.shanglv.ActivityServiceCenter"
+            android:hardwareAccelerated="false" >
         </activity>
         <!-- 云商城 -->
-        <activity android:name="com.jike.shanglv.ActivityMall" >
+        <activity
+            android:name="com.jike.shanglv.Activity_Web"
+            android:hardwareAccelerated="false" >
+        </activity>
+        <activity android:name="com.jike.shanglv.NotNetworkActivity" >
         </activity>
     </application>
 

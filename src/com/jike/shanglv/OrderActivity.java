@@ -50,7 +50,10 @@ public class OrderActivity extends Activity {
 					.setOnClickListener(btnClickListner);
 			((RelativeLayout) findViewById(R.id.gjjp_xqd_rl))
 					.setOnClickListener(btnClickListner);
-
+			((RelativeLayout) findViewById(R.id.mall_rl))
+					.setOnClickListener(btnClickListner);
+			((RelativeLayout) findViewById(R.id.visa_rl))
+					.setOnClickListener(btnClickListner);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,35 +76,55 @@ public class OrderActivity extends Activity {
 					intent.putExtra(ActivityOrderList.ACTION_TOKENNAME,
 							ActivityOrderList.FLIGHT_ORDERLIST);
 					intent.putExtra(ActivityOrderList.TITLE_TOKENNAME, "国内机票订单");
+					startActivity(intent);
 					break;
 				case R.id.gjjp_xqd_rl:
 					intent.putExtra(ActivityOrderList.ACTION_TOKENNAME,
 							ActivityOrderList.DEMAND_ORDERLIST);
 					intent.putExtra(ActivityOrderList.TITLE_TOKENNAME, "国际需求订单");
+					startActivity(intent);
 					break;
 				case R.id.gjjp_rl:
 					intent.putExtra(ActivityOrderList.ACTION_TOKENNAME,
 							ActivityOrderList.INTFLIGHT_ORDERLIST);
 					intent.putExtra(ActivityOrderList.TITLE_TOKENNAME, "国际机票订单");
+					startActivity(intent);
 					break;
 				case R.id.jd_rl:
 					intent.putExtra(ActivityOrderList.ACTION_TOKENNAME,
 							ActivityOrderList.HOTEL_ORDERLIST);
 					intent.putExtra(ActivityOrderList.TITLE_TOKENNAME, "酒店订单");
+					startActivity(intent);
 					break;
 				case R.id.hcp_rl:
 					intent.putExtra(ActivityOrderList.ACTION_TOKENNAME,
 							ActivityOrderList.TRAIN_ORDERLIST);
 					intent.putExtra(ActivityOrderList.TITLE_TOKENNAME, "火车票订单");
+					startActivity(intent);
 					break;
 				case R.id.hfcz_rl:
 					intent.putExtra(ActivityOrderList.ACTION_TOKENNAME,
 							ActivityOrderList.PHONE_ORDERLIST);
 					intent.putExtra(ActivityOrderList.TITLE_TOKENNAME, "话费充值订单");
+					startActivity(intent);
 					break;
-
+				case R.id.mall_rl:
+					Intent intent1 = new Intent(OrderActivity.this,
+							Activity_Web.class);
+					intent1.putExtra("action", "list");
+					intent1.putExtra("title", "云商城列表");
+					intent1.putExtra("OrderList", "&returnUrl=/Mall/OrderList");
+					startActivity(intent1);
+					break;
+				case R.id.visa_rl:
+					Intent intent2 = new Intent(OrderActivity.this,
+							Activity_Web.class);
+					intent2.putExtra("action", "list");
+					intent2.putExtra("title", "签证列表");
+					intent2.putExtra("OrderList", "&returnUrl=/Visa/OrderList");
+					startActivity(intent2);
+					break;
 				}
-				startActivity(intent);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

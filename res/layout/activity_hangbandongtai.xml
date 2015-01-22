@@ -242,7 +242,6 @@
                 android:paddingLeft="10dp"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
-                android:drawableRight="@drawable/delete_selector"
                 android:gravity="center_vertical"
                 android:hint="输入航班号，例如：MU5138"
                 android:maxLength="15"

@@ -1,6 +1,8 @@
 //使用WebView加载内容：只需要提供标题和加载的url即可
 package com.jike.shanglv;
 
+import java.lang.reflect.Method;
+
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -9,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -16,9 +19,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +39,8 @@ public class Activity_Web_Frame extends Activity {
 	private ImageView frame_ani_iv;
 	private SharedPreferences sp;
 	private Context context;
+	private LinearLayout notNetWork_ll;
+	private Button jiazai_bt;
 
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -45,6 +52,8 @@ public class Activity_Web_Frame extends Activity {
 			requestWindowFeature(Window.FEATURE_NO_TITLE);
 			setContentView(R.layout.activity_web_frame);
 			context = this;
+			notNetWork_ll = (LinearLayout) findViewById(R.id.notNetWork_ll);
+			jiazai_bt = (Button) findViewById(R.id.jiazai_bt);
 			((MyApplication) getApplication()).addActivity(this);
 
 			((ImageButton) findViewById(R.id.back))
@@ -73,33 +82,63 @@ public class Activity_Web_Frame extends Activity {
 			url = getIntent().getExtras().getString(URL);
 			String title = getIntent().getExtras().getString(TITLE);
 			((TextView) findViewById(R.id.title)).setText(title);
+			jiazai_bt.setOnClickListener(new View.OnClickListener() {
 
+				@Override
+				public void onClick(View arg0) {
+					if (HttpUtils.checkNet(context)) {
+						webView.loadUrl(url);
+					}
+				}
+			});
+
+			webView.setWebChromeClient(new WebChromeClient() {
+
+				@Override
+				public void onProgressChanged(WebView view, int newProgress) {
+					super.onProgressChanged(view, newProgress);
+					if (HttpUtils.checkNet(context)) {
+						notNetWork_ll.setVisibility(View.GONE);
+					} else {
+						notNetWork_ll.setVisibility(View.VISIBLE);
+					}
+
+					if (newProgress == 100) {
+						loading_ll.setVisibility(View.GONE);
+						webView.setVisibility(View.VISIBLE);
+
+					}
+
+				}
+
+			});
 			webView.setWebViewClient(new WebViewClient() {// / 不重写的话，会跳到手机浏览器中
 				@Override
 				public void onReceivedError(WebView view, int errorCode,
 						String description, String failingUrl) { // Handle the
-																	// error
+					webView.goBack();
 				}
 
 				@Override
 				public boolean shouldOverrideUrlLoading(WebView view, String url) {
-					view.loadUrl(url);
+					Activity_Web_Frame.this.url = url;
+					if (HttpUtils.checkNet(context)) {
+						notNetWork_ll.setVisibility(View.GONE);
+						view.loadUrl(url);
+					} else {
+						notNetWork_ll.setVisibility(View.VISIBLE);
+					}
+
 					return true;
+
 				}
 
 				@Override
 				public void onPageFinished(WebView view, String url) {
 					super.onPageFinished(view, url);
-					loading_ll.setVisibility(View.GONE);
-					webView.setVisibility(View.VISIBLE);
 				}
 			});
-			if (HttpUtils.showNetCannotUse(context)) {
-				return;
-			}
 			webView.loadUrl(url);
-			// webView.loadDataWithBaseURL(null, url, "text/html", "utf-8",
-			// null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

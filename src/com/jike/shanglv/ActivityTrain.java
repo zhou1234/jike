@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -116,18 +119,48 @@ public class ActivityTrain extends Activity {
 					finish();
 					break;
 				case R.id.swith_city_iv:
-					String tempCity = "",
-					tempCityCode = "";
-					tempCity = startcity_tv.getText().toString().trim();
-					startcity_tv
-							.setText(endcity_tv.getText().toString().trim());
-					endcity_tv.setText(tempCity);
+					Animation rotateAnimation = AnimationUtils.loadAnimation(
+							context, R.anim.rotate_qiehuan);
+					Animation translateAnimation = AnimationUtils
+							.loadAnimation(context, R.anim.translate_left);
+					Animation translateAnimation1 = AnimationUtils
+							.loadAnimation(context, R.anim.translate_right);
+					endcity_tv.startAnimation(translateAnimation1);
+					startcity_tv.startAnimation(translateAnimation);
+					swith_city_iv.startAnimation(rotateAnimation);
 
-					tempCityCode = startcity_code_tv.getText().toString()
-							.trim();
-					startcity_code_tv.setText(endcity_code_tv.getText()
-							.toString().trim());
-					endcity_code_tv.setText(tempCityCode);
+					translateAnimation
+							.setAnimationListener(new AnimationListener() {
+
+								@Override
+								public void onAnimationStart(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationRepeat(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animation arg0) {
+									String tempCity = "", tempCityCode = "";
+									tempCity = startcity_tv.getText()
+											.toString().trim();
+									startcity_tv.setText(endcity_tv.getText()
+											.toString().trim());
+									endcity_tv.setText(tempCity);
+
+									tempCityCode = startcity_code_tv.getText()
+											.toString().trim();
+									startcity_code_tv.setText(endcity_code_tv
+											.getText().toString().trim());
+									endcity_code_tv.setText(tempCityCode);
+								}
+							});
+
 					break;
 				case R.id.search_button:// ËÑË÷
 					if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
@@ -150,7 +183,7 @@ public class ActivityTrain extends Activity {
 						});
 						break;
 					}
-					if (HttpUtils.showNetCannotUse(context)) {
+					if (!HttpUtils.checkNetCannotUse(context)) {
 						return;
 					}
 					Intent intents = new Intent(context,

@@ -51,6 +51,7 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 			offTime_tv, startPortAndT_tv, arriveTime_tv, arrivePortAndT_tv,
 			jipiaojia_tv, fanMoney_tv, jijian_price_tv, ranyou_price_tv,
 			contact_person_phone_tv, baoxian_tv;
+	private ImageView hui_iv;
 	private ListView passenger_listview;
 	private ImageView frame_ani_iv;
 	private RelativeLayout loading_ll;
@@ -58,10 +59,10 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 	private Button pay_now_btn;
 	private SharedPreferences sp;
 	private ArrayList<Passenger> passengerList;// 乘机人列表
-	private String orderID = "", pnr = "", amount = "", PayLimit, stateString;// amount为订单金额
+	private String orderID = "", pnr = "", amount = "", PayLimit, msg, IsTeHui,
+			IsCanPay, stateString;// amount为订单金额
 	private String orderDetailReturnJson;
 	private JSONObject orderDetailObject;// 返回的订单详情对象
-	private String isTeHui;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +79,15 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 		((MyApplication) getApplication()).addActivity(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		try {
 			super.onWindowFocusChanged(hasFocus);
-			frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+			frame_ani_iv
+					.setBackgroundDrawable(ActivityInlandAirlineticketOrderDetail.this
+							.getResources()
+							.getDrawable(R.anim.frame_rotate_ani));
 			AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
 					.getBackground();
 			anim.setOneShot(false);
@@ -128,6 +133,7 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 		arrivePortAndT_tv = (TextView) findViewById(R.id.arrivePortAndT_tv);
 		contact_person_phone_tv = (TextView) findViewById(R.id.contact_person_phone_tv);
 		// baoxian_tv=(TextView) findViewById(R.id.baoxian_tv);
+		hui_iv = (ImageView) findViewById(R.id.hui_iv);
 
 		passenger_listview = (ListView) findViewById(R.id.passenger_listview);
 	}
@@ -178,9 +184,6 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 	private Boolean getOrderReceipt() {
 		Intent intent = getIntent();
 		if (intent != null) {
-			if (intent.hasExtra("isTeHui")) {
-				isTeHui = intent.getStringExtra("isTeHui");
-			}
 			if (intent.hasExtra(ORDERRECEIPT)) {
 				orderID = intent.getStringExtra(ORDERRECEIPT);
 				// pnr=or.getPnr();//为了保持该页面的一致性（有可能来自列表也可能是订单提交页面），不能从上页中获取pnr
@@ -236,8 +239,8 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 									&& (stateString.equals("新订单") || stateString
 											.equals("已受理"))) {
 								String msage = "";
-								if (isTeHui.equals("1")) {
-									msage = "您预订的是特惠机票,请在5-10分钟后刷新订单!";  
+								if (IsTeHui.equals("1")) {
+									msage = ActivityInlandAirlineticketOrderDetail.this.msg;
 								} else {
 									msage = "定位失败，暂不能支付！";
 								}
@@ -281,6 +284,7 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 			}
 		}
 
+		@SuppressWarnings("deprecation")
 		private void assignment() {
 			try {
 				amount = orderDetailObject.getJSONObject("orders").getString(
@@ -289,6 +293,19 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 						.getString("PNR");
 				PayLimit = orderDetailObject.getJSONObject("orders").getString(
 						"PayLimit");
+				msg = orderDetailObject.getJSONObject("orders").getString(
+						"Message");
+				IsTeHui = orderDetailObject.getJSONObject("orders").getString(
+						"IsTeHui");
+				IsCanPay = orderDetailObject.getJSONObject("orders").getString(
+						"IsCanPay");
+				String FareProvider = "";
+				try {
+					FareProvider = orderDetailObject.getJSONObject("orders")
+							.getString("FareProvider");
+				} catch (Exception e) {
+				}
+
 				JSONArray passengersArray = orderDetailObject
 						.getJSONArray("psginfo");
 				for (int i = 0; i < passengersArray.length(); i++) {
@@ -319,6 +336,17 @@ public class ActivityInlandAirlineticketOrderDetail extends Activity {
 				order_totalmoney_tv.setText("￥"
 						+ orderDetailObject.getJSONObject("orders").getString(
 								"Amount"));
+				if (IsTeHui.equals("1") && FareProvider.equals("6")) {
+					hui_iv.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.hui_k));
+					hui_iv.setVisibility(View.VISIBLE);
+				} else if (IsTeHui.equals("1")) {
+					hui_iv.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.hui));
+				} else {
+					hui_iv.setVisibility(View.GONE);
+				}
+
 				try {
 					offdate_tv.setText(DateUtil.getDate(orderDetailObject
 							.getJSONArray("flights").getJSONObject(0)

@@ -227,10 +227,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:maxLength="7"
                     android:background="@null"
                     android:hint="请输入预算价格"
                     android:inputType="number"
+                    android:maxLength="7"
                     android:textColor="@color/price_yellow"
                     android:textSize="20sp" />
 
@@ -342,13 +342,13 @@
                 android:layout_marginLeft="15dp"
                 android:background="@color/deep_gray"
                 android:visibility="invisible" />
-<!--  android:divider="@null" -->
-            <ListView
+            <!-- android:divider="@null" -->
+
+            <com.jike.shanglv.Common.MyListView
                 android:id="@+id/passenger_listview"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                >
-            </ListView>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </com.jike.shanglv.Common.MyListView>
 
             <View
                 android:layout_width="fill_parent"

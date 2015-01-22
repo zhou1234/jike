@@ -83,7 +83,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 
 	@SuppressWarnings("deprecation")
 	private void initView() {
-		context = this;
+		context =ActivityInlandAirlineticketSearchlist.this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		InlandAirline_List = new ArrayList<InlandAirlineInfo>();
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
@@ -392,6 +392,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 	}
 
 	View.OnClickListener btnClickListner = new View.OnClickListener() {
+		@SuppressWarnings("deprecation")
 		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onClick(View v) {
@@ -400,8 +401,9 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 				case R.id.date_yesterday_ll:
 
 					if (!DateUtil.IsMoreThanToday(currentdate)) {
-						left_arrow_iv.setBackground(getResources().getDrawable(
-								R.drawable.solid_arrow_left_disable));
+						left_arrow_iv.setBackgroundDrawable(getResources()
+								.getDrawable(
+										R.drawable.solid_arrow_left_disable));
 						date_yesterday_ll.setEnabled(false);
 						break;
 					}
@@ -413,8 +415,9 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 						e.printStackTrace();
 					}
 					if (!DateUtil.IsMoreThanToday(currentdate)) {
-						left_arrow_iv.setBackground(getResources().getDrawable(
-								R.drawable.solid_arrow_left_disable));
+						left_arrow_iv.setBackgroundDrawable(getResources()
+								.getDrawable(
+										R.drawable.solid_arrow_left_disable));
 						date_yesterday_ll.setEnabled(true);
 					}
 					startQuery();
@@ -428,8 +431,8 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 						e.printStackTrace();
 					}
 					if (DateUtil.IsMoreThanToday(currentdate))
-						left_arrow_iv.setBackground(getResources().getDrawable(
-								R.drawable.solid_arrow_left));
+						left_arrow_iv.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.solid_arrow_left));
 					startQuery();
 					break;
 				case R.id.bytime_LL:
@@ -439,13 +442,13 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 					sort_arrow_price_iv.setSelected(false);
 					byTimeAsc = !byTimeAsc;
 					if (byTimeAsc) {
-						sort_arrow_time_iv.setBackground(getResources()
+						sort_arrow_time_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.sort_arrow_up));
 						Collections.sort(InlandAirline_List, comparator3);
 						adapter = new ListAdapter(context, InlandAirline_List);
 						listview.setAdapter(adapter);
 					} else {
-						sort_arrow_time_iv.setBackground(getResources()
+						sort_arrow_time_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.sort_arrow_down));
 						Collections.sort(InlandAirline_List, comparator4);
 						adapter = new ListAdapter(context, InlandAirline_List);
@@ -459,13 +462,14 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 					sort_arrow_time_iv.setSelected(false);
 					byPriceAsc = !byPriceAsc;
 					if (byPriceAsc) {
-						sort_arrow_price_iv.setBackground(getResources()
-								.getDrawable(R.drawable.sort_arrow_up));
+						sort_arrow_price_iv
+								.setBackgroundDrawable(getResources()
+										.getDrawable(R.drawable.sort_arrow_up));
 						Collections.sort(InlandAirline_List, comparator1);
 						adapter = new ListAdapter(context, InlandAirline_List);
 						listview.setAdapter(adapter);
 					} else {
-						sort_arrow_price_iv.setBackground(getResources()
+						sort_arrow_price_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.sort_arrow_down));
 						Collections.sort(InlandAirline_List, comparator2);
 						adapter = new ListAdapter(context, InlandAirline_List);
@@ -515,6 +519,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			try {
@@ -561,7 +566,14 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 				// fanMoney_ll.setVisibility(View.VISIBLE);
 				// }
 				String teHui = str.get(position).getIsTeHui();
-				if (teHui.equals("1")) {
+				String IsKx = str.get(position).getIsKx();
+				if (teHui.equals("1") && IsKx.equals("1")) {
+					teHui_iv.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.te_hui_k));
+					teHui_iv.setVisibility(View.VISIBLE);
+				} else if (teHui.equals("1") && IsKx.equals("0")) {
+					teHui_iv.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.te_hui));
 					teHui_iv.setVisibility(View.VISIBLE);
 				} else {
 					teHui_iv.setVisibility(View.GONE);

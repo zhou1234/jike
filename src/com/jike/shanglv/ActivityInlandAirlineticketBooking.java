@@ -65,6 +65,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	protected static final int ADD_PASSENGERS_FORRESULET_CODE = 13;
 	protected static final int BAOXIAN_MSG_CODE = 5;
 	protected static final int COMMIT_ORDER_MSG_CODE = 6;
+	protected static final int COMMIT_ORDER_MSG_CODE3 = 16;
 	protected static final int CHECK_PRICE_MSG_CODE = 15;
 	protected static final int CHECK_PRICE_MSG_CODE3 = 18;
 	protected static final int NEW_ORDER_DETAIL_CODE = 7;
@@ -102,7 +103,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	private ListView passenger_listview;
 	private View passenger_head_divid_line;
 	private SharedPreferences sp;
-	private float totalPrice = 0, baoxian_unitPrice = 0;
+	private float totalPrice = 0, totalPrice3 = 0, baoxian_unitPrice = 0;
 
 	private JSONObject jsonObject;
 	private int selectCabinListIndex = 0;
@@ -118,8 +119,9 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 
 	private Boolean needBaoxianBoolean = true;// 是否购买保险
 	private String baoxianReturnJson = "", commitReturnJson = "",
-			checkReturnJson = "", checkReturnJson3, tuigaiqianReturnJson = "",
-			cabin = "", cabin3 = "", startcity_code = "", arrivecity_code = "";
+			commitReturnJson3 = "", checkReturnJson = "", checkReturnJson3,
+			tuigaiqianReturnJson = "", cabin = "", cabin3 = "",
+			startcity_code = "", arrivecity_code = "";
 	private ArrayList<Passenger> passengerList;// 选择的乘机人列表
 	private ArrayList<Passenger> allPassengerList;// 当前所有乘机人的列表（服务端和用户新增的）
 	private PolicyList selectedPolicyB;// B2B用户自定义选择的政策信息
@@ -129,7 +131,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 
 	private String flightno = "", fare = "", sd = "", ischd = "0", isspe = "0";
 
-	private String IsTeHui="", IsTeHui3="";
+	private String IsTeHui = "", IsTeHui3 = "";
 	private Boolean isB2Boolean;
 	private Boolean isCheck = false;// 如果是返程,判断去程是否验价通过.
 
@@ -168,8 +170,9 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void initView() {
-		context = this;
+		context = ActivityInlandAirlineticketBooking.this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		imageLoader = new ImageLoader(context.getApplicationContext());
 		passengerList = new ArrayList<Passenger>();
@@ -318,6 +321,13 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 			vfp.setIstehui(IsTeHui);
 			vfp.setUserrate(jsonObject.getJSONArray("CabList")
 					.getJSONObject(selectCabinListIndex).getString("UserRate"));
+			vfp.setStime(DateUtil.getTime(ia.getOffTime()));
+			vfp.setIskx(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex).getString("IsKx"));
+			vfp.setKxsiteid(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex).getString("KxSiteID"));
+			vfp.setKxspvalue(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex).getString("KxSpValue"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -341,7 +351,11 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		if (IsTeHui.equals("1")) {
 			baoxian_rl.setClickable(false);
 			baoxian_check_imgbtn.setClickable(false);
+			baoxian_check_imgbtn.setBackgroundDrawable(getResources()
+					.getDrawable(R.drawable.checkmark_icon_selected1));
 			baoxian_price_and_count_tv.setClickable(false);
+			baoxian_price_and_count_tv.setTextColor(getResources().getColor(
+					R.color.danhuise));
 		}
 		checkPrice(vfp);
 	}
@@ -523,6 +537,14 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 			vfp.setIstehui(IsTeHui3);
 			vfp.setUserrate(jsonObject3.getJSONArray("CabList")
 					.getJSONObject(selectCabinListIndex3).getString("UserRate"));
+			vfp.setStime(DateUtil.getTime(ia.getOffTime()));
+			vfp.setIskx(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex3).getString("IsKx"));
+			vfp.setKxsiteid(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex3).getString("KxSiteID"));
+			vfp.setKxspvalue(jsonObject.getJSONArray("CabList")
+					.getJSONObject(selectCabinListIndex3)
+					.getString("KxSpValue"));
 			checkPrice3(vfp);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -637,18 +659,38 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 						intent.putExtra(
 								ActivityInlandAirlineticketOrderDetail.ORDERRECEIPT,
 								orderID);
-						if (IsTeHui.equals("1") || IsTeHui3.equals("1")) {
-							intent.putExtra("isTeHui", "1");
-						}else{
-							intent.putExtra("isTeHui", "0");
-						}
 						startActivityForResult(intent, NEW_ORDER_DETAIL_CODE);
+						ActivityInlandAirlineticketBooking.this.finish();
 					} else {
 						Toast.makeText(context, "发生异常，提交订单失败！", 0).show();
 					}
 					progressdialog.dismiss();
 				} catch (Exception e) {
 					progressdialog.dismiss();
+					e.printStackTrace();
+				}
+				break;
+			case COMMIT_ORDER_MSG_CODE3:
+				jsonParser = new JSONTokener(commitReturnJson3);
+				try {
+					JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
+					String state = jsonObject.getString("c");
+
+					if (state.equals("0000")) {
+						hasCommited = true;
+						String orderID = jsonObject.getJSONObject("d")
+								.getString("orderid");
+						Intent intent = new Intent(context,
+								ActivityInlandAirlineticketOrderDetail.class);
+						intent.putExtra(
+								ActivityInlandAirlineticketOrderDetail.ORDERRECEIPT,
+								orderID);
+						startActivityForResult(intent, NEW_ORDER_DETAIL_CODE);
+						ActivityInlandAirlineticketBooking.this.finish();
+					} else {
+						Toast.makeText(context, "发生异常，提交订单失败！", 0).show();
+					}
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				break;
@@ -756,6 +798,8 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 								@Override
 								public void onClick(View arg0) {
 									cad2.dismiss();
+									ActivityInlandAirlineticketBooking.this
+											.finish();
 								}
 							});
 						}
@@ -769,12 +813,17 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 							@Override
 							public void onClick(View arg0) {
 								cad2.dismiss();
+								ActivityInlandAirlineticketBooking.this
+										.finish();
 							}
 						});
 					}
 					progressdialog.dismiss();
 				} catch (Exception e) {
-					progressdialog.dismiss();
+					if (progressdialog != null) {
+						progressdialog.dismiss();
+					}
+
 					e.printStackTrace();
 				}
 				break;
@@ -820,6 +869,8 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 								@Override
 								public void onClick(View arg0) {
 									cad2.dismiss();
+									ActivityInlandAirlineticketBooking.this
+											.finish();
 								}
 							});
 						}
@@ -832,6 +883,8 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 							@Override
 							public void onClick(View arg0) {
 								cad2.dismiss();
+								ActivityInlandAirlineticketBooking.this
+										.finish();
 							}
 						});
 					}
@@ -1005,23 +1058,32 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		// progressdialog.show();
 	}
 
+	/*
+	 * 提交去程订单
+	 */
 	private void commitOrder() {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
+					if (getOrderWayType() == SingleOrDouble.doubleWayBack) {
+						commitOrder3();
+					}
 					// url?action=forder& "userid": "649","amount":
 					// "682","origin":
 					// "6","orderremark": "订单备注",
 					MyApp ma = new MyApp(context);
 					String flightString = "";
-					if (getOrderWayType() == SingleOrDouble.singleWay) {
-						flightString = getFlightsJsonString(SingleOrDouble.singleWay);
-					} else if (getOrderWayType() == SingleOrDouble.doubleWayBack) {
-						flightString = getFlightsJsonString(SingleOrDouble.singleWay)
-								+ ","
-								+ getFlightsJsonString(SingleOrDouble.doubleWayBack);
-					}
+					flightString = getFlightsJsonString(SingleOrDouble.singleWay);
+					/*
+					 * if (getOrderWayType() == SingleOrDouble.singleWay) {
+					 * flightString =
+					 * getFlightsJsonString(SingleOrDouble.singleWay); } if
+					 * (getOrderWayType() == SingleOrDouble.doubleWayBack) {
+					 * flightString =
+					 * getFlightsJsonString(SingleOrDouble.singleWay) + "," +
+					 * getFlightsJsonString(SingleOrDouble.doubleWayBack); }
+					 */
 					String siteid = sp.getString(SPkeys.siteid.getString(),
 							"65");
 					String str = "{\"userid\":\""
@@ -1072,6 +1134,78 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	}
 
 	/*
+	 * 提交返程订单
+	 */
+	private void commitOrder3() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					// url?action=forder& "userid": "649","amount":
+					// "682","origin":
+					// "6","orderremark": "订单备注",
+					MyApp ma = new MyApp(context);
+					String flightString = "";
+					flightString = getFlightsJsonString(SingleOrDouble.doubleWayBack);
+					/*
+					 * if (getOrderWayType() == SingleOrDouble.singleWay) {
+					 * flightString =
+					 * getFlightsJsonString(SingleOrDouble.singleWay); } if
+					 * (getOrderWayType() == SingleOrDouble.doubleWayBack) {
+					 * flightString =
+					 * getFlightsJsonString(SingleOrDouble.singleWay) + "," +
+					 * getFlightsJsonString(SingleOrDouble.doubleWayBack); }
+					 */
+					String siteid = sp.getString(SPkeys.siteid.getString(),
+							"65");
+					String str = "{\"userid\":\""
+							+ sp.getString(SPkeys.userid.getString(), "")
+							+ "\",\"amount\": \""
+							+ totalPrice3
+							+ "\",\"origin\":\"2\",\"orderremark\":\"Android客户端\""
+							+ ",\"flights\":[" + flightString
+							+ "],\"passenger\":" + getPassengerJsonString()
+							+ ",\"content\":" + getContentJsonString()
+							+ ",\"itinerary\":{}" + ",\"siteid\":\"" + siteid
+							+ "\"}";
+					str = str.replace("null", "");
+					String orgin = ma.getHm()
+							.get(PackageKeys.ORGIN.getString()).toString();
+					String param = "?action=forder&userkey="
+							+ ma.getHm().get(PackageKeys.USERKEY.getString())
+									.toString()
+							+ "&sign="
+							+ CommonFunc.MD5(ma.getHm()
+									.get(PackageKeys.USERKEY.getString())
+									.toString()
+									+ "forder" + str) + "&orgin=" + orgin;
+					// try {
+					// str = URLEncoder.encode(str, "utf-8");
+					// } catch (UnsupportedEncodingException e) {
+					// e.printStackTrace();
+					// }
+					commitReturnJson3 = HttpUtils.myPost(ma.getServeUrl()
+							+ param, "&str=" + str);
+					Message msg = new Message();
+					msg.what = COMMIT_ORDER_MSG_CODE3;
+					handler.sendMessage(msg);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		// progressdialog = CustomProgressDialog.createDialog(context);
+		// progressdialog.setMessage("正在提交订单，请稍候...");
+		// progressdialog.setCancelable(true);
+		// progressdialog.setOnCancelListener(new OnCancelListener() {
+		// @Override
+		// public void onCancel(DialogInterface dialog) {
+		// }
+		// });
+		// progressdialog.show();
+	}
+
+	/*
 	 * 根据乘机人数、保险单价计算保险价格并显示到页面 B2C价格固定为￥20/份
 	 */
 	private void caculateBaoxian(Float unitPrice) {
@@ -1095,24 +1229,28 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		} else {
 			baoxian_price_and_count_tv.setText("￥" + baoxian_unitPrice + "x"
 					+ personCount + "份x2(往返)");
-			if (needBaoxianBoolean)
+			if (needBaoxianBoolean) {
 				totalPrice = personCount
 						* (piaomianjia + jijianfei + ranyoufei
-								+ baoxian_unitPrice - youhui + piaomianjia3
-								+ jijianfei3 + ranyoufei3 + baoxian_unitPrice - youhui3);
-			else
+								+ baoxian_unitPrice - youhui);
+				totalPrice3 = personCount
+						* (piaomianjia3 + jijianfei3 + ranyoufei3
+								+ baoxian_unitPrice - youhui3);
+			} else {
 				totalPrice = personCount
-						* (piaomianjia + jijianfei + ranyoufei - youhui
-								+ piaomianjia3 + jijianfei3 + ranyoufei3 - youhui3);
-
+						* (piaomianjia + jijianfei + ranyoufei - youhui);
+				totalPrice3 = personCount
+						* (piaomianjia3 + jijianfei3 + ranyoufei3 - youhui3);
+			}
 			total_jipiaojia_tv.setText("￥" + (piaomianjia + piaomianjia3));
 			total_jijian_price_tv.setText("￥" + (jijianfei + jijianfei));
 			total_ranyou_price_tv.setText("￥" + (ranyoufei + ranyoufei3));
 			total_fanMoney_tv.setText("￥" + (youhui + youhui3));
 		}
 
-		total_price_tv.setText("￥" + String.valueOf(totalPrice));
-		order_totalmoney_tv.setText("￥" + String.valueOf(totalPrice));
+		total_price_tv.setText("￥" + String.valueOf(totalPrice + totalPrice3));
+		order_totalmoney_tv.setText("￥"
+				+ String.valueOf(totalPrice + totalPrice3));
 	}
 
 	// 创单 航班信息
@@ -1144,7 +1282,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		cf.setCabin(cabin.getCabin());
 		cf.setCabinname(cabin.getCabinName());
 		cf.setCarrname(flight.getCarrinerName());
-		cf.setCrrier(cabin.getFareEx());
+		cf.setCrrier(cabin.getAirLineCode());
 		cf.setDiscount(cabin.getDiscount());
 		cf.setEcname(flight.getEndPortName());
 		cf.setEcode(flight.getEndPort());

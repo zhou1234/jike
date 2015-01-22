@@ -1,7 +1,5 @@
 package com.jike.shanglv;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
@@ -9,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -53,12 +50,30 @@ public class GuideActivity extends Activity implements OnPageChangeListener {
 	private void initViews() {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		views = new ArrayList<View>();
-		
+
 		View view1 = inflater.inflate(R.layout.what_new_one, null);
-		View view2 = inflater.inflate(R.layout.what_new_two, null);
-		View view3 = inflater.inflate(R.layout.what_new_three, null);
-		View view4 = inflater.inflate(R.layout.what_new_four, null);
+		ImageView imageView1 = (ImageView) view1.findViewById(R.id.img1);
+		BitmapUtil.releaseImageViewResouce(imageView1);
+		imageView1.setImageBitmap(BitmapUtil.readBitMap(mContext,
+				R.drawable.guide_01));
 		
+		View view2 = inflater.inflate(R.layout.what_new_two, null);
+		ImageView imageView2 = (ImageView) view2.findViewById(R.id.img2);
+		BitmapUtil.releaseImageViewResouce(imageView2);
+		imageView2.setImageBitmap(BitmapUtil.readBitMap(mContext,
+				R.drawable.guide_02));
+		
+		View view3 = inflater.inflate(R.layout.what_new_three, null);
+		ImageView imageView3 = (ImageView) view3.findViewById(R.id.img3);
+		BitmapUtil.releaseImageViewResouce(imageView3);
+		imageView3.setImageBitmap(BitmapUtil.readBitMap(mContext,
+				R.drawable.guide_03));
+		
+		View view4 = inflater.inflate(R.layout.what_new_four, null);
+		ImageView imageView4 = (ImageView) view4.findViewById(R.id.img4);
+		BitmapUtil.releaseImageViewResouce(imageView4);
+		imageView4.setImageBitmap(BitmapUtil.readBitMap(mContext,
+				R.drawable.guide_04));
 		
 		// 初始化引导图片列表
 		views.add(view1);

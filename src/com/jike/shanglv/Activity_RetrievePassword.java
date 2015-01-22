@@ -13,7 +13,6 @@ import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.umeng.analytics.MobclickAgent;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -49,6 +48,7 @@ public class Activity_RetrievePassword extends Activity {
 			verifyReturnJson = "", userId = "", siteId = "";
 	private CustomProgressDialog progressdialog;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		try {
@@ -98,7 +98,7 @@ public class Activity_RetrievePassword extends Activity {
 				}
 			});
 			retrieve_btn.setEnabled(false);
-			retrieve_btn.setBackground(getResources().getDrawable(
+			retrieve_btn.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.btn_3_d));
 			get_yanzhengma_tv = (TextView) findViewById(R.id.get_yanzhengma_tv);
 			get_yanzhengma_tv.setOnClickListener(new OnClickListener() {
@@ -257,6 +257,7 @@ public class Activity_RetrievePassword extends Activity {
 	}
 
 	private Handler handler = new Handler() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -328,7 +329,7 @@ public class Activity_RetrievePassword extends Activity {
 							"msg");
 					if (state1.equals("0000")) {
 						retrieve_btn.setEnabled(true);
-						retrieve_btn.setBackground(getResources().getDrawable(
+						retrieve_btn.setBackgroundDrawable(getResources().getDrawable(
 								R.drawable.btn_3));
 						// new AlertDialog.Builder(context).setTitle(message)
 						// .setPositiveButton("确认", null).show();
@@ -384,6 +385,8 @@ public class Activity_RetrievePassword extends Activity {
 					if (state2.equals("0000")) {
 						Intent intent = new Intent(context,
 								ActivityResetZfPsw.class);
+						intent.putExtra("userId", userId);
+						intent.putExtra("siteId", siteId);
 						intent.putExtra(ActivityResetZfPsw.ISRESETLOGINPSW,
 								true);
 						startActivity(intent);
@@ -431,5 +434,5 @@ public class Activity_RetrievePassword extends Activity {
 		MobclickAgent.onPageStart("Activity_RetrievePassword"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
-	
+
 }

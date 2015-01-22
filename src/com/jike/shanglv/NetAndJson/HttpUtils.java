@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -48,9 +50,9 @@ public class HttpUtils {
 			// 设置属性
 			// 设置该连接是否可输入
 			conn.setDoInput(true);
-			int code = conn.getResponseCode();  
+			int code = conn.getResponseCode();
 			System.out.println(code + "****");
-			if (code == 200) {  
+			if (code == 200) {
 				return changeInputString(conn.getInputStream());
 			}
 			// else {
@@ -75,10 +77,11 @@ public class HttpUtils {
 				while ((len = is.read(data)) != -1) {
 					baos.write(data, 0, len);
 				}
-				jsonString = new String(baos.toByteArray());
+				jsonString = new String(baos.toByteArray(),
+						Charset.defaultCharset());
+				is.close();
 			}
 			baos.close();
-			is.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -183,13 +186,28 @@ public class HttpUtils {
 					if (info.getState() == NetworkInfo.State.CONNECTED) {
 						return true;
 					}
-
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public static Boolean checkNetCannotUse(Context context) {
+		if (!HttpUtils.checkNet(context)) {
+			final CustomerAlertDialog cad = new CustomerAlertDialog(context,
+					true);
+			cad.setTitle("无法连接网路，请检查网络设置！");
+			cad.setPositiveButton("知道了", new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					cad.dismiss();
+				}
+			});
+			return false;
+		}
+		return true;
 	}
 
 	public static Boolean showNetCannotUse(Context context) {

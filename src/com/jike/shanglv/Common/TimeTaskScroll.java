@@ -27,9 +27,6 @@ public class TimeTaskScroll extends TimerTask {
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			// View listItem = listAdapter.getView(cont, null, listView);
-			// listItem.measure(0, 0); // 计算子项View 的宽高
-			// int list_child_item_height = listItem.getMeasuredHeight();
 			listView.smoothScrollBy(listView.getHeight() + 1, 1000);
 			listView.setSelectionFromTop(cont, 0);
 			cont++;

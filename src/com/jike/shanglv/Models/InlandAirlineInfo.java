@@ -9,7 +9,7 @@ public class InlandAirlineInfo {
 			AirLineCode, Oil, JoinDate, RunTime, StartPortName, OffTime,
 			MinCabin, FlightNo, StartT, StartPort, Distance, Tax, ETicket,
 			MinFare, EndT, EndPortName, JoinPort, Meat, StaFare, ArriveTime,
-			EndPort, MinDiscount, IndexID,IsTeHui;
+			EndPort, MinDiscount, IndexID,IsTeHui,IsKx;
 	private JSONArray cablist;
 	private String YouHui, CabinName;
 
@@ -77,6 +77,9 @@ public class InlandAirlineInfo {
 					.getString("TicketCount");
 			IsTeHui= json.getJSONArray("CabList").getJSONObject(0)
 					.getString("IsTeHui");
+			IsKx= json.getJSONArray("CabList").getJSONObject(0)
+					.getString("IsKx");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -200,6 +203,10 @@ public class InlandAirlineInfo {
 
 	public String getIsTeHui() {
 		return IsTeHui;
+	}
+
+	public String getIsKx() {
+		return IsKx;
 	}
 
 }

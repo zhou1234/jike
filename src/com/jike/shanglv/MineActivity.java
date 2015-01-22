@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import com.jike.shanglv.Common.CommonFunc;
+import com.jike.shanglv.Common.CustomerAlertDialog;
 import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.Platform;
 import com.jike.shanglv.Enums.SPkeys;
@@ -22,6 +23,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +39,7 @@ public class MineActivity extends Activity {
 	private Boolean loginState = false;
 	Context context;
 	String loginReturnJson = "";
+	private Button logout_button;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class MineActivity extends Activity {
 			setContentView(R.layout.activity_mine);
 			((MyApplication) getApplication()).addActivity(this);
 
-			context = this;
+			context = MineActivity.this;
 			sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 			welcome_tv = (TextView) findViewById(R.id.welcome_tv);
 			username_tv = (TextView) findViewById(R.id.username_tv);
@@ -63,11 +67,15 @@ public class MineActivity extends Activity {
 			noLogin_rl = (RelativeLayout) findViewById(R.id.noLogin_rl);
 			hasLogin_rl = (RelativeLayout) findViewById(R.id.hasLogin_rl);
 
+			logout_button = (Button) findViewById(R.id.out_button);
+
 			loginState = sp.getBoolean(SPkeys.loginState.getString(), false);
 			if (!loginState) {
+				logout_button.setVisibility(View.GONE);
 				hasLogin_rl.setVisibility(View.GONE);
 				noLogin_rl.setVisibility(View.VISIBLE);
 			} else {
+				logout_button.setVisibility(View.VISIBLE);
 				hasLogin_rl.setVisibility(View.VISIBLE);
 				noLogin_rl.setVisibility(View.GONE);
 				username_tv.setText(sp.getString(SPkeys.username.getString(),
@@ -85,6 +93,43 @@ public class MineActivity extends Activity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		logout_button.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				final CustomerAlertDialog cad = new CustomerAlertDialog(
+						context, false);
+				cad.setTitle("确认注销当前用户？");
+				cad.setPositiveButton("确定", new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						sp.edit().putString(SPkeys.userid.getString(), "")
+								.commit();
+						sp.edit().putString(SPkeys.username.getString(), "")
+								.commit();
+						sp.edit()
+								.putString(SPkeys.lastPassword.getString(), "")
+								.commit();
+						sp.edit()
+								.putBoolean(SPkeys.loginState.getString(),
+										false).commit();
+						sp.edit().remove(SPkeys.showCustomer.toString())
+								.commit();
+						sp.edit().remove(SPkeys.showDealer.toString()).commit();
+						sp.edit().remove(SPkeys.utype.toString()).commit();
+						startActivity(new Intent(context, MainActivityN.class));
+						cad.dismiss();
+					}
+				});
+				cad.setNegativeButton1("取消", new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						cad.dismiss();
+					}
+				});
+
+			}
+		});
 	}
 
 	View.OnClickListener btnClickListner = new View.OnClickListener() {
@@ -97,7 +142,7 @@ public class MineActivity extends Activity {
 					startActivity(new Intent(MineActivity.this,
 							MainActivityN.class));
 					break;
-					
+
 				case R.id.geng_duo:
 					if (!loginState) {
 						Toast.makeText(getApplicationContext(), "请先登录！", 0)
@@ -106,7 +151,7 @@ public class MineActivity extends Activity {
 					}
 					startActivity(new Intent(MineActivity.this,
 							MoreActivity.class));
-					
+
 					break;
 				case R.id.all_order_rl:
 					// startActivity(new Intent(MineActivity.this,

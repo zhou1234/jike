@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -28,7 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ActivityServiceCenter extends Activity {
-	private String url = "http://m.51jp.cn/About/Service.html";// 
+	private String url = "http://m.51jp.cn/About/Service.html";//
 	private WebView webView;
 	private LinearLayout loading_ll;
 	private ImageView frame_ani_iv;
@@ -64,6 +66,7 @@ public class ActivityServiceCenter extends Activity {
 		webView = (WebView) findViewById(R.id.webView);
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
+		
 		// 在WebView中使用JavaScript，若页面中用了JavaScript，必须为WebView使能JavaScript
 		((TextView) findViewById(R.id.title)).setText("客服中心");
 
@@ -71,33 +74,53 @@ public class ActivityServiceCenter extends Activity {
 
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
-				loading_ll.setVisibility(View.GONE);
-				webView.setVisibility(View.VISIBLE);
+				if (newProgress == 100) {
+					loading_ll.setVisibility(View.GONE);
+					webView.setVisibility(View.VISIBLE);
+				}
+
 			}
 		});
 
-		 webView.setWebViewClient(new WebViewClient() {// / 不重写的话，会跳到手机浏览器中
-		 @Override
-		 public void onReceivedError(WebView view, int errorCode,
-		 String description, String failingUrl) { // Handle the
-		 // error
-		 }
-		
-		 @Override
-		 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			 view.loadUrl(url);
-		 return true;
-		 }
-		
-		 @Override
-		 public void onPageFinished(WebView view, String url) {
-		 super.onPageFinished(view, url);
-//		 loading_ll.setVisibility(View.GONE);
-//		 webView.setVisibility(View.VISIBLE);
-		 }
-		 });
-		 webView.loadUrl(url);
-		 
+		// webView.setWebViewClient(new WebViewClient() {// / 不重写的话，会跳到手机浏览器中
+		// @Override
+		// public void onReceivedError(WebView view, int errorCode,
+		// String description, String failingUrl) { // Handle the
+		// // error
+		// }
+		//
+		// @Override
+		// public boolean shouldOverrideUrlLoading(WebView view, String url) {
+		// view.loadUrl(url);
+		// return true;
+		// }
+		// @Override
+		// public WebResourceResponse shouldInterceptRequest(WebView view,
+		// String url) {
+		// if (url.startsWith("http") || url.startsWith("https")) {
+		//
+		// return super.shouldInterceptRequest(view, url);
+		//
+		// } else {
+		//
+		// Intent in = new Intent(Intent.ACTION_VIEW, Uri
+		// .parse(url));
+		//
+		// startActivity(in);
+		//
+		// return null;
+		//
+		// }
+		// }
+		// @Override
+		// public void onPageFinished(WebView view, String url) {
+		// super.onPageFinished(view, url);
+		// // loading_ll.setVisibility(View.GONE);
+		// // webView.setVisibility(View.VISIBLE);
+		// }
+		// });
+		// webView.loadUrl(url);
+		//
 	}
 
 	@Override

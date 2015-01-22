@@ -13,7 +13,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -129,13 +131,37 @@ public class ActivityHangbandongtai extends Activity {
 							R.color.blue_title_color));
 					doubleline_tv.setTextColor(context.getResources().getColor(
 							R.color.black_txt_color));
-					flight_no_rl.setVisibility(View.INVISIBLE);
+
 					city_choose_rl.setVisibility(View.VISIBLE);
+					Animation anima = AnimationUtils.loadAnimation(context,
+							R.anim.translate_right1);
+					city_choose_rl.startAnimation(anima);
+					flight_no_rl.startAnimation(AnimationUtils.loadAnimation(
+							context, R.anim.translate_right2));
 
 					Animation animation = new TranslateAnimation(one, 0, 0, 0);
 					animation.setFillAfter(true);// True:图片停在动画结束位置
 					animation.setDuration(300);
 					scrollbar_iv.startAnimation(animation);
+
+					anima.setAnimationListener(new AnimationListener() {
+
+						@Override
+						public void onAnimationStart(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationRepeat(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationEnd(Animation arg0) {
+
+							flight_no_rl.setVisibility(View.INVISIBLE);
+						}
+					});
 
 					break;
 				case R.id.doubleline_tv:// 航班号
@@ -145,13 +171,33 @@ public class ActivityHangbandongtai extends Activity {
 					doubleline_tv.setTextColor(context.getResources().getColor(
 							R.color.blue_title_color));
 					flight_no_rl.setVisibility(View.VISIBLE);
-					city_choose_rl.setVisibility(View.INVISIBLE);
 
+					Animation anima1 = AnimationUtils.loadAnimation(context,
+							R.anim.translate_left2);
+					city_choose_rl.startAnimation(AnimationUtils.loadAnimation(
+							context, R.anim.translate_left3));
+					flight_no_rl.startAnimation(anima1);
 					animation = new TranslateAnimation(offset, one, 0, 0);
 					animation.setFillAfter(true);// True:图片停在动画结束位置
 					animation.setDuration(300);
 					scrollbar_iv.startAnimation(animation);
+					anima1.setAnimationListener(new AnimationListener() {
 
+						@Override
+						public void onAnimationStart(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationRepeat(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationEnd(Animation arg0) {
+							city_choose_rl.setVisibility(View.INVISIBLE);
+						}
+					});
 					break;
 				case R.id.startcity_choose_ll:
 				case R.id.startcity_tv:// 出发城市
@@ -172,18 +218,48 @@ public class ActivityHangbandongtai extends Activity {
 					finish();
 					break;
 				case R.id.swith_city_iv:
-					String tempCity = "",
-					tempCityCode = "";
-					tempCity = startcity_tv.getText().toString().trim();
-					startcity_tv
-							.setText(endcity_tv.getText().toString().trim());
-					endcity_tv.setText(tempCity);
+					Animation rotateAnimation = AnimationUtils.loadAnimation(
+							context, R.anim.rotate_qiehuan);
+					Animation translateAnimation = AnimationUtils
+							.loadAnimation(context, R.anim.translate_left);
+					Animation translateAnimation1 = AnimationUtils
+							.loadAnimation(context, R.anim.translate_right);
+					endcity_tv.startAnimation(translateAnimation1);
+					startcity_tv.startAnimation(translateAnimation);
+					swith_city_iv.startAnimation(rotateAnimation);
 
-					tempCityCode = startcity_code_tv.getText().toString()
-							.trim();
-					startcity_code_tv.setText(endcity_code_tv.getText()
-							.toString().trim());
-					endcity_code_tv.setText(tempCityCode);
+					translateAnimation
+							.setAnimationListener(new AnimationListener() {
+
+								@Override
+								public void onAnimationStart(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationRepeat(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animation arg0) {
+									String tempCity = "", tempCityCode = "";
+									tempCity = startcity_tv.getText()
+											.toString().trim();
+									startcity_tv.setText(endcity_tv.getText()
+											.toString().trim());
+									endcity_tv.setText(tempCity);
+
+									tempCityCode = startcity_code_tv.getText()
+											.toString().trim();
+									startcity_code_tv.setText(endcity_code_tv
+											.getText().toString().trim());
+									endcity_code_tv.setText(tempCityCode);
+								}
+							});
+
 					break;
 				case R.id.chongzhi_button:// 搜索
 					// if (!sp.getBoolean(SPkeys.loginState.getString(), false))
@@ -224,7 +300,7 @@ public class ActivityHangbandongtai extends Activity {
 						});
 						break;
 					}
-					if (HttpUtils.showNetCannotUse(context)) {
+					if (!HttpUtils.checkNetCannotUse(context)) {
 						return;
 					}
 

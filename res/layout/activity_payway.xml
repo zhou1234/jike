@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/title_RL"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/titile_bg" >
@@ -15,7 +15,7 @@
         <ImageButton
             android:id="@+id/back_imgbtn"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:background="@drawable/back" />
 
@@ -33,14 +33,14 @@
 
     <View
         android:id="@+id/top_line"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="15dp"
         android:background="@color/deep_gray" />
 
     <RelativeLayout
         android:id="@+id/wx_pay_rl"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/list_item_color_bg"
         android:clickable="true"
@@ -49,7 +49,7 @@
         android:paddingRight="10dp" >
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/weixin_iv"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
@@ -80,13 +80,13 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/deep_gray" />
 
     <RelativeLayout
         android:id="@+id/online_pay_rl"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/list_item_color_bg"
         android:clickable="true"
@@ -126,13 +126,13 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/deep_gray" />
 
     <RelativeLayout
         android:id="@+id/sc_pay_rl"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/list_item_color_bg"
         android:clickable="true"
@@ -174,7 +174,7 @@
 
     <View
         android:id="@+id/bottom_line"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/deep_gray" />
 

@@ -229,6 +229,7 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			try {
@@ -265,12 +266,18 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 				// fanMoney_rl.setVisibility(View.VISIBLE);
 				// }
 				String teHui = str.get(position).getIsTeHui();
-				if (teHui.equals("1")) {
+				String IsKx = str.get(position).getIsKx();
+				if (teHui.equals("1") && IsKx.equals("1")) {
+					teHui_iv.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.te_hui_k));
+					teHui_iv.setVisibility(View.VISIBLE);
+				} else if (teHui.equals("1")) {
+					teHui_iv.setBackgroundDrawable(getResources().getDrawable(
+							R.drawable.te_hui));
 					teHui_iv.setVisibility(View.VISIBLE);
 				} else {
 					teHui_iv.setVisibility(View.GONE);
 				}
-
 				tv_price.setText(" гд" + str.get(position).getFareEx());
 				CabinName_tv.setText(str.get(position).getCabinName()
 						+ str.get(position).getCabin());

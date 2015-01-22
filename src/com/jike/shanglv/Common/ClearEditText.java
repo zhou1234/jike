@@ -2,6 +2,8 @@ package com.jike.shanglv.Common;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,6 +51,12 @@ public class ClearEditText extends EditText implements OnFocusChangeListener,
 			// NullPointerException("You can add drawableRight attribute in XML");
 			mClearDrawable = getResources().getDrawable(
 					R.drawable.delete_selector);
+		}else{
+			BitmapDrawable bitmapDrawable = (BitmapDrawable) mClearDrawable;
+			Bitmap bitmap = bitmapDrawable.getBitmap();
+			if (bitmap != null && !bitmap.isRecycled()) {
+				bitmap.recycle();
+			}
 		}
 
 		mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(),

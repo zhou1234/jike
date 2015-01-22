@@ -16,6 +16,7 @@ import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.Details;
 import com.jike.shanglv.NetAndJson.HttpUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +27,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -107,7 +107,7 @@ public class ActivityTransactionDetails extends Activity implements
 					} else {
 						final CustomerAlertDialog cad = new CustomerAlertDialog(
 								context, true);
-						cad.setTitle("查询失败");
+						cad.setTitle("未查到数据");
 						cad.setPositiveButton("确定", new OnClickListener() {
 							@Override
 							public void onClick(View arg0) {
@@ -181,7 +181,7 @@ public class ActivityTransactionDetails extends Activity implements
 
 	private void init() {
 		list_details = new ArrayList<Details>();
-		context = this;
+		context = ActivityTransactionDetails.this;
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
 		home_imgbtn = (ImageButton) findViewById(R.id.home_imgbtn);
 		back_imgbtn.setOnClickListener(this);
@@ -409,4 +409,16 @@ public class ActivityTransactionDetails extends Activity implements
 		}
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityTransactionDetails"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityTransactionDetails");
+		MobclickAgent.onPause(this);
+	}
 }

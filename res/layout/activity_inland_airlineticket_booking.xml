@@ -317,8 +317,8 @@
                     android:layout_marginRight="1dp"
                     android:layout_toLeftOf="@+id/zhengce_tv"
                     android:text="*"
-                    android:textSize="15dp"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/red"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/zhence_tv"

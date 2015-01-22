@@ -47,6 +47,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.jike.shanglv.Common.BitmapUtil;
 import com.jike.shanglv.Common.CommonFunc;
 import com.jike.shanglv.Common.CustomProgressDialog;
 import com.jike.shanglv.Common.CustomerAlertDialog;
@@ -110,7 +111,7 @@ public class ActivityHotelSearchlist extends Activity implements
 	}
 
 	private void initView() {
-		context = this;
+		context = ActivityHotelSearchlist.this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 
 		mMapView = (MapView) findViewById(R.id.bmapView);
@@ -782,6 +783,9 @@ public class ActivityHotelSearchlist extends Activity implements
 				latLng = new LatLng(Double.parseDouble(maphotel.getY()),
 						Double.parseDouble(maphotel.getX()));
 				View view = getMapView(maphotel.getName(), maphotel.getPrice());
+				if (mIconMaker != null) {
+					mIconMaker.recycle();
+				}
 				mIconMaker = BitmapDescriptorFactory.fromView(view);
 				// 图标
 				overlayOptions = new MarkerOptions().position(latLng)
@@ -790,25 +794,30 @@ public class ActivityHotelSearchlist extends Activity implements
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("hotelId", maphotel.getID());
 				marker.setExtraInfo(bundle);
-
-				// 对Marker的点击
-				mBaidumap.setOnMarkerClickListener(new OnMarkerClickListener() {
-					@Override
-					public boolean onMarkerClick(final Marker marker) {
-						// 获得marker中的数据
-						String info = (String) marker.getExtraInfo().get(
-								"hotelId");
-						Intent intents = new Intent(context,
-								ActivityHotelDetail.class);
-						intents.putExtra("hotelId", info);
-						intents.putExtra("ruzhu_date", ruzhu_date);
-						intents.putExtra("lidian_date", lidian_date);
-						startActivity(intents);
-						return true;
-					}
-				});
+				if (isNearby) {
+					// 对Marker的点击
+					mBaidumap
+							.setOnMarkerClickListener(new OnMarkerClickListener() {
+								@Override
+								public boolean onMarkerClick(final Marker marker) {
+									// 获得marker中的数据
+									String info = (String) marker
+											.getExtraInfo().get("hotelId");
+									Intent intents = new Intent(context,
+											ActivityHotelDetail.class);
+									intents.putExtra("hotelId", info);
+									intents.putExtra("ruzhu_date", ruzhu_date);
+									intents.putExtra("lidian_date", lidian_date);
+									startActivity(intents);
+									return true;
+								}
+							});
+				}
 			}
-			marker.remove();
+			if (marker != null) {
+				marker.remove();
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -846,6 +855,7 @@ public class ActivityHotelSearchlist extends Activity implements
 			return str.size();
 		}
 
+		@SuppressWarnings("unused")
 		public void updateListView(List<Hotel> list) {
 			this.str = list;
 			notifyDataSetChanged();
@@ -899,7 +909,7 @@ public class ActivityHotelSearchlist extends Activity implements
 							.replace("：", "").replace(" ", ""));
 				}
 				hotel_name_tv.setText(str.get(position).getName());
-				score_tv.setText(Float.valueOf(str.get(position).getHaoping()) == -1f ? "暂无"
+				score_tv.setText(Float.valueOf(str.get(position).getHaoping()) == -1f ? "暂无评论"
 						: (str.get(position).getHaoping() + "分"));
 				starlevel_tv.setText(StarLevel.Starlevel.get(str.get(position)
 						.getStar()));

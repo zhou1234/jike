@@ -108,7 +108,7 @@ public class ActivityMyAccout extends Activity {
 							sp.edit().remove(SPkeys.showDealer.toString())
 									.commit();
 							sp.edit().remove(SPkeys.utype.toString()).commit();
-							finish();
+							startActivity(new Intent(context, MainActivityN.class));
 							cad.dismiss();
 						}
 					});

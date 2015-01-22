@@ -58,17 +58,19 @@ public class WelcomeActivity extends Activity {
 		mContext = this;
 		MobclickAgent.updateOnlineConfig(mContext);// 发送策略设置
 		init();
-		((MyApplication) getApplication()).addActivity(this);
+		((MyApplication) getApplication()).addActivity(WelcomeActivity.this);
 	}
 
 	private void init() {
 		MyApp mApp = new MyApp(getApplicationContext());
 		imageView = (ImageView) findViewById(R.id.welcome_iv);
+		//回收图片
+		BitmapUtil.releaseImageViewResouce(imageView);
+		
 		imageView.setBackgroundResource((Integer) mApp.getHm().get(
 				PackageKeys.WELCOME_DRAWABLE.getString()));
-		InputStream is = mContext.getResources().openRawResource(
-				R.drawable.welcome);
-		imageView.setImageBitmap(BitmapUtil.getSmallBitmap(is));
+		imageView.setImageBitmap(BitmapUtil.readBitMap(mContext,
+				R.drawable.welcome));
 		// 读取SharedPreferences中需要的数据
 		// 使用SharedPreferences来记录程序的使用次数
 		preferences = getSharedPreferences(SPkeys.SPNAME.getString(),
@@ -81,7 +83,6 @@ public class WelcomeActivity extends Activity {
 									mContext.getPackageName(), 0).versionCode,
 					false);
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -240,7 +240,7 @@ public class ActivityHotel extends Activity {
 						});
 						break;
 					}
-					if (HttpUtils.showNetCannotUse(context)) {
+					if (!HttpUtils.checkNetCannotUse(context)) {
 						break;
 					}
 					if (city_tv.getText().toString().equals("ÎÒ¸½½üµÄ¾Æµê")) {
@@ -483,6 +483,7 @@ public class ActivityHotel extends Activity {
 			this.list = list2;
 		}
 
+		@SuppressWarnings("unused")
 		public void setList(ArrayList<Map<String, Object>> list) {
 			this.list = list;
 		}
@@ -502,6 +503,7 @@ public class ActivityHotel extends Activity {
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			try {

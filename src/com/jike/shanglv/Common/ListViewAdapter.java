@@ -61,10 +61,6 @@ public class ListViewAdapter extends BaseAdapter {
 
 		imageView.setImageBitmap(bitmap[postition % list.size()]);
 
-		// if (!bmp.isRecycled()) {
-		// bmp.recycle(); // 回收图片所占的内存
-		// System.gc(); // 提醒系统及时回收
-		// }
 		return view;
 	}
 
@@ -78,6 +74,8 @@ public class ListViewAdapter extends BaseAdapter {
 
 		public ImageView getImageView() {
 			if (imageView == null) {
+
+				BitmapUtil.releaseImageViewResouce(imageView);
 				imageView = (ImageView) view.findViewById(R.id.imageView1);
 			}
 			return imageView;

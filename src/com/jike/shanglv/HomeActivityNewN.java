@@ -1,7 +1,5 @@
 package com.jike.shanglv;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -15,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -41,11 +38,12 @@ import com.jike.shanglv.Enums.PackageKeys;
 import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.Models.AdShow;
 import com.jike.shanglv.Models.HomeGridCell;
+import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class HomeActivityNewN extends Activity {
 
-	public static HomeActivityNewN instance = null;
+	// public static HomeActivityNewN instance = null;
 	private SharedPreferences sp;
 
 	private MyGridView grid;
@@ -55,7 +53,6 @@ public class HomeActivityNewN extends Activity {
 	private ArrayList<HomeGridCell> cell;
 	private MyAdapter adapter;
 	private MyAdapter adapterN;
-	private LinearLayout LL_detail_n;
 	private ListView listView;
 	private List<String> list;
 	private Timer timer;
@@ -76,14 +73,14 @@ public class HomeActivityNewN extends Activity {
 	// ActivityHangbandongtai.class };
 
 	int[] defaultImg = { R.drawable.gnjp_n, R.drawable.gjjp_n,
-			R.drawable.jdyd_n, R.drawable.ysc, R.drawable.qz, R.drawable.ly,
-			R.drawable.bx, R.drawable.shlm, R.drawable.qbcz_n,
+			R.drawable.jdyd_n, R.drawable.hcp_n, R.drawable.ysc, R.drawable.qz,
+			R.drawable.ly, R.drawable.bx, R.drawable.shlm, R.drawable.qbcz_n,
 			R.drawable.hfcz_n, R.drawable.hbdt_n };
-	String[] defaultText = { "国内机票", "国际机票", "酒店预订", "云商城", "签证", "旅游", "保险",
-			"商户联盟", "钱包充值", "话费充值", "航班动态" };
+	String[] defaultText = { "国内机票", "国际机票", "酒店预订", "火车票", "云商城", "签证", "旅游",
+			"保险", "商户联盟", "钱包充值", "话费充值", "航班动态" };
 	Class<?>[] defaultActivities = { ActivityInlandAirlineticket.class,
 			ActivityInternationalAirlineticket.class, ActivityHotel.class,
-			Activity_Web_Frame.class, Activity_Web_Frame.class,
+			ActivityTrain.class, Activity_Web.class, Activity_Web.class,
 			Activity_Web_Frame.class, Activity_Web_Frame.class,
 			Activity_Web_Frame.class, ActivityZhanghuchongzhi.class,
 			ActivityHuafeichongzhi.class, ActivityHangbandongtai.class };
@@ -94,17 +91,12 @@ public class HomeActivityNewN extends Activity {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_home3_n);
 			context = this;
-			((MyApplication) getApplication()).addActivity(this);
+			((MyApplication) getApplication())
+					.addActivity(HomeActivityNewN.this);
 			// sp = this.getSharedPreferences("mySPData", Context.MODE_PRIVATE);
 			sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 			cells = new ArrayList<HomeGridCell>();
 			cell = new ArrayList<HomeGridCell>();
-			LL_detail_n = (LinearLayout) findViewById(R.id.LL_detail_n);
-			if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
-				LL_detail_n.setVisibility(View.GONE);
-			} else {
-				LL_detail_n.setVisibility(View.VISIBLE);
-			}
 			grid = (MyGridView) findViewById(R.id.grid);
 			grids = (MyGridView) findViewById(R.id.grid_n);
 			grid.setFocusable(false);// 解决ScrollView起始位置不是最顶部的办法
@@ -115,6 +107,7 @@ public class HomeActivityNewN extends Activity {
 
 			list = getList();
 			setBitmap();
+
 			initAd();
 			// findViewById(R.id.ad_include).setVisibility(View.GONE);
 			// findViewById(R.id.title_bg).setVisibility(View.VISIBLE);
@@ -135,21 +128,20 @@ public class HomeActivityNewN extends Activity {
 			try {
 				Intent intent = new Intent(context, defaultActivities[i]);
 				String str = defaultText[i];
+				if (str.equals("云商城")) {
+					intent.putExtra("action", "mall");
+					intent.putExtra("title", "云商城");
+				}
 				if (str.equals("旅游")) {
 					intent.putExtra(Activity_Web_Frame.TITLE, "旅游景点");
 					intent.putExtra(Activity_Web_Frame.URL, getResources()
 							.getString(R.string.lvyou_url));
 				}
-				if (str.equals("云商城")) {
-					intent.putExtra("flag", "0");
-					intent.putExtra(Activity_Web_Frame.TITLE, "云商城");
-					intent.putExtra(Activity_Web_Frame.URL,
-							"http://m.99263.com/");
-				}
 				if (str.equals("签证")) {
-					intent.putExtra(Activity_Web_Frame.TITLE, "签证");
-					intent.putExtra(Activity_Web_Frame.URL,
-							"http://m.51jp.cn/About/Construction.html");
+					intent.putExtra("action", "list");
+					intent.putExtra("title", "签证");
+					intent.putExtra("OrderList", "&returnUrl=/Visa/Index");
+
 				}
 				if (str.equals("保险")) {
 					intent.putExtra(Activity_Web_Frame.TITLE, "保险");
@@ -222,6 +214,7 @@ public class HomeActivityNewN extends Activity {
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		// gridCells();
+
 	}
 
 	@Override
@@ -233,6 +226,7 @@ public class HomeActivityNewN extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+
 	}
 
 	public class MyAdapter extends BaseAdapter {
@@ -275,6 +269,9 @@ public class HomeActivityNewN extends Activity {
 			View view = View.inflate(mContext, R.layout.item_home_grid, null);
 			try {
 				ImageView img = (ImageView) view.findViewById(R.id.img);
+				// 图片回收
+				BitmapUtil.releaseImageViewResouce(img);
+
 				TextView text = (TextView) view.findViewById(R.id.text);
 				img.setImageResource(arrayList.get(position).getImg());
 				if (arrayList.get(position).getName() == "null") {
@@ -302,13 +299,30 @@ public class HomeActivityNewN extends Activity {
 					// Toast.LENGTH_SHORT).show();
 					arg1.setPressed(false);
 					arg1.setSelected(false);
-					if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
-						startActivity(new Intent(context, Activity_Login.class));
-						LL_detail_n.setVisibility(View.GONE);
-						return;
+					String name = cells.get(arg2).getName();
+					if (name.equals("云商城") || name.equals("旅游")
+							|| name.equals("签证") || name.equals("保险")
+							|| name.equals("商户联盟")) {
+						if (HttpUtils.checkNetCannotUse(context)) {
+							if (!sp.getBoolean(SPkeys.loginState.getString(),
+									false)) {
+								startActivity(new Intent(context,
+										Activity_Login.class));
+								return;
+							} else {
+								startActivity(cells.get(arg2).getIntent());
+							}
+						}
+					} else {
+						if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
+							startActivity(new Intent(context,
+									Activity_Login.class));
+							return;
+						} else {
+							startActivity(cells.get(arg2).getIntent());
+						}
 					}
-					LL_detail_n.setVisibility(View.VISIBLE);
-					startActivity(cells.get(arg2).getIntent());
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -317,11 +331,10 @@ public class HomeActivityNewN extends Activity {
 			case R.id.grid_n:
 				arg1.setPressed(false);
 				arg1.setSelected(false);
-				if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
-					startActivity(new Intent(context, Activity_Login.class));
-					return;
+				if (HttpUtils.checkNetCannotUse(context)) {
+					startActivity(cell.get(arg2).getIntent());
 				}
-				startActivity(cell.get(arg2).getIntent());
+
 				break;
 			}
 
@@ -371,17 +384,9 @@ public class HomeActivityNewN extends Activity {
 
 			imageResId = new int[] { R.drawable.ad_one, R.drawable.ad_three };// R.drawable.ad_two,
 
-			InputStream is = null;
 			bitmap1 = new Bitmap[2];
 			for (int j = 0; j < imageResId.length; j++) {
-				is = context.getResources().openRawResource(imageResId[j]);
-				Bitmap bm = BitmapFactory.decodeStream(is, null, null);
-				bitmap1[j] = bm;
-			}
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				bitmap1[j] = BitmapUtil.readBitMap(context, imageResId[j]);
 			}
 			titles = new String[imageResId.length];
 			// titles[0] = "舌尖上的美食，大闸蟹";
@@ -392,6 +397,9 @@ public class HomeActivityNewN extends Activity {
 			// 初始化图片资源
 			for (int i = 0; i < adsList.size(); i++) {
 				ImageView imageView = new ImageView(this);
+				// 图片回收
+				BitmapUtil.releaseImageViewResouce(imageView);
+
 				imageView.setImageBitmap(bitmap1[i]);
 				imageView.setScaleType(ScaleType.CENTER_CROP);
 				imageViews.add(imageView);
@@ -443,8 +451,8 @@ public class HomeActivityNewN extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		timer = new Timer();
 
+		timer = new Timer();
 		timer.schedule(new TimeTaskScroll(HomeActivityNewN.this, listView,
 				list, bitmap), 50, 2000);
 
@@ -582,11 +590,6 @@ public class HomeActivityNewN extends Activity {
 	protected void onResume() {
 		super.onResume();
 		MobclickAgent.onPageStart("HomeActivityNew"); // 统计页面
-		if (cell.size() == 0) {
-			LL_detail_n.setVisibility(View.GONE);
-		} else {
-			LL_detail_n.setVisibility(View.VISIBLE);
-		}
 	}
 
 	@Override
@@ -596,16 +599,10 @@ public class HomeActivityNewN extends Activity {
 	}
 
 	private void setBitmap() {
-		InputStream is = null;
 		bitmap = new Bitmap[3];
 		for (int j = 0; j < image.length; j++) {
-			is = context.getResources().openRawResource(image[j]);
-			Bitmap bm = BitmapFactory.decodeStream(is, null, null);
-			bitmap[j] = bm;
-		}
-		try {
-			is.close();
-		} catch (IOException e) {
+			bitmap[j] = BitmapUtil.readBitMap(context, image[j]);
 		}
 	}
+
 }

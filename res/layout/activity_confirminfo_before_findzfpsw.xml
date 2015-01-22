@@ -137,7 +137,6 @@
             android:layout_height="40dp"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="6dp"
-            android:drawableRight="@drawable/delete_selector"
             android:hint="请输入验证码"
             android:maxLength="6"
             android:textSize="18sp"

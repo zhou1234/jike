@@ -140,7 +140,6 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/chongzhijine_tv"
             android:background="@null"
-            android:drawableRight="@drawable/delete_selector"
             android:gravity="center_vertical"
             android:hint="请输入充值金额"
             android:inputType="numberDecimal"

@@ -10,10 +10,13 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,7 +29,6 @@ import com.jike.shanglv.Common.*;
 import com.jike.shanglv.Enums.*;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.umeng.analytics.MobclickAgent;
-
 
 public class ActivityInlandAirlineticket extends Activity {
 
@@ -46,6 +48,9 @@ public class ActivityInlandAirlineticket extends Activity {
 			startcity = 3, arrivecity = 4;
 	private SingleOrDouble wayType = SingleOrDouble.singleWay;// 单程or往返
 	private SharedPreferences sp;
+	private View img_vline;
+	private ImageView iv_animation;
+	private LinearLayout enddate_choose_ll;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,10 @@ public class ActivityInlandAirlineticket extends Activity {
 		matrix.postTranslate(0, 0);
 		scrollbar_iv.setImageMatrix(matrix);// 设置动画初始位置
 
+		img_vline = findViewById(R.id.img_vline);
+		iv_animation = (ImageView) findViewById(R.id.iv_animation);
+		enddate_choose_ll = (LinearLayout) findViewById(R.id.enddate_choose_ll);
+
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
 		home_imgbtn = (ImageButton) findViewById(R.id.home_imgbtn);
 		search_button = (Button) findViewById(R.id.chongzhi_button);
@@ -99,6 +108,7 @@ public class ActivityInlandAirlineticket extends Activity {
 		endcity_choose_ll = (LinearLayout) findViewById(R.id.endcity_choose_ll);
 		swith_city_iv = (ImageView) findViewById(R.id.swith_city_iv);
 		swith_city_iv.setOnClickListener(btnClickListner);
+
 		startcity_choose_ll.setOnClickListener(btnClickListner);
 		endcity_choose_ll.setOnClickListener(btnClickListner);
 		singleline_tv.setOnClickListener(btnClickListner);
@@ -124,10 +134,8 @@ public class ActivityInlandAirlineticket extends Activity {
 				dateIntent.setClass(context,
 						com.jike.shanglv.ShipCalendar.MainActivity.class);
 				Intent cityIntent = new Intent();
-				cityIntent
-						.setClass(
-								context,
-								com.jike.shanglv.SeclectCity.AirportCityActivity.class);
+				cityIntent.setClass(context,
+						com.jike.shanglv.SeclectCity.AirportCityActivity.class);
 
 				int one = (int) ((screenWidth / 2) + 50);
 
@@ -138,14 +146,35 @@ public class ActivityInlandAirlineticket extends Activity {
 							R.color.blue_title_color));
 					doubleline_tv.setTextColor(context.getResources().getColor(
 							R.color.black_txt_color));
-					date_choose_single_rl.setVisibility(View.VISIBLE);
-					date_choose_double_rl.setVisibility(View.INVISIBLE);
 
+					Animation animation1 = AnimationUtils.loadAnimation(
+							context, R.anim.translate_left1);
+					img_vline.startAnimation(animation1);
+					iv_animation.startAnimation(animation1);
+					enddate_choose_ll.startAnimation(animation1);
 					Animation animation = new TranslateAnimation(one, 0, 0, 0);
 					animation.setFillAfter(true);// True:图片停在动画结束位置
 					animation.setDuration(300);
 					scrollbar_iv.startAnimation(animation);
 
+					animation1.setAnimationListener(new AnimationListener() {
+
+						@Override
+						public void onAnimationStart(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationRepeat(Animation arg0) {
+
+						}
+
+						@Override
+						public void onAnimationEnd(Animation arg0) {
+							date_choose_single_rl.setVisibility(View.VISIBLE);
+							date_choose_double_rl.setVisibility(View.INVISIBLE);
+						}
+					});
 					break;
 				case R.id.doubleline_tv:// 往返
 					wayType = SingleOrDouble.doubleWayGo;
@@ -155,12 +184,16 @@ public class ActivityInlandAirlineticket extends Activity {
 							R.color.blue_title_color));
 					date_choose_single_rl.setVisibility(View.INVISIBLE);
 					date_choose_double_rl.setVisibility(View.VISIBLE);
-
+					Animation animation2 = AnimationUtils.loadAnimation(
+							context, R.anim.translate_right1);
+					img_vline.startAnimation(animation2);
+					iv_animation.startAnimation(animation2);
+					enddate_choose_ll.startAnimation(animation2);
 					animation = new TranslateAnimation(offset, one, 0, 0);
 					animation.setFillAfter(true);// True:图片停在动画结束位置
 					animation.setDuration(300);
 					scrollbar_iv.startAnimation(animation);
-
+				
 					break;
 				case R.id.startcity_choose_ll:
 				case R.id.startcity_tv:// 出发城市
@@ -196,18 +229,48 @@ public class ActivityInlandAirlineticket extends Activity {
 					finish();
 					break;
 				case R.id.swith_city_iv:
-					String tempCity = "",
-					tempCityCode = "";
-					tempCity = startcity_tv.getText().toString().trim();
-					startcity_tv
-							.setText(endcity_tv.getText().toString().trim());
-					endcity_tv.setText(tempCity);
+					Animation rotateAnimation = AnimationUtils.loadAnimation(
+							context, R.anim.rotate_qiehuan);
+					Animation translateAnimation = AnimationUtils
+							.loadAnimation(context, R.anim.translate_left);
+					Animation translateAnimation1 = AnimationUtils
+							.loadAnimation(context, R.anim.translate_right);
+					endcity_tv.startAnimation(translateAnimation1);
+					startcity_tv.startAnimation(translateAnimation);
+					swith_city_iv.startAnimation(rotateAnimation);
 
-					tempCityCode = startcity_code_tv.getText().toString()
-							.trim();
-					startcity_code_tv.setText(endcity_code_tv.getText()
-							.toString().trim());
-					endcity_code_tv.setText(tempCityCode);
+					translateAnimation
+							.setAnimationListener(new AnimationListener() {
+
+								@Override
+								public void onAnimationStart(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationRepeat(Animation arg0) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animation arg0) {
+									String tempCity = "", tempCityCode = "";
+									tempCity = startcity_tv.getText()
+											.toString().trim();
+									startcity_tv.setText(endcity_tv.getText()
+											.toString().trim());
+									endcity_tv.setText(tempCity);
+
+									tempCityCode = startcity_code_tv.getText()
+											.toString().trim();
+									startcity_code_tv.setText(endcity_code_tv
+											.getText().toString().trim());
+									endcity_code_tv.setText(tempCityCode);
+								}
+							});
+
 					break;
 				case R.id.chongzhi_button:// 搜索
 					if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
@@ -246,7 +309,7 @@ public class ActivityInlandAirlineticket extends Activity {
 						});
 						break;
 					}
-					if (HttpUtils.showNetCannotUse(context)) {
+					if (!HttpUtils.checkNetCannotUse(context)) {
 						return;
 					}
 					MyApplication application = (MyApplication) getApplication();
@@ -424,5 +487,5 @@ public class ActivityInlandAirlineticket extends Activity {
 		MobclickAgent.onPageStart("ActivityInlandAirlineticket"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
-	
+
 }

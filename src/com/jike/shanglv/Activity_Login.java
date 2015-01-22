@@ -214,7 +214,8 @@ public class Activity_Login extends Activity {
 						sp.edit()
 								.putBoolean(SPkeys.loginState.getString(), true)
 								.commit();
-						finish();
+						//finish();
+						startActivity(new Intent(context, MainActivityN.class));
 					} else {
 						String message = "";
 						sp.edit().remove(SPkeys.UserInfoJson.getString())
@@ -279,9 +280,9 @@ public class Activity_Login extends Activity {
 				case R.id.autologin_rl:
 					auto = !auto;
 					if (auto) {
-						autologin_checkbox_iv.setBackground(checkedDrawable);
+						autologin_checkbox_iv.setBackgroundDrawable(checkedDrawable);
 					} else {
-						autologin_checkbox_iv.setBackground(uncheckedDrawable);
+						autologin_checkbox_iv.setBackgroundDrawable(uncheckedDrawable);
 					}
 					break;
 				case R.id.registernew_tv:

@@ -45,7 +45,7 @@ import com.umeng.analytics.MobclickAgent;
 public class MainActivityN extends ActivityGroup implements
 		OnCheckedChangeListener {
 
-	public static MainActivity instance = null;
+	// public static MainActivity instance = null;
 	private RadioGroup radio_group;
 	private Intent mIntent;
 	private ViewFlipper container;
@@ -63,11 +63,12 @@ public class MainActivityN extends ActivityGroup implements
 			// goB2BHome();
 			// MobclickAgent.updateOnlineConfig(context);
 			initView();
+			showNetCannotUse(context);
 			initHomePage();
-			radio_group.setOnCheckedChangeListener(this);
+			radio_group.setOnCheckedChangeListener(MainActivityN.this);
 
 			// if (!((MyApplication) getApplication()).getHasCheckedUpdate()) {
-			MyApp ma = new MyApp(MainActivityN.this);
+			MyApp ma = new MyApp(getApplicationContext());
 			UpdateManager manager = new UpdateManager(MainActivityN.this, ma
 					.getHm().get(PackageKeys.UPDATE_NOTE.getString())
 					.toString());
@@ -208,16 +209,18 @@ public class MainActivityN extends ActivityGroup implements
 			mIntent = new Intent(this, HomeActivityNewN.class);
 			break;
 		case 2:
-//			mIntent = new Intent(this, ActivityMall.class);
-//			if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
-//				startActivity(new Intent(context, Activity_Login.class));
-//				return;
-//			}
-			 mIntent = new Intent(this, Activity_Web_Frame.class);
-			 mIntent.putExtra("flag", "1");
-			 mIntent.putExtra(Activity_Web_Frame.TITLE, "云商城");
-			 mIntent.putExtra(Activity_Web_Frame.URL,
-			 "http://m.99263.com/");
+			if (HttpUtils.checkNetCannotUse(context)) {
+				if (!sp.getBoolean(SPkeys.loginState.getString(), false)) {
+					startActivity(new Intent(context, Activity_Login.class));
+					return;
+				} else {
+					Intent intent = new Intent(this, Activity_Web.class);
+					intent.putExtra("action", "mall");
+					intent.putExtra("title", "云商城");
+					startActivity(intent);
+				}
+			}
+
 			break;
 		case 3:
 			// mIntent = new Intent(this, MoreActivity.class);
@@ -278,7 +281,7 @@ public class MainActivityN extends ActivityGroup implements
 	 * 初始化各种控件
 	 */
 	private void initView() {
-		context = this;
+		context = MainActivityN.this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		container = (ViewFlipper) findViewById(R.id.container);
 		radio_group = (RadioGroup) findViewById(R.id.radio_group);
@@ -295,18 +298,13 @@ public class MainActivityN extends ActivityGroup implements
 		return true;
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	private long mExitTime;
+	private long mExitTime=0;
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if ((System.currentTimeMillis() - mExitTime) > 2000) {
-				Object mHelperUtils;
+				//Object mHelperUtils;
 				Toast.makeText(MainActivityN.this, "再按一次退出程序",
 						Toast.LENGTH_SHORT).show();
 				mExitTime = System.currentTimeMillis();
@@ -331,22 +329,17 @@ public class MainActivityN extends ActivityGroup implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onResume(this); // 统计时长
-		showNetCannotUse(context);
+		MobclickAgent.onResume(MainActivityN.this); // 统计时长
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		MobclickAgent.onPause(this);
+		MobclickAgent.onPause(MainActivityN.this);
 	}
 
 	public static void showNetCannotUse(Context context) {
-		final Context cont = context;
 		if (!HttpUtils.checkNet(context)) {
-			// new AlertDialog.Builder(context).setTitle("网络连接失败")
-			// .setMessage("无法连接网路，请检查网络设置！")
-			// .setPositiveButton("确定", null).show();
 			final CustomerAlertDialog cad = new CustomerAlertDialog(context,
 					true);
 			cad.setTitle("无法连接网路，请检查网络设置！");

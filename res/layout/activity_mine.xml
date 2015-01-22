@@ -32,7 +32,18 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical" >
+            
+             <RelativeLayout
         android:id="@+id/noLogin_rl"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -331,5 +342,30 @@
         android:layout_width="fill_parent"
         android:layout_height="1px"
         android:background="@color/deep_gray" />
+
+    <LinearLayout
+       android:id="@+id/logout_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/out_button"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="@dimen/button_margin"
+            android:layout_marginRight="@dimen/button_margin"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_3"
+            android:text="注   销"
+            android:textColor="#FFF0F0F0"
+            android:textSize="20sp" />
+    </LinearLayout>
+            
+            
+            
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

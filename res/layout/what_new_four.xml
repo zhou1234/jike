@@ -10,8 +10,7 @@
         android:layout_centerInParent="true"
         android:adjustViewBounds="false"
         android:focusable="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/guide_04" />
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:id="@+id/iv_start"

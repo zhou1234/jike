@@ -261,11 +261,13 @@ public class ActivityClientManage extends Activity implements
 		startQueryCustomer();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		try {
 			super.onWindowFocusChanged(hasFocus);
-			frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+			frame_ani_iv.setBackgroundDrawable(getResources().getDrawable(
+					(R.anim.frame_rotate_ani)));
 			AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
 					.getBackground();
 			anim.setOneShot(false);

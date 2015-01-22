@@ -186,6 +186,7 @@ public class ActivityQianbao extends Activity implements
 	}
 
 	OnClickListener clickListener = new OnClickListener() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -197,45 +198,45 @@ public class ActivityQianbao extends Activity implements
 			case R.id.shoukuan_ll:
 				jiaoyijilu_block_ll.setVisibility(View.GONE);
 				shoukuan_block_ll.setVisibility(View.VISIBLE);
-				sk_iv.setBackground(getResources().getDrawable(
+				sk_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.slqb_shoukuan_blue_btn));
-				jyjl_iv.setBackground(getResources().getDrawable(
+				jyjl_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.slqb_jilu_gray_btn));
 				break;
 			case R.id.jiaoyijilu_ll:
 				startQueryRecord();
 				jiaoyijilu_block_ll.setVisibility(View.VISIBLE);
 				shoukuan_block_ll.setVisibility(View.GONE);
-				sk_iv.setBackground(getResources().getDrawable(
+				sk_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.slqb_shoukuan_gray_btn));
-				jyjl_iv.setBackground(getResources().getDrawable(
+				jyjl_iv.setBackgroundDrawable(getResources().getDrawable(
 						R.drawable.slqb_jilu_blue_btn));
 				break;
 			case R.id.T0_rl:
 			case R.id.T0_select_imgbtn:
 				rate = 0.006f;
 				time = 0;
-				T0_select_imgbtn.setBackground(selectedDrawable);
-				T3_select_imgbtn.setBackground(unselectedDrawable);
-				T6_select_imgbtn.setBackground(unselectedDrawable);
+				T0_select_imgbtn.setBackgroundDrawable(selectedDrawable);
+				T3_select_imgbtn.setBackgroundDrawable(unselectedDrawable);
+				T6_select_imgbtn.setBackgroundDrawable(unselectedDrawable);
 				setShouxufei();
 				break;
 			case R.id.T3_rl:
 			case R.id.T3_select_imgbtn:
 				rate = 0.003f;
 				time = 3;
-				T3_select_imgbtn.setBackground(selectedDrawable);
-				T0_select_imgbtn.setBackground(unselectedDrawable);
-				T6_select_imgbtn.setBackground(unselectedDrawable);
+				T3_select_imgbtn.setBackgroundDrawable(selectedDrawable);
+				T0_select_imgbtn.setBackgroundDrawable(unselectedDrawable);
+				T6_select_imgbtn.setBackgroundDrawable(unselectedDrawable);
 				setShouxufei();
 				break;
 			case R.id.T6_rl:
 			case R.id.T6_select_imgbtn:
 				rate = 0f;
 				time = 6;
-				T6_select_imgbtn.setBackground(selectedDrawable);
-				T3_select_imgbtn.setBackground(unselectedDrawable);
-				T0_select_imgbtn.setBackground(unselectedDrawable);
+				T6_select_imgbtn.setBackgroundDrawable(selectedDrawable);
+				T3_select_imgbtn.setBackgroundDrawable(unselectedDrawable);
+				T0_select_imgbtn.setBackgroundDrawable(unselectedDrawable);
 				setShouxufei();
 				break;
 			case R.id.ok_button:

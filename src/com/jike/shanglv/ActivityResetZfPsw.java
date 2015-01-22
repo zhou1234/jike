@@ -27,7 +27,6 @@ import com.jike.shanglv.Enums.SPkeys;
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.umeng.analytics.MobclickAgent;
 
-
 public class ActivityResetZfPsw extends Activity {
 	public static final String ISRESETLOGINPSW = "ISRESETLOGINPSW";
 	private Context context;
@@ -38,6 +37,7 @@ public class ActivityResetZfPsw extends Activity {
 	private com.jike.shanglv.Common.ClearEditText newpsw_cet, confirmpsw_cet;
 	private String changePswReturnJson = "";
 	private Boolean isResetLoginPsw = true;// 重置登录密码，false位重置支付密码
+	private String userId = "", siteId = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,12 @@ public class ActivityResetZfPsw extends Activity {
 			if (bundle != null) {
 				if (bundle.containsKey(ISRESETLOGINPSW)) {
 					isResetLoginPsw = bundle.getBoolean(ISRESETLOGINPSW);
+				}
+				if (bundle.containsKey("userId")) {
+					userId = bundle.getString("userId");
+				}
+				if (bundle.containsKey("siteId")) {
+					siteId = bundle.getString("siteId");
 				}
 			}
 		} catch (Exception e) {
@@ -124,11 +130,8 @@ public class ActivityResetZfPsw extends Activity {
 				try {
 					// uid:用户ID sid:网站ID oldpass:老登录密码 newpass:新登录密码
 					MyApp ma = new MyApp(getApplicationContext());
-					String str = "{\"userID\":\""
-							+ sp.getString(SPkeys.userid.getString(), "")
-							+ "\",\"siteID\":\""
-							+ sp.getString(SPkeys.siteid.getString(), "")
-							+ "\",\"newpass\":\""
+					String str = "{\"userID\":\"" + userId + "\",\"siteID\":\""
+							+ siteId + "\",\"newpass\":\""
 							+ newpsw_cet.getText().toString() + "\"}";
 					String actionNameString = "";
 					if (isResetLoginPsw)
@@ -254,5 +257,5 @@ public class ActivityResetZfPsw extends Activity {
 		MobclickAgent.onPageStart("ActivityResetZfPsw"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
-	
+
 }

@@ -205,7 +205,7 @@ public class ActivityHotelBooking extends Activity {
 				R.layout.popupwindow_hotel_guarantee_identification_type, null);
 		popupWindow_hotel_guarantee_identification_type = new PopupWindow(
 				popupWindowView_hotel_guarantee_identification_type,
-				LayoutParams.FILL_PARENT, 300, true);
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		popupWindow_hotel_guarantee_identification_type
 				.setBackgroundDrawable(new BitmapDrawable());
 		// 设置PopupWindow的弹出和消失效果

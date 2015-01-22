@@ -10,9 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:visibility="gone"
         android:layout_alignParentTop="true"
-        android:src="@drawable/te_hui" />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/one_rl"
@@ -176,11 +175,11 @@
             android:id="@+id/CabinName_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
             android:text="经济舱"
-            android:layout_weight="1"
             android:textColor="@color/black6"
             android:textSize="16sp"
             android:width="60dp" >

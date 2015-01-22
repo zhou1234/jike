@@ -103,7 +103,6 @@
                     android:textColor="@color/black_txt_color"
                     android:textSize="20sp"
                     android:layout_centerVertical="true"
-                    android:drawableRight="@drawable/delete_selector"
                     android:singleLine="true"
                    />
             </LinearLayout>
