@@ -8,12 +8,13 @@ public class CabList {
 			VTWorteTime, Flag, FareEx, IsGeneralMinFare, ExtFee, IsSpePolicy,
 			YouHui, IsSpe, PriceProvider, WorkTime, PolicyRemark, GeneralCabin,
 			Supplier, SaleEx, FlagEn, generalFare, ExtFee2, TicketCount,
-			IsTeHui, FareProviderStr,IsKx;
+			IsTeHui, FareProviderStr,IsKx;//BookData;
 
 	private JSONObject json;
 
 	public CabList(JSONObject json) {
 		try {
+			//this.BookData=json.getString("BookData");
 			this.IsKx=json.getString("IsKx");
 			this.IsTeHui=json.getString("IsTeHui");
 			this.FareProviderStr=json.getString("FareProviderStr");
@@ -187,5 +188,9 @@ public class CabList {
 	public String getIsKx() {
 		return IsKx;
 	}
+
+//	public String getBookData() {
+//		return BookData;
+//	}
 
 }

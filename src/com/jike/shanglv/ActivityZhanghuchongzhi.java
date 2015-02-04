@@ -74,7 +74,8 @@ public class ActivityZhanghuchongzhi extends Activity {
 			try {
 				switch (v.getId()) {
 				case R.id.back_imgbtn:
-					finish();
+					startActivity(new Intent(context, MainActivityN.class));
+					// finish();
 					break;
 				case R.id.home_imgbtn:
 					startActivity(new Intent(context, MainActivityN.class));
@@ -126,7 +127,7 @@ public class ActivityZhanghuchongzhi extends Activity {
 						intent.putExtra(Activity_Payway.CHONGZHI_AMOUNT,
 								chongzhijine_et.getText().toString().trim());
 						startActivity(intent);
-						finish();
+						// finish();
 					} else {
 						String userid = sp.getString(SPkeys.userid.getString(),
 								"");
@@ -169,8 +170,8 @@ public class ActivityZhanghuchongzhi extends Activity {
 		MobclickAgent.onPageStart("ActivityZhanghuchongzhi"); // 统计页面
 		MobclickAgent.onResume(this); // 统计时长
 	}
-	
-	private void queryUserInfo() {//重新获取账户余额
+
+	private void queryUserInfo() {// 重新获取账户余额
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -208,18 +209,17 @@ public class ActivityZhanghuchongzhi extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
-			case 1:// 
+			case 1://
 				JSONTokener jsonParser;
 				jsonParser = new JSONTokener(loginReturnJson);
 				try {
 					JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
 					String state = jsonObject.getString("c");
 					if (state.equals("0000")) {
-						String content = jsonObject.getString("d");					
+						String content = jsonObject.getString("d");
 						UserInfo user = JSONHelper.parseObject(content,
 								UserInfo.class);
-						dangqianyue_tv.setText("￥"
-								+ user.getAmmount());
+						dangqianyue_tv.setText("￥" + user.getAmmount());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

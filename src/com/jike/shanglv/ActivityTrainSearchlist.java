@@ -18,7 +18,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,14 +216,20 @@ public class ActivityTrainSearchlist extends Activity {
 						.getJSONArray("SeatList");
 				ArrayList<Seat> SeatList = new ArrayList<Seat>();
 				for (int j = 0; j < seatListArray.length(); j++) {
-					Seat seat = new Seat();
-					seat.setPrice(seatListArray.getJSONObject(j).getString(
-							"price"));
-					seat.setShengyu(seatListArray.getJSONObject(j).getString(
-							"shengyu"));
-					seat.setType(seatListArray.getJSONObject(j).getString(
-							"type"));
-					SeatList.add(seat);
+					if (!seatListArray.getJSONObject(j).getString("price")
+							.isEmpty()
+							|| seatListArray.getJSONObject(j)
+									.getString("price") != null) {
+						Seat seat = new Seat();
+						seat.setPrice(seatListArray.getJSONObject(j).getString(
+								"price"));
+						seat.setShengyu(seatListArray.getJSONObject(j)
+								.getString("shengyu"));
+						seat.setType(seatListArray.getJSONObject(j).getString(
+								"type"));
+						SeatList.add(seat);
+					}
+
 				}
 				ti.setSeatList(SeatList);
 				ti.setSeat_Type(SeatList.get(0).getType());
@@ -326,13 +331,13 @@ public class ActivityTrainSearchlist extends Activity {
 					sort_time_iv.setSelected(false);
 					byTypeAsc = !byTypeAsc;
 					if (byTypeAsc) {
-						sort_type_iv.setBackgroundDrawable(getResources().getDrawable(
-								R.drawable.sort_arrow_up));
+						sort_type_iv.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.sort_arrow_up));
 						Collections.sort(train_List, comparator_type_desc);
 						adapter.notifyDataSetChanged();
 					} else {
-						sort_type_iv.setBackgroundDrawable(getResources().getDrawable(
-								R.drawable.sort_arrow_down));
+						sort_type_iv.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.sort_arrow_down));
 						Collections.sort(train_List, comparator_type_asc);
 						adapter.notifyDataSetChanged();
 					}
@@ -344,13 +349,13 @@ public class ActivityTrainSearchlist extends Activity {
 					sort_time_iv.setSelected(true);
 					byTimeAsc = !byTimeAsc;
 					if (byTimeAsc) {
-						sort_time_iv.setBackgroundDrawable(getResources().getDrawable(
-								R.drawable.sort_arrow_up));
+						sort_time_iv.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.sort_arrow_up));
 						Collections.sort(train_List, comparator_time_desc);
 						adapter.notifyDataSetChanged();
 					} else {
-						sort_time_iv.setBackgroundDrawable(getResources().getDrawable(
-								R.drawable.sort_arrow_down));
+						sort_time_iv.setBackgroundDrawable(getResources()
+								.getDrawable(R.drawable.sort_arrow_down));
 						Collections.sort(train_List, comparator_time_asc);
 						adapter.notifyDataSetChanged();
 					}
@@ -459,19 +464,23 @@ public class ActivityTrainSearchlist extends Activity {
 					String SType = SFType.substring(0, 1);
 					String FType = SFType.substring(2, 3);
 					if (SType.equals("ЪМ")) {
-						start_station_icon_iv.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.trains_start));
+						start_station_icon_iv
+								.setBackgroundDrawable(getResources()
+										.getDrawable(R.drawable.trains_start));
 					} else if (SType.equals("Й§")) {
-						start_station_icon_iv.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.train_over));
+						start_station_icon_iv
+								.setBackgroundDrawable(getResources()
+										.getDrawable(R.drawable.train_over));
 					}
 
 					if (FType.equals("же")) {
-						end_station_icon_iv.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.train_final));
+						end_station_icon_iv
+								.setBackgroundDrawable(getResources()
+										.getDrawable(R.drawable.train_final));
 					} else if (FType.equals("Й§")) {
-						end_station_icon_iv.setBackgroundDrawable(getResources()
-								.getDrawable(R.drawable.train_over));
+						end_station_icon_iv
+								.setBackgroundDrawable(getResources()
+										.getDrawable(R.drawable.train_over));
 					}
 				}
 				// if

@@ -1,6 +1,7 @@
 package com.jike.shanglv.Models;
 
 public class CuandanFlight {
+	//private String bookdata;// 预定参数
     private String scode;// SHA
     private String scname;// 上海虹桥
     private String ecode;// PEK
@@ -265,4 +266,11 @@ public class CuandanFlight {
 	public void setPolicytype(String policytype) {
 		this.policytype = policytype;
 	}
+//	public String getBookdata() {
+//		return bookdata;
+//	}
+//	public void setBookdata(String bookdata) {
+//		this.bookdata = bookdata;
+//	}
+	
 }

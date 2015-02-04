@@ -75,8 +75,8 @@
             android:layout_marginLeft="3dp"
             android:layout_toRightOf="@+id/textView2"
             android:textSize="12sp"
-            android:text="(‰6手续费)" />
-
+            />
+           <!--  android:text="(‰6手续费)" -->
     </RelativeLayout>
 
     <View
@@ -126,6 +126,7 @@
     </RelativeLayout>
 
     <View
+        android:id="@+id/online_pay_view"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/deep_gray" />

@@ -564,6 +564,7 @@ public class ActivityHotelSearchlist extends Activity implements
 	}
 
 	View.OnClickListener btnClickListner = new View.OnClickListener() {
+		@SuppressWarnings("deprecation")
 		@SuppressLint("ResourceAsColor")
 		@Override
 		public void onClick(View v) {
@@ -578,12 +579,12 @@ public class ActivityHotelSearchlist extends Activity implements
 					sort_arrow_starlevel_iv.setSelected(false);
 					byPriceAsc = !byPriceAsc;
 					if (byPriceAsc) {
-						sort_arrow_price_iv.setBackground(getResources()
+						sort_arrow_price_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.sort_arrow_up));
 						Collections.sort(reqdata_List, comparator_price_desc);
 						adapter.notifyDataSetChanged();
 					} else {
-						sort_arrow_price_iv.setBackground(getResources()
+						sort_arrow_price_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.sort_arrow_down));
 						Collections.sort(reqdata_List, comparator_price_asc);
 						adapter.notifyDataSetChanged();

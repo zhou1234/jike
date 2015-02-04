@@ -138,6 +138,7 @@ public class ActivityClientManage extends Activity implements
 	}
 
 	View.OnClickListener clickListener = new View.OnClickListener() {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void onClick(View arg0) {
 			try {
@@ -171,12 +172,12 @@ public class ActivityClientManage extends Activity implements
 					sort_arrow_state_iv.setSelected(false);
 					byGradAsc = !byGradAsc;
 					if (byGradAsc) {
-						sort_arrow_grad_iv.setBackground(getResources()
+						sort_arrow_grad_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.sort_arrow_up));
 						Collections.sort(customers_List, comparator_grad_desc);
 						adapter.notifyDataSetChanged();
 					} else {
-						sort_arrow_grad_iv.setBackground(getResources()
+						sort_arrow_grad_iv.setBackgroundDrawable(getResources()
 								.getDrawable(R.drawable.sort_arrow_down));
 						Collections.sort(customers_List, comparator_grad_asc);
 						adapter.notifyDataSetChanged();

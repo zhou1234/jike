@@ -2,6 +2,8 @@
 package com.jike.shanglv;
 
 
+import java.net.URLEncoder;
+
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import android.app.Activity;
@@ -343,12 +345,13 @@ public class Activity_Login extends Activity {
 								// utype = 1;
 								// else if (pf == Platform.B2C)
 								// utype = 2;
+								@SuppressWarnings("deprecation")
 								String str = "{\"uname\":\""
-										+ uername_input_et.getText().toString()
-												.trim()
+										+ URLEncoder.encode(uername_input_et.getText().toString()
+												.trim())
 										+ "\",\"upwd\":\""
-										+ password_input_et.getText()
-												.toString().trim()
+										+ URLEncoder.encode(password_input_et.getText()
+												.toString().trim())
 										// + "\",\"utype\":\"" + utype
 										+ "\",\"version\":\"" + version + "\"}";
 								String param = "action=userlogin&sitekey=&userkey="

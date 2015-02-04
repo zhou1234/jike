@@ -283,8 +283,8 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 						+ str.get(position).getCabin());
 				discount_tv.setText(discountDeal(str.get(position)
 						.getDiscount().trim()));
-				fanMoney_tv.setText(" ￥" + str.get(position).getYouHui());
-				price_tv.setText(" ￥" + str.get(position).getSale());
+				fanMoney_tv.setText(" " + str.get(position).getYouHui());
+				price_tv.setText("￥" + str.get(position).getSale());
 				ticketCount_tv.setText(tiecketCountDeal(str.get(position)
 						.getTicketCount()));
 
@@ -442,11 +442,11 @@ public class ActivityInlandAirlineticketSelectCabin extends Activity {
 		private String tiecketCountDeal(String str) {
 			String tiecketCount = "";
 			if (Integer.parseInt(str) > 9) {
-				tiecketCount = "9张以上";
+				tiecketCount = "≥ 9 张";
 			} else if (Integer.parseInt(str) == 1) {
-				tiecketCount = "仅剩1张";
+				tiecketCount = "剩1张";
 			} else {
-				tiecketCount = str + "张";
+				tiecketCount = "剩" + str + "张";
 			}
 			return tiecketCount;
 		}

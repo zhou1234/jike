@@ -97,7 +97,7 @@ public class ActivityTrainBooking extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		try {// TODO Auto-generated method stub
+		try {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_train_booking);
 			initView();
@@ -188,6 +188,7 @@ public class ActivityTrainBooking extends Activity {
 				}
 				selectedSeatIndex = position;
 				// adapter_xibie.notifyDataSetChanged();
+
 				ticket_price = Float.valueOf(ti.getSeatList().get(position)
 						.getPrice());
 				remainTicketCount = Integer.valueOf(ti.getSeatList()
@@ -206,18 +207,18 @@ public class ActivityTrainBooking extends Activity {
 			String SType = SFType.substring(0, 1);
 			String FType = SFType.substring(2, 3);
 			if (SType.equals("始")) {
-				start_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.trains_start));
+				start_station_icon_iv.setBackgroundDrawable(getResources()
+						.getDrawable(R.drawable.trains_start));
 			} else if (SType.equals("过")) {
-				start_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.train_over));
+				start_station_icon_iv.setBackgroundDrawable(getResources()
+						.getDrawable(R.drawable.train_over));
 			}
 			if (FType.equals("终")) {
-				end_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.train_final));
+				end_station_icon_iv.setBackgroundDrawable(getResources()
+						.getDrawable(R.drawable.train_final));
 			} else if (FType.equals("过")) {
-				end_station_icon_iv.setBackgroundDrawable(getResources().getDrawable(
-						R.drawable.train_over));
+				end_station_icon_iv.setBackgroundDrawable(getResources()
+						.getDrawable(R.drawable.train_over));
 			}
 		}
 		getValidCodePic();// 获取验证码信息
@@ -859,6 +860,7 @@ public class ActivityTrainBooking extends Activity {
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			Holder myHolder;

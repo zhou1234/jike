@@ -99,7 +99,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	private Button order_now_btn;
 	private RelativeLayout add_passager_rl, tuiGaiQian_rl, zhengce_rl,
 			baoxian_rl;
-	private ImageView up_down_arrow_iv, flight_company_logo;
+	private ImageView up_down_arrow_iv, flight_company_logo,flight_company_logo3;
 	private ListView passenger_listview;
 	private View passenger_head_divid_line;
 	private SharedPreferences sp;
@@ -449,6 +449,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 	private void initView3() {
 		startoff_date_tv3 = (TextView) findViewById(R.id.startoff_date_tv3);
 		CarrinerName_tv3 = (TextView) findViewById(R.id.CarrinerName_tv3);
+		flight_company_logo3 = (ImageView) findViewById(R.id.flight_company_logo3);
 		FlightNo_tv3 = (TextView) findViewById(R.id.FlightNo_tv3);
 		canbin_grade_tv3 = (TextView) findViewById(R.id.canbin_grade_tv3);
 		startoff_time_tv3 = (TextView) findViewById(R.id.startoff_time_tv3);
@@ -495,6 +496,10 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		flightno = ia.getCarrinerName();
 		CarrinerName_tv3.setText(flightno);
 		FlightNo_tv3.setText(ia.getFlightNo());
+		MyApp ma = new MyApp(context);
+		String picN = ia.getFlightNo().substring(0, 2);
+		String imgUrl = String.format(ma.getFlightCompanyLogo(), picN);
+		imageLoader.DisplayImage(imgUrl, flight_company_logo3);
 		try {
 			shoujia3 = Float.parseFloat(jsonObject3.getJSONArray("CabList")
 					.getJSONObject(selectCabinListIndex3).getString("Sale"));
@@ -1279,6 +1284,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 		}
 
 		CuandanFlight cf = new CuandanFlight();
+		//cf.setBookdata(cabin.getBookData());
 		cf.setCabin(cabin.getCabin());
 		cf.setCabinname(cabin.getCabinName());
 		cf.setCarrname(flight.getCarrinerName());
@@ -1454,7 +1460,7 @@ public class ActivityInlandAirlineticketBooking extends Activity {
 					}
 					break;
 				case R.id.tuiGaiQian_rl3:
-					up_down_arrow_iv3.setSelected(!up_down_arrow_iv
+					up_down_arrow_iv3.setSelected(!up_down_arrow_iv3
 							.isSelected());
 					if (tuiGaiQian_state_tv3.getVisibility() == View.VISIBLE) {
 						tuiGaiQian_state_tv3.setVisibility(View.GONE);

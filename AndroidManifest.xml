@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jike.shanglv"
     android:installLocation="auto"
-    android:versionCode="33"
-    android:versionName="7.4.14" >
+    android:versionCode="35"
+    android:versionName="7.4.16" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -29,6 +29,13 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- QQ、QQ空间所需权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
     <application
         android:name=".MyApplication"
@@ -40,17 +47,17 @@
         <!--
             E:\android.keystore 
        	SHA1:0D:3C:EC:2E:C2:01:A0:E6:C7:AE:44:B4:05:17:9D:F8:BE:A9:70:9E 	com.jike.shanglv
-       	Z2Uy1ULMdZQviUdWKE0xpbmh
+       	Z2Uy1ULMdZQviUdWKE0xpbmh
         -->
         <!--
             E:\android_menghang.keystore 
        	SHA1:13:3A:9B:D6:DC:D6:9E:62:8C:66:2D:19:9B:25:08:AC:50:06:ED:CC 	com.jike.shanglv
-       	rcdgewqnqHIKRl4jWEmSSPfb
+       	rcdgewqnqHIKRl4jWEmSSPfb
         -->
         <!-- debug测试 lvgLGpq6ptCLwjGhWCAZ1rbQ -->
         <!--
                 com.jike.shanglv_b		E:\android.keystore
-       		EtUImVWGAm6DrsRAGQXKsf10
+       		EtUImVWGAm6DrsRAGQXKsf10
         -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -77,6 +84,67 @@
                 <action android:name="com.baidu.location.service_v2.4" />
             </intent-filter>
         </service>
+
+        <!-- ###################注册SDK使用的Activity###################### -->
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+
+        <!-- *************************    分享相关的注册 START **************************** -->
+        <!-- 分享内容编辑页 -->
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+
+        <!-- 腾讯SSO授权的Activity注册 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- *************************    分享相关的注册 END **************************** -->
+
+
+        <!-- 评论相关注册  START -->
+        <activity
+            android:name="com.umeng.socialize.view.CommentActivity"
+            android:configChanges="orientation|keyboard"
+            android:theme="@style/Theme.UMDefault" >
+        </activity>
+        <activity
+            android:name="com.umeng.socialize.view.CommentDetail"
+            android:configChanges="orientation|keyboard"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDefault" >
+        </activity>
+        <activity
+            android:name="com.umeng.socialize.view.CommentDetailNoMap"
+            android:configChanges="orientation|keyboard"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDefault" >
+        </activity>
         <!-- 欢迎页 -->
         <activity
             android:name="com.jike.shanglv.WelcomeActivity"
@@ -111,7 +179,7 @@
             android:name="com.jike.shanglv.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-        </activity>
+        </activity>
         -->
         <activity
             android:name="com.jike.shanglv.MainActivityN"
@@ -542,8 +610,9 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <!-- 交易明细 -->
-        <activity android:name="com.jike.shanglv.ActivityTransactionDetails" >
+        <activity android:name="com.jike.shanglv.ActivityTransactionDetailsList" >
         </activity>
+        <activity android:name="com.jike.shanglv.ActivityTransactionDetails" />
         <!-- 客服中心 -->
         <activity
             android:name="com.jike.shanglv.ActivityServiceCenter"
@@ -556,6 +625,35 @@
         </activity>
         <activity android:name="com.jike.shanglv.NotNetworkActivity" >
         </activity>
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.umeng.socialize.view.CommentActivity"
+            android:configChanges="orientation|keyboard"
+            android:theme="@style/Theme.UMDefault" />
+        <activity
+            android:name="com.umeng.socialize.view.CommentDetail"
+            android:configChanges="orientation|keyboard"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDefault" />
+        <activity
+            android:name="com.umeng.socialize.view.CommentDetailNoMap"
+            android:configChanges="orientation|keyboard"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDefault" />
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

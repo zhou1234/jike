@@ -1,6 +1,12 @@
 package com.jike.shanglv.Models;
 
-public class Details {
+import java.io.Serializable;
+
+public class Details implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String orderno;
 	private String cashtradeapplication;
 	private String inamount;

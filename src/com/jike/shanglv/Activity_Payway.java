@@ -101,14 +101,13 @@ public class Activity_Payway extends Activity {
 					String userid = sp.getString(SPkeys.userid.getString(), "");
 					// int paysystype = 15;
 					String siteid = sp.getString(SPkeys.siteid.getString(), "");
-					String sign = CommonFunc.MD5(orderID
-							+ amount + userid + paysystype
-							+ siteid);
+					String sign = CommonFunc.MD5(orderID + amount + userid
+							+ paysystype + siteid);
 					MyApp ma = new MyApp(context);
 					// <string
 					// name="test_pay_server_url">http://gatewayceshi.51jp.cn/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
-					String url = String.format(ma.getPayServeUrl(), orderID, amount,
-							userid, paysystype, siteid, sign);
+					String url = String.format(ma.getPayServeUrl(), orderID,
+							amount, userid, paysystype, siteid, sign);
 					Intent intent = new Intent(context, Activity_Web_Pay.class);
 					intent.putExtra(Activity_Web_Pay.URL, url);
 					intent.putExtra(Activity_Web_Pay.TITLE, body);
@@ -116,14 +115,14 @@ public class Activity_Payway extends Activity {
 					finish();
 					break;
 				case R.id.sc_pay_rl:
-//					 Intent intent5 = new Intent(
-//					 context,
-//					 com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
-//					 sp.edit()
-//					 .putString(SPkeys.chongZhiJinE.getString(), amount)
-//					 .commit();
-//					 intent5.setClass(getApplication(),
-//					 com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
+					// Intent intent5 = new Intent(
+					// context,
+					// com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
+					// sp.edit()
+					// .putString(SPkeys.chongZhiJinE.getString(), amount)
+					// .commit();
+					// intent5.setClass(getApplication(),
+					// com.jike.shanglv.pos.jike.mpos.newversion.MopsWelcomeActivity.class);
 
 					Intent intent5 = new Intent(context, ActivityQianbao.class);
 					intent5.putExtra("amt", amount);

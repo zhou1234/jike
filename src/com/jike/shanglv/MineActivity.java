@@ -162,7 +162,7 @@ public class MineActivity extends Activity {
 						break;
 					}
 					startActivity(new Intent(MineActivity.this,
-							ActivityTransactionDetails.class));
+							ActivityTransactionDetailsList.class));
 					break;
 				case R.id.user_login_imgbtn:
 					startActivity(new Intent(MineActivity.this,

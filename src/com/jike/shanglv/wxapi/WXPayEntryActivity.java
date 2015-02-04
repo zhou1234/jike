@@ -83,7 +83,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 								intent1.putExtra(ORDERRECEIPT,
 										myApplication.getOrderID());
 								startActivity(intent1);
-								finish();
 							}
 							if (code == 2) {
 								Intent intent2 = new Intent(
@@ -92,7 +91,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 								intent2.putExtra(ORDERRECEIPT,
 										myApplication.getOrderID());
 								startActivity(intent2);
-								finish();
 							}
 							if (code == 14) {
 								Intent intent = new Intent(
@@ -105,15 +103,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 										ActivityOrderList.TITLE_TOKENNAME,
 										"话费充值订单");
 								startActivity(intent);
-								finish();
 							}
 							if (code == 15) {
 								startActivity(new Intent(
 										WXPayEntryActivity.this,
 										ActivityZhanghuchongzhi.class));
-								finish();
 							}
-
+							finish();
 						}
 					});
 			builder.show();

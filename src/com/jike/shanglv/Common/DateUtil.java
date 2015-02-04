@@ -23,10 +23,18 @@ public class DateUtil {
 			// DateFormat df = DateFormat.getDateTimeInstance();
 			// return df.parse(date1).before(df.parse(date2));
 			// return df.parse(da).before(df.parse(da1));
-			long d1 = Long.parseLong(date1.replace("/", "").replace(":", "")
-					.replace(" ", "").replace("-", ""));
-			long d2 = Long.parseLong(date2.replace("/", "").replace(":", "")
-					.replace(" ", "").replace("-", ""));
+			String str1 = date1.replace("/", "").replace(":", "")
+					.replace(" ", "").replace("-", "");
+			String str2 = date2.replace("/", "").replace(":", "")
+					.replace(" ", "").replace("-", "");
+			if (str1.length() < str2.length()) {
+				str1 += "0";
+			} else if (str1.length() > str2.length()) {
+				str2 += "0";
+			}
+			long d1 = Long.parseLong(str1);
+			long d2 = Long.parseLong(str2);
+
 			if (d1 > d2) {
 				return false;
 			} else {
@@ -34,7 +42,7 @@ public class DateUtil {
 			}
 
 		} catch (Exception e) {
-			
+
 			return false;
 		}
 	}

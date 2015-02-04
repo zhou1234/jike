@@ -5,8 +5,8 @@
     <string name="test_update_url">http://dn-rocky.qbox.me/shanglvguanjiaversion.xml</string>
     <string name="formal_update_url">http://gatewayv3.51jp.cn/version.xml</string>
     <string name="formal_server_url">http://gatewayv4.51jp.cn/gateway.aspx</string> <!-- http://gatewayv3.51jp.cn/gateway -->
-    <string name="mall_server_url">http://m.99263.com/</string>                          
-    <string name="test_server_url">http://211.152.50.208:8011/gateway.aspx</string>
+    <string name="mall_server_url">http://m.99263.com/</string>
+    <string name="test_server_url">http://gatewayv4test.51jp.cn/gateway.aspx</string>
     <string name="formal_pay_server_url">http://gatewayv4.51jp.cn/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
     <string name="test_pay_server_url">http://211.152.50.208:8011/PayMent/BeginPay.aspx?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
     <string name="formal_train_validcode">http://gatewayv4.51jp.cn/TrainVCode.aspx</string>
@@ -522,5 +522,12 @@
     <string name="input_package_value">输入package value</string>
     <string name="input_sign">输入sign</string>
     <string name="paying">支付中</string>
+
+    <!-- 分享 -->
+    <string name="weixin_appId">wxad7f649ce667d01a</string>
+    <string name="weixin_appSecret">fd124f9b842220977273f2575f960abb</string>
+    
+    <string name="qq_appId">1104200953</string>
+    <string name="qq_appKey">9lVWWFds15HsxkYP</string>
 
 </resources>

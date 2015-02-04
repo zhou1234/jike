@@ -680,6 +680,7 @@ public class ActivityHotelDetail extends Activity {
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			try {
@@ -729,7 +730,7 @@ public class ActivityHotelDetail extends Activity {
 
 				if (str.get(position).getAvailableAmount().trim().equals("订完")) {
 					booking_imgbtn.setEnabled(false);
-					booking_imgbtn.setBackground(getResources().getDrawable(
+					booking_imgbtn.setBackgroundDrawable(getResources().getDrawable(
 							R.drawable.hotel_fullhouse_button));
 				}
 				booking_imgbtn.setTag(position + "");// 给Item中的button设置tag，根据tag判断用户点击了第几行

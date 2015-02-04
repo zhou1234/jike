@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -131,8 +133,9 @@ public class UpdateManager {
 		AlertDialog.Builder builder = new Builder(mContext);
 		final Dialog noticeDialog = builder.create();
 		noticeDialog.setCancelable(false);
-		noticeDialog.show();
-
+		if (((Activity) mContext).isFinishing() == false) {
+			noticeDialog.show();
+		}
 		noticeDialog.getWindow().setContentView(
 				R.layout.softupdate_notificationdialog);
 		noticeDialog.getWindow().findViewById(R.id.update_now_tv)

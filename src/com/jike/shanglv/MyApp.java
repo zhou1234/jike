@@ -37,6 +37,8 @@ public class MyApp {
 	public static String sitekey = "";
 	public static String Pkey = "5D85BCAC5A85476380226ED6F7C34B8C";// ¹«Ô¿
 
+	public static final String DESCRIPTOR = "com.umeng.share";
+	
 	public MyApp(Context context) {
 		this.context = context;
 		createValue();

@@ -1,7 +1,6 @@
 //使用WebView加载内容：只需要提供标题和加载的url即可
 package com.jike.shanglv;
 
-import java.lang.reflect.Method;
 
 import com.jike.shanglv.NetAndJson.HttpUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -10,8 +9,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -37,7 +34,6 @@ public class Activity_Web_Frame extends Activity {
 	private String url;
 	private LinearLayout loading_ll;
 	private ImageView frame_ani_iv;
-	private SharedPreferences sp;
 	private Context context;
 	private LinearLayout notNetWork_ll;
 	private Button jiazai_bt;

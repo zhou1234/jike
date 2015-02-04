@@ -17,7 +17,8 @@
         android:visibility="gone" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:id="@+id/rl_1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginTop="10dp" >
@@ -83,9 +84,10 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="100dp"
+        android:layout_marginRight="5dp"
+        android:layout_toRightOf="@+id/rl"
+        android:layout_toLeftOf="@+id/booking_imgbtn"
         android:gravity="center" >
 
         <TextView
@@ -99,6 +101,8 @@
             android:id="@+id/fanMoney_rl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/price_tv"
+            android:layout_alignBottom="@+id/price_tv"
             android:layout_toRightOf="@id/price_tv"
             android:gravity="center" >
 
@@ -115,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/fan_iv"
-                android:text="￥20"
+                android:text=" 20"
                 android:textColor="#FD8F23"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -123,7 +127,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/price_tv"
             android:layout_below="@+id/price_tv"
             android:orientation="horizontal" >
 
@@ -139,7 +142,6 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5sp"
                 android:text="￥620"
                 android:textColor="#FD8F23" />
         </LinearLayout>
@@ -151,7 +153,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/booking_button" />
 
 </RelativeLayout>

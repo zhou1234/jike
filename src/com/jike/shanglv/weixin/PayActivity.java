@@ -47,9 +47,9 @@ public class PayActivity extends Activity {
 	private Context context;
 	private ProgressDialog progressDialog;
 	private float amo;
-	private String orderID;
+	private String orderID = "";
 	private MyApplication maApp;
-	private String orderno;
+	private String orderno = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,52 +81,54 @@ public class PayActivity extends Activity {
 				String userid = sp.getString(SPkeys.userid.getString(), "");
 				String siteid = sp.getString(SPkeys.siteid.getString(), "");
 				MyApp ma = new MyApp(context);
-				if (paysystype == 15) {
-					String action = "action=paylog";
-					String str = "{\"orderID\":\"" + "" + "\",\"amount\":\""
-							+ amount + "\",\"userid\":\"" + userid
-							+ "\",\"paysystype\":\"" + paysystype
-							+ "\",\"siteid\":\"" + siteid + "\"}";
-					String url = action
-							+ "&str="
-							+ str
-							+ "&userkey="
-							+ ma.getHm().get(PackageKeys.USERKEY.getString())
-									.toString()
-							+ "&sitekey="
-							+ MyApp.sitekey
-							+ "&sign="
-							+ CommonFunc.MD5(ma.getHm()
-									.get(PackageKeys.USERKEY.getString())
-									.toString()
-									+ "paylog" + str);
-					result = HttpUtils.getJsonContent(ma.getServeUrl(), url);
-				}
-				if (paysystype == 1 || paysystype == 2 || paysystype == 14) {
-					float amount1 = (float) (amo + amo * 0.006);
-					amountWX = Integer.toString(Math.round(amount1 * 100));
-					String action = "action=paylog";
-					String str = "{\"orderID\":\"" + orderID
-							+ "\",\"amount\":\"" + amo + "\",\"userid\":\""
-							+ userid + "\",\"paysystype\":\"" + paysystype
-							+ "\",\"siteid\":\"" + siteid + "\"}";
-					String url = action
-							+ "&str="
-							+ str
-							+ "&userkey="
-							+ ma.getHm().get(PackageKeys.USERKEY.getString())
-									.toString()
-							+ "&sitekey="
-							+ MyApp.sitekey
-							+ "&sign="
-							+ CommonFunc.MD5(ma.getHm()
-									.get(PackageKeys.USERKEY.getString())
-									.toString()
-									+ "paylog" + str);
-					result = HttpUtils.getJsonContent(ma.getServeUrl(), url);
-					maApp.setOrderID(orderID);
-				}
+
+				String action = "action=paylog";
+				String str = "{\"orderID\":\"" + orderID + "\",\"amount\":\""
+						+ amount + "\",\"userid\":\"" + userid
+						+ "\",\"paysystype\":\"" + paysystype
+						+ "\",\"paytype\":\"" + 22 + "\",\"siteid\":\""
+						+ siteid + "\"}";
+				String url = action
+						+ "&str="
+						+ str
+						+ "&userkey="
+						+ ma.getHm().get(PackageKeys.USERKEY.getString())
+								.toString()
+						+ "&sitekey="
+						+ MyApp.sitekey
+						+ "&sign="
+						+ CommonFunc.MD5(ma.getHm()
+								.get(PackageKeys.USERKEY.getString())
+								.toString()
+								+ "paylog" + str);
+				result = HttpUtils.getJsonContent(ma.getServeUrl(), url);
+				maApp.setOrderID(orderID);
 				handler.sendEmptyMessage(0);
+				// if (paysystype == 1 || paysystype == 2 || paysystype == 14) {
+				// // float amount1 = (float) (amo + amo * 0.006);
+				// // amountWX = Integer.toString(Math.round(amount1 * 100));
+				// String action = "action=paylog";
+				// String str = "{\"orderID\":\"" + orderID
+				// + "\",\"amount\":\"" + amo + "\",\"userid\":\""
+				// + userid + "\",\"paysystype\":\"" + paysystype
+				// + "\",\"paytype\":\"" + 22 + "\",\"siteid\":\""
+				// + siteid + "\"}";
+				// String url = action
+				// + "&str="
+				// + str
+				// + "&userkey="
+				// + ma.getHm().get(PackageKeys.USERKEY.getString())
+				// .toString()
+				// + "&sitekey="
+				// + MyApp.sitekey
+				// + "&sign="
+				// + CommonFunc.MD5(ma.getHm()
+				// .get(PackageKeys.USERKEY.getString())
+				// .toString()
+				// + "paylog" + str);
+				// result = HttpUtils.getJsonContent(ma.getServeUrl(), url);
+				// maApp.setOrderID(orderID);
+				// }
 			}
 		}).start();
 
@@ -139,14 +141,27 @@ public class PayActivity extends Activity {
 			super.handleMessage(msg);
 			progressDialog.dismiss();
 			try {
-				JSONObject jsonObject = new JSONObject(result);//{"c":"0000","d":"添加支付日志成功","orderno":"201412230907471110"}
+				JSONObject jsonObject = new JSONObject(result);
 				String str = jsonObject.getString("c");
 				if (str.equals("0000")) {
-					orderno=jsonObject.getString("orderno");
+					orderno = jsonObject.getString("orderno");
+					String amount = jsonObject.getString("amount");
+					float amount1;
+					if (amount == null || amount.isEmpty()) {
+						if (paysystype == 15) {
+							amount1 = amo;
+						} else {
+							amount1 = (float) (amo + amo * 0.006);
+						}
+					} else {
+						amount1 = Float.parseFloat(amount);
+					}
+					amountWX = Integer.toString(Math.round(amount1 * 100));
 					new GetAccessTokenTask().execute();
 				} else {
-					String data = jsonObject.getString("d");
-					Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+					JSONObject data = (JSONObject) (jsonObject.get("d"));
+					Toast.makeText(context, data.getString("msg"),
+							Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -458,8 +473,7 @@ public class PayActivity extends Activity {
 			packageParams.add(new BasicNameValuePair("input_charset", "UTF-8"));
 			packageParams.add(new BasicNameValuePair("notify_url",
 					"http://servers.51jp.cn/PayNotify-Weixin"));
-			packageParams.add(new BasicNameValuePair("out_trade_no",
-					orderno));
+			packageParams.add(new BasicNameValuePair("out_trade_no", orderno));
 			packageParams.add(new BasicNameValuePair("partner",
 					Constants.PARTNER_ID));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip",
@@ -512,7 +526,7 @@ public class PayActivity extends Activity {
 
 		// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
 		api.sendReq(req);
-		finish();
+		//finish();
 	}
 
 	@Override
