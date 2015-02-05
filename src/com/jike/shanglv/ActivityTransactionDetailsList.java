@@ -80,7 +80,7 @@ public class ActivityTransactionDetailsList extends Activity implements
 			switch (msg.what) {
 			case 1:
 				try {
-					if (progressdialog != null) {
+					if (progressdialog != null&&isFinishing()==false) {
 						progressdialog.dismiss();
 					}
 					if (trainsReturnJson.length() == 0) {

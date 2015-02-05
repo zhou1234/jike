@@ -184,7 +184,7 @@ public class ActivityInlandAirlineticketSearchlist extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 1:
-				if (progressdialog != null) {
+				if (progressdialog != null&&isFinishing()==false) {
 					progressdialog.dismiss();
 				}
 				JSONTokener jsonParser;

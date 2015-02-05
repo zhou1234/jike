@@ -234,7 +234,7 @@ public class PayActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(GetAccessTokenResult result) {
-			if (dialog != null) {
+			if (dialog != null&&isFinishing()==false) {
 				dialog.dismiss();
 			}
 
@@ -295,7 +295,7 @@ public class PayActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(GetPrepayIdResult result) {
-			if (dialog != null) {
+			if (dialog != null&&isFinishing()==false) {
 				dialog.dismiss();
 			}
 

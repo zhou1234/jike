@@ -1,6 +1,7 @@
 package com.jike.shanglv;
 
 import com.jike.shanglv.Models.Details;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -81,5 +82,17 @@ public class ActivityTransactionDetails extends Activity implements
 		}
 
 	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onPageStart("ActivityTransactionDetails"); // 统计页面
+		MobclickAgent.onResume(this); // 统计时长
+	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPageEnd("ActivityTransactionDetails");
+		MobclickAgent.onPause(this);
+	}
 }
